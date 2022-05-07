@@ -42,6 +42,7 @@ class AssDialogue;
 class AsyncVideoProvider;
 struct SubtitlesProviderErrorEvent;
 struct VideoProviderErrorEvent;
+struct VideoFrame;
 
 namespace agi {
 	struct Context;
@@ -164,4 +165,5 @@ public:
 
 	int TimeAtFrame(int frame, agi::vfr::Time type = agi::vfr::EXACT) const;
 	int FrameAtTime(int time, agi::vfr::Time type = agi::vfr::EXACT) const;
+	std::shared_ptr<VideoFrame> GetFrame(int frame, bool raw) const;
 };

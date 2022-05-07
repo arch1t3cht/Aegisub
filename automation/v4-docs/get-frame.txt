@@ -1,0 +1,69 @@
+Video Frame functions in Automation 4
+
+This file describes the interface used for reading frames from loaded videos.
+
+---
+
+Get a specific frame from the currently loaded video on which multiple other
+functions are defined.
+
+function aegisub.get_frame(frame_number, withSubtitles)
+
+@frame_number (number)
+  Number of frame to retrieve.
+
+@withSubtitles (boolean)
+  Optional. Whether to load with subtitles drawn on to the frame.
+
+Returns: frame (userdata)
+  The frame object defines multiple other functions. See below.
+
+---
+
+Get width of frame object.
+
+function frame:width()
+
+Returns: number
+  Width in pixels.
+
+---
+
+Get height of frame object.
+
+function frame:height()
+
+Returns: number
+  Height in pixels.
+
+---
+
+Get RGB pixel value at a certain position of frame object.
+
+function frame:frame:getPixel(x, y)
+
+@x (number)
+  Pixel to retrieve on the x-axis
+
+@y (number)
+  Pixel to retrieve on the y-axis
+
+Returns: number
+  Integer value representing the RGB pixel value.
+
+---
+
+Get ASS formated pixel value at a certain position of frame object.
+
+function frame:getPixelFormatted(x, y)
+
+@x (number)
+  Pixel to retrieve on the x-axis
+
+@y (number)
+  Pixel to retrieve on the y-axis
+
+Returns: string
+  String in ASS format representing the pixel value. e.g. "&H0073FF&"
+
+---
