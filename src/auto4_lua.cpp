@@ -51,8 +51,9 @@
 #include "project.h"
 #include "selection_controller.h"
 #include "subs_controller.h"
-#include "video_controller.h"
 #include "text_selection_controller.h"
+#include "video_controller.h"
+#include "video_frame.h"
 #include "utils.h"
 
 #include <libaegisub/dispatch.h>
@@ -222,6 +223,116 @@ namespace {
 			lua_pushnil(L);
 			return 1;
 		}
+	}
+
+	std::shared_ptr<VideoFrame> check_VideoFrame(lua_State *L) {
+		auto framePtr = static_cast<std::shared_ptr<VideoFrame>*>(luaL_checkudata(L, 1, "VideoFrame"));
+		return *framePtr;
+	}
+
+	int FrameWidth(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		push_value(L, frame->width);
+		return 1;
+	}
+
+	int FrameHeight(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		push_value(L, frame->height);
+		return 1;
+	}
+
+	int FramePixel(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		size_t x = lua_tointeger(L, -2);
+		size_t y = lua_tointeger(L, -1);
+		lua_pop(L, 2);
+
+		if (x < frame->width && y < frame->height) {
+			if (frame->flipped)
+				y = frame->height - y;
+
+			size_t pos = y * frame->pitch + x * 4;
+			// VideoFrame is stored as BGRA, but we want to return RGB
+			int pixelValue = frame->data[pos+2] * 65536 + frame->data[pos+1] * 256 + frame->data[pos];
+			push_value(L, pixelValue);
+		} else {
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
+	int FramePixelFormatted(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		size_t x = lua_tointeger(L, -2);
+		size_t y = lua_tointeger(L, -1);
+		lua_pop(L, 2);
+
+		if (x < frame->width && y < frame->height) {
+			if (frame->flipped)
+				y = frame->height - y;
+
+			size_t pos = y * frame->pitch + x * 4;
+			// VideoFrame is stored as BGRA, Color expects RGBA
+			agi::Color* color = new agi::Color(frame->data[pos+2], frame->data[pos+1], frame->data[pos], frame->data[pos+3]);
+			push_value(L, color->GetAssOverrideFormatted());
+		} else {
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
+	int FrameDestory(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		frame.~shared_ptr<VideoFrame>();
+		return 0;
+	}
+
+	int get_frame(lua_State *L)
+	{
+		// get frame number from stack
+		const agi::Context *c = get_context(L);
+		int frameNumber = lua_tointeger(L, 1);
+
+		bool withSubtitles = false;
+		if (lua_gettop(L) >= 2) {
+			withSubtitles = lua_toboolean(L, 2);
+			lua_pop(L, 1);
+		}
+		lua_pop(L, 1);
+
+		static const struct luaL_Reg FrameTableDefinition [] = {
+			{"width", FrameWidth},
+			{"height", FrameHeight},
+			{"getPixel", FramePixel},
+			{"getPixelFormatted", FramePixelFormatted},
+			{"__gc", FrameDestory},
+			{NULL, NULL}
+		};
+
+		// create and register metatable if not already done
+		if (luaL_newmetatable(L, "VideoFrame")) {
+			// metatable.__index = metatable
+			lua_pushstring(L, "__index");
+			lua_pushvalue(L, -2);
+			lua_settable(L, -3);
+
+			luaL_register(L, NULL, FrameTableDefinition);
+		}
+
+		if (c && c->project->Timecodes().IsLoaded()) {
+			std::shared_ptr<VideoFrame> frame = c->videoController->GetFrame(frameNumber, !withSubtitles);
+
+			void *userData = lua_newuserdata(L, sizeof(std::shared_ptr<VideoFrame>));
+
+			new(userData) std::shared_ptr<VideoFrame>(frame);
+
+			luaL_getmetatable(L, "VideoFrame");
+			lua_setmetatable(L, -2);
+		} else {
+			lua_pushnil(L);
+		}
+		return 1;
 	}
 
 	int get_keyframes(lua_State *L)
@@ -557,6 +668,7 @@ namespace {
 		set_field<project_properties>(L, "project_properties");
 		set_field<lua_get_audio_selection>(L, "get_audio_selection");
 		set_field<lua_set_status_text>(L, "set_status_text");
+		set_field<get_frame>(L, "get_frame");
 		lua_createtable(L, 0, 5);
 		set_field<lua_get_text_cursor>(L, "get_cursor");
 		set_field<lua_set_text_cursor>(L, "set_cursor");
