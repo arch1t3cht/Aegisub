@@ -40,6 +40,7 @@
 #include "time_range.h"
 #include "async_video_provider.h"
 #include "utils.h"
+#include "video_frame.h"
 
 #include <libaegisub/ass/time.h>
 
@@ -220,6 +221,11 @@ int VideoController::TimeAtFrame(int frame, agi::vfr::Time type) const {
 
 int VideoController::FrameAtTime(int time, agi::vfr::Time type) const {
 	return context->project->Timecodes().FrameAtTime(time, type);
+}
+
+std::shared_ptr<VideoFrame> VideoController::GetFrame(int frame, bool raw) const {
+	double timestamp = TimeAtFrame(frame, agi::vfr::EXACT);
+	return provider->GetFrame(frame, timestamp, raw);
 }
 
 void VideoController::OnVideoError(VideoProviderErrorEvent const& err) {
