@@ -27,6 +27,8 @@
 //
 // Aegisub Project http://www.aegisub.org/
 
+#pragma once
+
 #include "ass_entry.h"
 
 #include <libaegisub/fs.h>
@@ -50,6 +52,13 @@ struct ExtradataEntry {
 	uint32_t id;
 	std::string key;
 	std::string value;
+};
+
+// Both start and end are inclusive
+struct LineFold {
+	int start;
+	int end;
+	bool collapsed;
 };
 
 struct AssFileCommit {
@@ -76,11 +85,13 @@ struct ProjectProperties {
 	int active_row = 0;
 	int ar_mode = 0;
 	int video_position = 0;
+	std::vector<LineFold> folds;
 };
 
 class AssFile {
 	/// A set of changes has been committed to the file (AssFile::COMMITType)
 	agi::signal::Signal<int, const AssDialogue*> AnnounceCommit;
+	agi::signal::Signal<int, const AssDialogue*> AnnouncePreCommit;
 	agi::signal::Signal<AssFileCommit> PushState;
 public:
 	/// The lines in the file
@@ -166,8 +177,11 @@ public:
 		COMMIT_DIAG_FULL   = COMMIT_DIAG_META | COMMIT_DIAG_TIME | COMMIT_DIAG_TEXT,
 		/// Extradata entries were added/modified/removed
 		COMMIT_EXTRADATA   = 0x100,
+		/// Folds were added or removed
+		COMMIT_FOLD        = 0x200,
 	};
 
+	DEFINE_SIGNAL_ADDERS(AnnouncePreCommit, AddPreCommitListener)
 	DEFINE_SIGNAL_ADDERS(AnnounceCommit, AddCommitListener)
 	DEFINE_SIGNAL_ADDERS(PushState, AddUndoManager)
 

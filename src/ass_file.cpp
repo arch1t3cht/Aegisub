@@ -174,6 +174,8 @@ int AssFile::Commit(wxString const& desc, int type, int amend_id, AssDialogue *s
 			event.Row = i++;
 	}
 
+	AnnouncePreCommit(type, single_line);
+
 	PushState({desc, &amend_id, single_line});
 
 	AnnounceCommit(type, single_line);

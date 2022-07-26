@@ -296,6 +296,8 @@ void Interface_Colours(wxTreebook *book, Preferences *parent) {
 	p->OptionAdd(grid, _("In frame background"), "Colour/Subtitle Grid/Background/Inframe");
 	p->OptionAdd(grid, _("Comment background"), "Colour/Subtitle Grid/Background/Comment");
 	p->OptionAdd(grid, _("Selected comment background"), "Colour/Subtitle Grid/Background/Selected Comment");
+	p->OptionAdd(grid, _("Open fold background"), "Colour/Subtitle Grid/Background/Open Fold");
+	p->OptionAdd(grid, _("Closed fold background"), "Colour/Subtitle Grid/Background/Closed Fold");
 	p->OptionAdd(grid, _("Header background"), "Colour/Subtitle Grid/Header");
 	p->OptionAdd(grid, _("Left Column"), "Colour/Subtitle Grid/Left Column");
 	p->OptionAdd(grid, _("Active Line Border"), "Colour/Subtitle Grid/Active Border");
