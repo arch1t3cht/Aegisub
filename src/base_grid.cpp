@@ -468,6 +468,17 @@ void BaseGrid::OnMouseEvent(wxMouseEvent &event) {
 	AssDialogue *dlg = GetVisDialogue(row);
 	if (!dlg) row = 0;
 
+	// Find the column the mouse is over
+	int colx = event.GetX();
+	int col;
+	for (col = 0; col < columns.size(); col++) {
+		int w = columns[col]->Width();
+		if (colx < w) {
+			break;
+		}
+		colx -= w;
+	}
+
 	if (event.ButtonDown() && OPT_GET("Subtitle/Grid/Focus Allow")->GetBool())
 		SetFocus();
 
@@ -495,6 +506,10 @@ void BaseGrid::OnMouseEvent(wxMouseEvent &event) {
 	else if (click && dlg) {
 		holding = true;
 		CaptureMouse();
+	}
+
+	if (columns[col]->OnMouseEvent(dlg, context, event)) {
+		return;
 	}
 
 	if ((click || holding || dclick) && dlg) {
