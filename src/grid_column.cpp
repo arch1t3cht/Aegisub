@@ -147,6 +147,18 @@ struct GridColumnFolds final : GridColumn {
 		return " " + value;
 	}
 
+	bool OnMouseEvent(AssDialogue *d, agi::Context *c, wxMouseEvent &event) const override {
+		if ((event.LeftDown() || event.LeftDClick()) && !event.ShiftDown() && !event.CmdDown() && !event.AltDown()) {
+			if (d->Fold.hasFold() && !d->Fold.isEnd()) {
+				std::vector<AssDialogue *> lines;
+				lines.push_back(d);
+				c->foldController->ToggleFoldsAt(lines);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	int Width(const agi::Context *c, WidthHelper &helper) const override {
 		int maxdepth = c->foldController->GetMaxDepth();
 		if (maxdepth == 0) {
