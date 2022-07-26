@@ -239,9 +239,9 @@ void FoldController::LinkFolds() {
 		}
 		if (line->Fold.exists && line->Fold.side) {
 			context->ass->Properties.folds.push_back(LineFold {
-				.start = foldStack.back()->Row,
-				.end = line->Row,
-				.collapsed = line->Fold.collapsed,
+				foldStack.back()->Row,
+				line->Row,
+				line->Fold.collapsed,
 			});
 
 			line->Fold.counterpart = foldStack.back();
