@@ -22,6 +22,7 @@
 #include "include/aegisub/context.h"
 #include "options.h"
 #include "video_controller.h"
+#include "fold_controller.h"
 
 #include <libaegisub/character_count.h>
 
@@ -124,6 +125,41 @@ T max_value(T AssDialogueBase::*field, EntryList<AssDialogue> const& lines) {
 	}
 	return value;
 }
+
+struct GridColumnFolds final : GridColumn {
+	COLUMN_HEADER(_(" >"))
+	COLUMN_DESCRIPTION(_("Folds"))
+	bool Centered() const override { return false; }
+
+	wxString Value(const AssDialogue *d, const agi::Context *) const override {
+		std::string value;
+		if (d->Fold.hasFold()) {
+			if (!d->Fold.isEnd()) {
+				value = d->Fold.isFolded() ? ">" : "v";
+			} else if (!d->Fold.isFolded()) {
+				value = "-";
+			}
+			while (d->Fold.getFoldOpener()) {
+				d = d->Fold.getFoldOpener();
+				value = " " + value;
+			}
+		}
+		return " " + value;
+	}
+
+	int Width(const agi::Context *c, WidthHelper &helper) const override {
+		int maxdepth = c->foldController->GetMaxDepth();
+		if (maxdepth == 0) {
+			return 0;
+		}
+		std::string maxentry;
+		for (int i = 0; i < maxdepth; i++) {
+			maxentry += " ";
+		}
+		maxentry += ">";
+		return helper(maxentry);
+	}
+};
 
 struct GridColumnLayer final : GridColumn {
 	COLUMN_HEADER(_("L"))
@@ -409,6 +445,7 @@ std::unique_ptr<GridColumn> make() {
 std::vector<std::unique_ptr<GridColumn>> GetGridColumns() {
 	std::vector<std::unique_ptr<GridColumn>> ret;
 	ret.push_back(make<GridColumnLineNumber>());
+	ret.push_back(make<GridColumnFolds>());
 	ret.push_back(make<GridColumnLayer>());
 	ret.push_back(make<GridColumnStartTime>());
 	ret.push_back(make<GridColumnEndTime>());

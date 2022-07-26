@@ -213,7 +213,9 @@
 				"Comment" : "rgb(216, 222, 245)",
 				"Inframe" : "rgb(255, 253, 234)",
 				"Selected Comment" : "rgb(211, 238, 238)",
-				"Selection" : "rgb(206, 255, 231)"
+				"Selection" : "rgb(206, 255, 231)",
+				"Open Fold" : "rgb(235, 235, 235)",
+				"Closed Fold" : "rgb(200, 200, 200)"
 			},
 			"Collision" : "rgb(255,0,0)",
 			"CPS Error" : "rgb(255,0,0)",

@@ -263,6 +263,9 @@
 		"subtitle/select/all" : [
 			"Ctrl-A"
 		],
+		"grid/toggle" : [
+			"Enter"
+		],
 		"video/frame/next" : [
 			"Right"
 		],
