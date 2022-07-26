@@ -26,9 +26,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 // Aegisub Project http://www.aegisub.org/
+#pragma once
 
 #include "ass_entry.h"
 #include "ass_override.h"
+#include "fold_controller.h"
 
 #include <libaegisub/ass/time.h>
 
@@ -123,6 +125,9 @@ struct AssDialogueBase {
 	int Id;
 
 	int Row = -1;
+
+	/// Data describing line folds starting or ending at this line
+	FoldInfo Fold;
 
 	/// Is this a comment line?
 	bool Comment = false;

@@ -23,6 +23,7 @@
 #include "subtitle_format.h"
 
 #include <libaegisub/ass/uuencode.h>
+#include <libaegisub/split.h>
 #include <libaegisub/util.h>
 
 #include <algorithm>
@@ -37,7 +38,8 @@ class AssParser::HeaderToProperty {
 	using field = std::variant<
 		std::string ProjectProperties::*,
 		int ProjectProperties::*,
-		double ProjectProperties::*
+		double ProjectProperties::*,
+		std::vector<LineFold> ProjectProperties::*
 	>;
 	std::unordered_map<std::string, field> fields;
 
@@ -56,6 +58,7 @@ public:
 		{"Video Zoom Percent", &ProjectProperties::video_zoom},
 		{"Scroll Position", &ProjectProperties::scroll_position},
 		{"Active Line", &ProjectProperties::active_row},
+		{"Line Folds", &ProjectProperties::folds},
 		{"Video Position", &ProjectProperties::video_position},
 		{"Video AR Mode", &ProjectProperties::ar_mode},
 		{"Video AR Value", &ProjectProperties::ar_value},
@@ -78,6 +81,29 @@ public:
 				void operator()(std::string ProjectProperties::*f) const { obj.*f = value; }
 				void operator()(int ProjectProperties::*f)         const { try_parse(value, &(obj.*f)); }
 				void operator()(double ProjectProperties::*f)      const { try_parse(value, &(obj.*f)); }
+				void operator()(std::vector<LineFold> ProjectProperties::*f) const {
+					std::vector<LineFold> folds;
+
+					for (auto foldstr : agi::Split(value, ',')) {
+						LineFold fold;
+						std::vector<std::string> parsed;
+						agi::Split(parsed, foldstr, ':');
+						if (parsed.size() != 3) {
+							continue;
+						}
+
+						int collapsed;
+						try_parse(parsed[0], &fold.start);
+						try_parse(parsed[1], &fold.end);
+						try_parse(parsed[2], &collapsed);
+						fold.collapsed = !!collapsed;
+
+						if (fold.start > 0 && fold.end > fold.start) {
+							folds.push_back(fold);
+						}
+					}
+					obj.*f = folds;
+				}
 			} visitor {target->Properties, value};
 			std::visit(visitor, it->second);
 			return true;
