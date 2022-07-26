@@ -129,7 +129,7 @@ END_EVENT_TABLE()
 void AudioBox::OnMouseWheel(wxMouseEvent &evt) {
 	if (!ForwardMouseWheelEvent(audioDisplay, evt))
 		return;
-	bool zoom = evt.CmdDown() != OPT_GET("Audio/Wheel Default to Zoom")->GetBool();
+	bool zoom = evt.CmdDown() != OPT_GET("Audio/Wheel Default to Zoom")->GetBool() || evt.ShiftDown();
 	if (!zoom) {
 		int amount = -evt.GetWheelRotation();
 		// If the user did a horizontal scroll the amount should be inverted
@@ -145,7 +145,11 @@ void AudioBox::OnMouseWheel(wxMouseEvent &evt) {
 		mouse_zoom_accum += evt.GetWheelRotation();
 		int zoom_delta = mouse_zoom_accum / evt.GetWheelDelta();
 		mouse_zoom_accum %= evt.GetWheelDelta();
-		SetHorizontalZoom(audioDisplay->GetZoomLevel() + zoom_delta);
+		if (evt.ShiftDown()) {
+			SetVerticalZoom(OPT_GET("Audio/Zoom/Vertical")->GetInt() + 3 * zoom_delta);
+		} else {
+			SetHorizontalZoom(audioDisplay->GetZoomLevel() + zoom_delta);
+		}
 	}
 }
 
@@ -179,10 +183,15 @@ void AudioBox::SetHorizontalZoom(int new_zoom) {
 }
 
 void AudioBox::OnVerticalZoom(wxScrollEvent &event) {
-	int pos = mid(1, event.GetPosition(), 100);
+	SetVerticalZoom(event.GetPosition());
+}
+
+void AudioBox::SetVerticalZoom(int new_zoom) {
+	int pos = mid(1, new_zoom, 100);
 	OPT_SET("Audio/Zoom/Vertical")->SetInt(pos);
 	double value = pow(pos / 50.0, 3);
 	audioDisplay->SetAmplitudeScale(value);
+	VerticalZoom->SetValue(pos);
 	if (!VolumeBar->IsEnabled()) {
 		VolumeBar->SetValue(pos);
 		controller->SetVolume(value);
