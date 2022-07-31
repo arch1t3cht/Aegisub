@@ -113,13 +113,19 @@ namespace {
 	}
 
 	template<typename T>
-	void get_userdata_field(lua_State *L, const char *name, const char *line_class, T *target)
+	bool get_userdata_field(lua_State *L, const char *name, const char *line_class, T *target, bool required)
 	{
 		lua_getfield(L, -1, name);
-		if (!lua_isuserdata(L, -1))
+		if (!lua_isuserdata(L, -1)) {
+			if (!required) {
+				lua_pop(L, 1);
+				return false;
+			}
 			throw bad_field("userdata", name, line_class);
+		}
 		*target = *static_cast<T *>(lua_touserdata(L, -1));
 		lua_pop(L, 1);
+		return true;
 	}
 
 	using namespace Automation4;
@@ -328,7 +334,9 @@ namespace Automation4 {
 			dia->Margin[2] = get_int_field(L, "margin_t", "dialogue");
 			dia->Effect = get_string_field(L, "effect", "dialogue");
 			dia->Text = get_string_field(L, "text", "dialogue");
-			get_userdata_field(L, "_foldinfo", "dialogue", &dia->Fold);
+			if (!get_userdata_field(L, "_foldinfo", "dialogue", &dia->Fold, false)) {
+				dia->Fold = FoldInfo();
+			}
 
 			std::vector<uint32_t> new_ids;
 
