@@ -52,6 +52,7 @@
 #include "selection_controller.h"
 #include "subs_controller.h"
 #include "video_controller.h"
+#include "text_selection_controller.h"
 #include "utils.h"
 
 #include <libaegisub/dispatch.h>
@@ -309,6 +310,39 @@ namespace {
 		return 0;
 	}
 
+	int lua_get_text_cursor(lua_State *L)
+	{
+		push_value(L, get_context(L)->textSelectionController->GetStagedInsertionPoint() + 1);
+		return 1;
+	}
+
+	int lua_set_text_cursor(lua_State *L)
+	{
+		int point = lua_tointeger(L, -1) - 1;
+		lua_pop(L, 1);
+		get_context(L)->textSelectionController->StageSetInsertionPoint(point);
+		return 0;
+	}
+
+	int lua_get_text_selection(lua_State *L)
+	{
+		const agi::Context *c = get_context(L);
+		int start = c->textSelectionController->GetStagedSelectionStart() + 1;
+		int end = c->textSelectionController->GetStagedSelectionEnd() + 1;
+		push_value(L, start <= end ? start : end);
+		push_value(L, start <= end ? end : start);
+		return 2;
+	}
+
+	int lua_set_text_selection(lua_State *L)
+	{
+		int start = lua_tointeger(L, -2) - 1;
+		int end = lua_tointeger(L, -1) - 1;
+		lua_pop(L, 2);
+		get_context(L)->textSelectionController->StageSetSelection(start, end);
+		return 0;
+	}
+
 	int project_properties(lua_State *L)
 	{
 		const agi::Context *c = get_context(L);
@@ -517,6 +551,12 @@ namespace {
 		set_field<project_properties>(L, "project_properties");
 		set_field<lua_get_audio_selection>(L, "get_audio_selection");
 		set_field<lua_set_status_text>(L, "set_status_text");
+		lua_createtable(L, 0, 4);
+		set_field<lua_get_text_cursor>(L, "get_cursor");
+		set_field<lua_set_text_cursor>(L, "set_cursor");
+		set_field<lua_get_text_selection>(L, "get_selection");
+		set_field<lua_set_text_selection>(L, "set_selection");
+		lua_setfield(L, -2, "gui");
 
 		// store aegisub table to globals
 		lua_settable(L, LUA_GLOBALSINDEX);
@@ -842,6 +882,7 @@ namespace {
 
 	void LuaCommand::operator()(agi::Context *c)
 	{
+		c->textSelectionController->DropStagedChanges();
 		LuaStackcheck stackcheck(L);
 		set_context(L, c);
 		stackcheck.check_stack(0);
@@ -939,6 +980,7 @@ namespace {
 				new_active = *new_sel.begin();
 			c->selectionController->SetSelectionAndActive(std::move(new_sel), new_active);
 		}
+		c->textSelectionController->CommitStagedChanges();
 
 		stackcheck.check_stack(0);
 	}
