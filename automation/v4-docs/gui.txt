@@ -1,0 +1,57 @@
+Automation 4 Gui Functions
+
+This document describes the available Automation 4 functions for
+controlling the editor's graphical interface. These all reside in the
+table aegisub.gui .
+
+---
+
+Getting and setting the selection and cursor in the text edit box
+
+This set of functions controls the selection in the text edit box.
+All indices are counted starting from 1, following Lua conventions.
+The setter functions are applied after all subtitle changes have been
+applied. Only the latest update is applied.
+The getter functions return the state after the latest update by
+the setter functions, or the original state if there were none.
+
+
+function aegisub.gui.get_cursor()
+
+Returns: 1 number
+  1. The position of the cursor in the text edit field.
+
+---
+
+function aegisub.get_selection()
+
+Returns: 2 values, all numbers.
+  1. Starting position of the selection.
+  2. Ending position of the selection, always larger or equal
+     than the stating position.
+
+---
+
+function aegisub.gui.set_cursor(position)
+
+@position (number)
+  The new position of the cursor.
+
+Returns: 0 values
+
+---
+
+function aegisub.gui.set_selection(start, end)
+
+@start (number)
+  The new start of the selection.
+
+@end (number)
+  The new end of the selection, i.e. where the cursor will be.
+  Can be smaller than the start, in which case the cursor will
+  be on the left side of the selection.
+
+Returns: 0 values
+
+---
+
