@@ -263,7 +263,7 @@
 		"subtitle/select/all" : [
 			"Ctrl-A"
 		],
-		"grid/toggle" : [
+		"grid/fold/toggle" : [
 			"Enter"
 		],
 		"video/frame/next" : [
