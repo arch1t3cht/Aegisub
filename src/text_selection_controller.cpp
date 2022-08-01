@@ -73,3 +73,18 @@ void TextSelectionController::SetSelection(int start, int end) {
 	changing = false;
 	AnnounceSelectionChanged();
 }
+
+
+void TextSelectionController::CommitStagedChanges() {
+	if (has_staged_selection) {
+		if (staged_selection_start <= staged_selection_end) {
+			SetSelection(staged_selection_start, staged_selection_end);
+		} else {
+			// commit some crimes to get this to work in all cases
+			SetInsertionPoint(staged_selection_end == 0 ? staged_selection_start : 0);
+			SetSelection(staged_selection_start, staged_selection_start);
+			SetInsertionPoint(staged_selection_end);
+		}
+		has_staged_selection = false;
+	}
+}
