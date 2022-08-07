@@ -55,3 +55,12 @@ Returns: 0 values
 
 ---
 
+Determining whether there are unsaved changes
+
+function aegisub.gui.is_modified()
+
+Returns: 1 boolean
+  1. Whether the current file has unsaved changes.
+
+---
+

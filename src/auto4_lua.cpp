@@ -343,6 +343,12 @@ namespace {
 		return 0;
 	}
 
+	int lua_is_modified(lua_State *L)
+	{
+		push_value(L, get_context(L)->subsController->IsModified());
+		return 1;
+	}
+
 	int project_properties(lua_State *L)
 	{
 		const agi::Context *c = get_context(L);
@@ -551,11 +557,12 @@ namespace {
 		set_field<project_properties>(L, "project_properties");
 		set_field<lua_get_audio_selection>(L, "get_audio_selection");
 		set_field<lua_set_status_text>(L, "set_status_text");
-		lua_createtable(L, 0, 4);
+		lua_createtable(L, 0, 5);
 		set_field<lua_get_text_cursor>(L, "get_cursor");
 		set_field<lua_set_text_cursor>(L, "set_cursor");
 		set_field<lua_get_text_selection>(L, "get_selection");
 		set_field<lua_set_text_selection>(L, "set_selection");
+		set_field<lua_is_modified>(L, "is_modified");
 		lua_setfield(L, -2, "gui");
 
 		// store aegisub table to globals
