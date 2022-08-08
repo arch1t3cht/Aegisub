@@ -98,7 +98,7 @@ public:
 						try_parse(parsed[2], &collapsed);
 						fold.collapsed = !!collapsed;
 
-						if (fold.start > 0 && fold.end > fold.start) {
+						if (fold.start >= 0 && fold.end > fold.start) {
 							folds.push_back(fold);
 						}
 					}
