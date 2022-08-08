@@ -104,7 +104,7 @@ void FoldController::MakeFoldsFromFile() {
 
 	int numlines = context->ass->Events.size();
 	for (LineFold fold : context->ass->Properties.folds) {
-		if (fold.start > 0 && fold.start < fold.end && fold.end <= numlines) {
+		if (fold.start >= 0 && fold.start < fold.end && fold.end <= numlines) {
 			auto opener = std::next(context->ass->Events.begin(), fold.start);
 			RawAddFold(*opener, *std::next(opener, fold.end - fold.start), fold.collapsed);
 		}
