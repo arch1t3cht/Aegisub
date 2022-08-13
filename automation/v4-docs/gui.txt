@@ -23,7 +23,7 @@ Returns: 1 number
 
 ---
 
-function aegisub.get_selection()
+function aegisub.gui.get_selection()
 
 Returns: 2 values, all numbers.
   1. Starting position of the selection.
