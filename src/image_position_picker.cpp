@@ -117,7 +117,7 @@ void ImagePositionPicker::OnSize(wxSizeEvent& event) {
 void ImagePositionPicker::OnMouseEvent(wxMouseEvent& evt)
 {
 	wxPoint pos = evt.GetPosition();
-	if (evt.Dragging() || evt.LeftDown() || evt.LeftUp())
+	if (evt.LeftUp())
 	{
 		int x = pos.x * w / prevW;
 		int y = pos.y * h / prevH;
@@ -129,4 +129,14 @@ void ImagePositionPicker::OnMouseEvent(wxMouseEvent& evt)
 		evt.ResumePropagation(wxEVENT_PROPAGATE_MAX);
 		evt.Skip();
 	}
+}
+
+void ImagePositionPicker::changeImage(wxImage i)
+{
+	image = i;
+	prevW = -1;
+	prevH = -1;
+	w = image.GetWidth();
+	h = image.GetHeight();
+	paintNow();
 }

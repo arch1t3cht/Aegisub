@@ -20,6 +20,7 @@ public:
 	void OnSize(wxSizeEvent& event);
 	void OnMouseEvent(wxMouseEvent& evt);
 	void render(wxDC& dc);
+	void changeImage(wxImage i);
 
 	// some useful events
 	/*

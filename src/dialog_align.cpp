@@ -1,4 +1,5 @@
 // Copyright (c) 2019, Charlie Jiang
+// Copyright (c) 2022, sepro
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -58,25 +59,28 @@
 #endif
 
 namespace {
+	struct QueuedFrame {
+		int x, y;
+		AssDialogue *line;
+	};
+
 	class DialogAlignToVideo final : public wxDialog {
 		agi::Context* context;
 		AsyncVideoProvider* provider;
 
-		wxImage preview_image;
-		VideoFrame current_frame;
-		int current_n_frame;
+		std::vector<QueuedFrame> queued_frames;
 
 		ImagePositionPicker* preview_frame;
-		ColourButton* selected_color;
-		wxTextCtrl* selected_x;
-		wxTextCtrl* selected_y;
+		wxTextCtrl* max_backward;
+		wxTextCtrl* max_forward;
 		wxTextCtrl* selected_tolerance;
 
-		void update_from_textbox();
-		void update_from_textbox(wxCommandEvent&);
+		agi::signal::Connection active_line_changed;
 
 		bool check_exists(int pos, int x, int y, int* lrud, double* orig, unsigned char tolerance);
+		void process_frame(QueuedFrame);
 		void process(wxEvent&);
+		void display_current_line();
 	public:
 		DialogAlignToVideo(agi::Context* context);
 		~DialogAlignToVideo();
@@ -84,7 +88,8 @@ namespace {
 
 	DialogAlignToVideo::DialogAlignToVideo(agi::Context* context)
 		: wxDialog(context->parent, -1, _("Align subtitle to video by key point"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxMAXIMIZE_BOX | wxRESIZE_BORDER)
-		, context(context), provider(context->project->VideoProvider())
+		, context(context), provider(context->project->VideoProvider()),
+		active_line_changed(context->selectionController->AddActiveLineListener(&DialogAlignToVideo::display_current_line, this))
 	{
 		auto add_with_label = [&](wxSizer * sizer, wxString const& label, wxWindow * ctrl) {
 			sizer->Add(new wxStaticText(this, -1, label), 0, wxLEFT | wxRIGHT | wxCENTER, 3);
@@ -94,33 +99,30 @@ namespace {
 		auto tolerance = OPT_GET("Tool/Align to Video/Tolerance")->GetInt();
 		auto maximized = OPT_GET("Tool/Align to Video/Maximized")->GetBool();
 
-		current_n_frame = context->videoController->GetFrameN();
-		current_frame = *context->project->VideoProvider()->GetFrame(current_n_frame, 0, true);
-		preview_image = GetImage(current_frame);
+		AssDialogue *current_line = context->selectionController->GetActiveLine();
+		int current_n_frame = context->videoController->FrameAtTime(current_line->Start, agi::vfr::Time::START);
+		VideoFrame current_frame = *context->project->VideoProvider()->GetFrame(current_n_frame, 0, true);
+		wxImage preview_image = GetImage(current_frame);
+		queued_frames = {};
 
 		preview_frame = new ImagePositionPicker(this, preview_image, [&](int x, int y, unsigned char r, unsigned char g, unsigned char b) -> void {
-			selected_x->ChangeValue(wxString::Format(wxT("%i"), x));
-			selected_y->ChangeValue(wxString::Format(wxT("%i"), y));
+			AssDialogue *line = DialogAlignToVideo::context->selectionController->GetActiveLine();
+			QueuedFrame frame = { x, y, line };
+			queued_frames.push_back(frame);
+			DialogAlignToVideo::context->selectionController->NextLine();
+		});
 
-			selected_color->SetColor(agi::Color(r, g, b));
-			});
-		selected_color = new ColourButton(this, wxSize(55, 16), true, agi::Color("FFFFFF"));
-		selected_color->SetToolTip(_("The key color to be followed"));
-		selected_x = new wxTextCtrl(this, -1, "0");
-		selected_x->SetToolTip(_("The x coord of the key point"));
-		selected_y = new wxTextCtrl(this, -1, "0");
-		selected_y->SetToolTip(_("The y coord of the key point"));
+
+		max_backward = new wxTextCtrl(this, -1, "600");
+		max_backward->SetToolTip(_("Maximum number of frames to track backwards"));
+		max_forward = new wxTextCtrl(this, -1, "900");
+		max_forward->SetToolTip(_("Maximum number of frames to track forwards"));
 		selected_tolerance = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(tolerance)));
 		selected_tolerance->SetToolTip(_("Max tolerance of the color"));
 
-		selected_x->Bind(wxEVT_TEXT, &DialogAlignToVideo::update_from_textbox, this);
-		selected_y->Bind(wxEVT_TEXT, &DialogAlignToVideo::update_from_textbox, this);
-		update_from_textbox();
-
 		wxFlexGridSizer* right_sizer = new wxFlexGridSizer(4, 2, 5, 5);
-		add_with_label(right_sizer, _("X"), selected_x);
-		add_with_label(right_sizer, _("Y"), selected_y);
-		add_with_label(right_sizer, _("Color"), selected_color);
+		add_with_label(right_sizer, _("Max Backwards"), max_backward);
+		add_with_label(right_sizer, _("Max Forwards"), max_forward);
 		add_with_label(right_sizer, _("Tolerance"), selected_tolerance);
 		right_sizer->AddGrowableCol(1, 1);
 
@@ -137,7 +139,6 @@ namespace {
 		CenterOnParent();
 
 		Bind(wxEVT_BUTTON, &DialogAlignToVideo::process, this, wxID_OK);
-		Bind(wxEVT_LEFT_DCLICK, &DialogAlignToVideo::process, this, preview_frame->GetId());
 		SetIcon(GETICON(button_align_16));
 		if (maximized)
 			wxDialog::Maximize(true);
@@ -255,41 +256,56 @@ namespace {
 
 	void DialogAlignToVideo::process(wxEvent &)
 	{
-		auto n_frames = provider->GetFrameCount();
-		auto w = provider->GetWidth();
-		auto h = provider->GetHeight();
-
-		long lx, ly, lt;
-		if (!selected_x->GetValue().ToLong(&lx) || !selected_y->GetValue().ToLong(&ly) || !selected_tolerance->GetValue().ToLong(&lt))
-		{
-			wxMessageBox(_("Bad x or y position or tolerance value!"));
-			return;
+		while (!queued_frames.empty()) {
+			process_frame(queued_frames.back());
+			queued_frames.pop_back();
 		}
-		if (lx < 0 || ly < 0 || lx >= w || ly >= h)
+		context->ass->Commit(_("Align to video by key point"), AssFile::COMMIT_DIAG_TIME);
+		Close();
+	}
+
+	void DialogAlignToVideo::display_current_line(){
+		AssDialogue *current_line = context->selectionController->GetActiveLine();
+
+		if (current_line == nullptr)
+			return;
+
+		int current_n_frame = context->videoController->FrameAtTime(current_line->Start, agi::vfr::Time::START);
+		VideoFrame current_frame = *context->project->VideoProvider()->GetFrame(current_n_frame, 0, true);
+		wxImage preview_image = GetImage(current_frame);
+		preview_frame->changeImage(preview_image);
+	}
+
+	void DialogAlignToVideo::process_frame(QueuedFrame queued_frame){
+		int n_frames = provider->GetFrameCount();
+		AssDialogue *line = queued_frame.line;
+		int x = queued_frame.x;
+		int y = queued_frame.y;
+
+		long l_backward, l_forward, lt;
+		if (!max_backward->GetValue().ToLong(&l_backward) || !max_forward->GetValue().ToLong(&l_forward) || !selected_tolerance->GetValue().ToLong(&lt))
 		{
-			wxMessageBox(wxString::Format(_("Bad x or y position! Require: 0 <= x < %i, 0 <= y < %i"), w, h));
+			wxMessageBox(_("Bad max backwards, max forward or tolerance value!"));
 			return;
 		}
 		if (lt < 0 || lt > 255)
 		{
-			wxMessageBox(_("Bad tolerance value! Require: 0 <= torlerance <= 255"));
+			wxMessageBox(_("Bad tolerance value! Require: 0 <= tolerance <= 255"));
 			return;
 		}
-		int x = int(lx), y = int(ly);
+		int backward = int(l_backward);
+		int forward = int(l_forward);
 		unsigned char tolerance = (unsigned char)(lt);
 
-		auto color = selected_color->GetColor();
-		auto r = color.r;
-		auto b = color.b;
-		auto g = color.g;
-		double lab[3];
-		rgb2lab(r, g, b, lab);
-
-		int pos = current_n_frame;
+		int pos = context->videoController->FrameAtTime(line->Start, agi::vfr::Time::START);
 		auto frame = provider->GetFrame(pos, -1, true);
 		auto view = interleaved_view(frame->width, frame->height, reinterpret_cast<boost::gil::bgra8_pixel_t*>(frame->data.data()), frame->pitch);
 		if (frame->flipped)
 			y = frame->height - y;
+
+		auto base_color = *view.at(x, y);
+		double lab[3];
+		rgb2lab(base_color[2], base_color[1], base_color[0], lab);
 
 		// Ensure selected color and position match
 		if(!check_point(*view.at(x,y), lab, tolerance))
@@ -303,30 +319,29 @@ namespace {
 
 		// find forward
 #define CHECK_EXISTS_POS check_exists(pos, x, y, lrud, lab, tolerance)
+		int offset = 0;
 		do {
 			pos -= 2;
-		} while (pos >= 0 && CHECK_EXISTS_POS);
+			offset += 2;
+		} while (pos >= 0 && (offset <= backward || backward == 0) && CHECK_EXISTS_POS);
 		pos++;
 		pos = std::max(0, pos);
 		auto left = CHECK_EXISTS_POS ? pos : pos + 1;
 
-		pos = current_n_frame;
+		// find backward
+		offset = 0;
 		do {
 			pos += 2;
-		} while (pos < n_frames && CHECK_EXISTS_POS);
+			offset += 2;
+		} while (pos < n_frames && (offset <= forward || forward == 0) && CHECK_EXISTS_POS);
 		pos--;
 		pos = std::min(pos, n_frames - 1);
 		auto right = CHECK_EXISTS_POS ? pos : pos - 1;
 
 		auto timecode = context->project->Timecodes();
-		auto line = context->selectionController->GetActiveLine();
 		line->Start = timecode.TimeAtFrame(left, agi::vfr::Time::START);
 		line->End = timecode.TimeAtFrame(right, agi::vfr::Time::END); // exclusive
-		context->ass->Commit(_("Align to video by key point"), AssFile::COMMIT_DIAG_TIME);
-		Close();
 	}
-
-
 
 	bool DialogAlignToVideo::check_exists(int pos, int x, int y, int* lrud, double* orig, unsigned char tolerance)
 	{
@@ -342,28 +357,6 @@ namespace {
 		int dd = abs(actual[3] - lrud[3]);
 
 		return dl <= 5 && dr <= 5 && du <= 5 && dd <= 5;
-	}
-
-	void DialogAlignToVideo::update_from_textbox()
-	{
-		long lx, ly;
-		int w = preview_image.GetWidth(), h = preview_image.GetHeight();
-		if (!selected_x->GetValue().ToLong(&lx) || !selected_y->GetValue().ToLong(&ly))
-			return;
-
-		if (lx < 0 || ly < 0 || lx >= w || ly >= h)
-			return;
-		int x = int(lx);
-		int y = int(ly);
-		auto r = preview_image.GetRed(x, y);
-		auto g = preview_image.GetGreen(x, y);
-		auto b = preview_image.GetBlue(x, y);
-		selected_color->SetColor(agi::Color(r, g, b));
-	}
-
-	void DialogAlignToVideo::update_from_textbox(wxCommandEvent & evt)
-	{
-		update_from_textbox();
 	}
 
 }
