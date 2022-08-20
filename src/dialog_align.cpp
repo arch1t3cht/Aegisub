@@ -32,6 +32,7 @@
 #include "ass_file.h"
 #include "compat.h"
 #include "dialog_manager.h"
+#include "dialog_progress.h"
 #include "format.h"
 #include "include/aegisub/context.h"
 #include "video_frame.h"
@@ -256,12 +257,26 @@ namespace {
 
 	void DialogAlignToVideo::process(wxEvent &)
 	{
-		while (!queued_frames.empty()) {
-			process_frame(queued_frames.back());
-			queued_frames.pop_back();
+		auto totalTime = queued_frames.size();
+		if (totalTime == 0) {
+			Close();
+			return;
 		}
+		DialogProgress *progress = new DialogProgress(context->parent, _("Aligning Subtitle to Video"), agi::format(_("Processing frame %d of %d"), 1, totalTime));
+		progress->Run([&](agi::ProgressSink *ps) {
+			ps->SetProgress(0, totalTime);
+			int i = 0;
+			while (!queued_frames.empty() && !ps->IsCancelled()) {
+				ps->SetProgress(i, totalTime);
+				ps->SetMessage(agi::format(_("Processing frame %d of %d"), i+1, totalTime));
+				process_frame(queued_frames.back());
+				queued_frames.pop_back();
+				i++;
+			}
+		});
 		context->ass->Commit(_("Align to video by key point"), AssFile::COMMIT_DIAG_TIME);
-		Close();
+		if (queued_frames.size() == 0)
+			Close();
 	}
 
 	void DialogAlignToVideo::display_current_line(){
