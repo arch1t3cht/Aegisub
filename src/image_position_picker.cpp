@@ -40,6 +40,7 @@ ImagePositionPicker::ImagePositionPicker(wxWindow* parent, wxImage i, updator up
 	w = image.GetWidth();
 	h = image.GetHeight();
 	update = upd;
+	this->SetMinSize(wxSize(200,200));
 }
 
 /*
@@ -94,6 +95,8 @@ void ImagePositionPicker::render(wxDC& dc)
 			ww = neww;
 			hh = neww * h / w;
 		}
+		if (ww < 1 || hh < 1)
+			return;
 		resized = wxBitmap(image.Scale(ww, hh /*, wxIMAGE_QUALITY_HIGH*/));
 		prevW = ww;
 		prevH = hh;
