@@ -72,9 +72,9 @@ namespace {
 		std::vector<QueuedFrame> queued_frames;
 
 		ImagePositionPicker* preview_frame;
-		wxTextCtrl* max_backward;
-		wxTextCtrl* max_forward;
-		wxTextCtrl* selected_tolerance;
+		wxTextCtrl* textbox_max_backward;
+		wxTextCtrl* textbox_max_forward;
+		wxTextCtrl* textbox_tolerance;
 
 		agi::signal::Connection active_line_changed;
 
@@ -98,6 +98,8 @@ namespace {
 		};
 
 		auto tolerance = OPT_GET("Tool/Align to Video/Tolerance")->GetInt();
+		auto max_backward = OPT_GET("Tool/Align to Video/Max Backward")->GetInt();
+		auto max_forward = OPT_GET("Tool/Align to Video/Max Forward")->GetInt();
 		auto maximized = OPT_GET("Tool/Align to Video/Maximized")->GetBool();
 
 		AssDialogue *current_line = context->selectionController->GetActiveLine();
@@ -114,17 +116,17 @@ namespace {
 		});
 
 
-		max_backward = new wxTextCtrl(this, -1, "600");
-		max_backward->SetToolTip(_("Maximum number of frames to track backwards"));
-		max_forward = new wxTextCtrl(this, -1, "900");
-		max_forward->SetToolTip(_("Maximum number of frames to track forwards"));
-		selected_tolerance = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(tolerance)));
-		selected_tolerance->SetToolTip(_("Max tolerance of the color"));
+		textbox_max_backward = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(max_backward)));
+		textbox_max_backward->SetToolTip(_("Maximum number of frames to track backwards"));
+		textbox_max_forward = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(max_forward)));
+		textbox_max_forward->SetToolTip(_("Maximum number of frames to track forwards"));
+		textbox_tolerance = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(tolerance)));
+		textbox_tolerance->SetToolTip(_("Max tolerance of the color"));
 
 		wxFlexGridSizer* right_sizer = new wxFlexGridSizer(4, 2, 5, 5);
-		add_with_label(right_sizer, _("Max Backwards"), max_backward);
-		add_with_label(right_sizer, _("Max Forwards"), max_forward);
-		add_with_label(right_sizer, _("Tolerance"), selected_tolerance);
+		add_with_label(right_sizer, _("Max Backwards"), textbox_max_backward);
+		add_with_label(right_sizer, _("Max Forwards"), textbox_max_forward);
+		add_with_label(right_sizer, _("Tolerance"), textbox_tolerance);
 		right_sizer->AddGrowableCol(1, 1);
 
 		wxSizer* main_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -147,13 +149,19 @@ namespace {
 
 	DialogAlignToVideo::~DialogAlignToVideo()
 	{
-		long lt;
-		if (!selected_tolerance->GetValue().ToLong(&lt))
+		long l_backward, l_forward, lt;
+		if (!textbox_max_backward->GetValue().ToLong(&l_backward) || !textbox_max_forward->GetValue().ToLong(&l_forward) || !textbox_tolerance->GetValue().ToLong(&lt))
+		{
 			return;
+		}
 		if (lt < 0 || lt > 255)
+		{
 			return;
+		}
 
 		OPT_SET("Tool/Align to Video/Tolerance")->SetInt(lt);
+		OPT_SET("Tool/Align to Video/Max Backward")->SetInt(l_backward);
+		OPT_SET("Tool/Align to Video/Max Forward")->SetInt(l_forward);
 	}
 
 	void rgb2lab(unsigned char r, unsigned char g, unsigned char b, double* lab)
@@ -298,7 +306,7 @@ namespace {
 		int y = queued_frame.y;
 
 		long l_backward, l_forward, lt;
-		if (!max_backward->GetValue().ToLong(&l_backward) || !max_forward->GetValue().ToLong(&l_forward) || !selected_tolerance->GetValue().ToLong(&lt))
+		if (!textbox_max_backward->GetValue().ToLong(&l_backward) || !textbox_max_forward->GetValue().ToLong(&l_forward) || !textbox_tolerance->GetValue().ToLong(&lt))
 		{
 			wxMessageBox(_("Bad max backwards, max forward or tolerance value!"));
 			return;

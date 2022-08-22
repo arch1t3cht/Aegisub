@@ -578,6 +578,8 @@
 		},
 		"Align to Video" : {
 			"Tolerance" : 20,
+			"Max Backward" : 600,
+			"Max Forward" : 1200,
 			"Maximized" : true
 		}
 	},
