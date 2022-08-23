@@ -108,21 +108,20 @@ struct Writer {
 			WriteIfNotZero("Scroll Position: ", properties.scroll_position);
 			WriteIfNotZero("Active Line: ", properties.active_row);
 			WriteIfNotZero("Video Position: ", properties.video_position);
-
-			std::string foldsdata;
-			for (LineFold fold : properties.folds) {
-				if (!foldsdata.empty()) {
-					foldsdata += ",";
-				}
-				foldsdata += std::to_string(fold.start);
-				foldsdata += ":";
-				foldsdata += std::to_string(fold.end);
-				foldsdata += ":";
-				foldsdata += fold.collapsed ? "1" : "0";
-			}
-
-			WriteIfNotEmpty("Line Folds: ", foldsdata);
 		}
+
+		std::string foldsdata;
+		for (LineFold fold : properties.folds) {
+			if (!foldsdata.empty()) {
+				foldsdata += ",";
+			}
+			foldsdata += std::to_string(fold.start);
+			foldsdata += ":";
+			foldsdata += std::to_string(fold.end);
+			foldsdata += ":";
+			foldsdata += fold.collapsed ? "1" : "0";
+		}
+		WriteIfNotEmpty("Line Folds: ", foldsdata);
 	}
 
 	void WriteIfNotEmpty(const char *key, std::string const& value) {
