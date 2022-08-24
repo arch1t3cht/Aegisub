@@ -75,11 +75,13 @@ namespace {
 		wxTextCtrl* textbox_max_backward;
 		wxTextCtrl* textbox_max_forward;
 		wxTextCtrl* textbox_tolerance;
+		wxCheckBox* overwrite_color;
+		ColourButton* selected_color;
 
 		agi::signal::Connection active_line_changed;
 
 		bool check_exists(int pos, int x, int y, int* lrud, double* orig, unsigned char tolerance);
-		void process_frame(QueuedFrame);
+		bool process_frame(QueuedFrame);
 		void process(wxEvent&);
 		void display_current_line();
 	public:
@@ -122,11 +124,21 @@ namespace {
 		textbox_max_forward->SetToolTip(_("Maximum number of frames to track forwards"));
 		textbox_tolerance = new wxTextCtrl(this, -1, wxString::Format(wxT("%i"), int(tolerance)));
 		textbox_tolerance->SetToolTip(_("Max tolerance of the color"));
+		overwrite_color = new wxCheckBox(this, -1, "");
+		overwrite_color->SetToolTip(_("Whether to overwrite the color used for tracking"));
+		overwrite_color->Bind(wxEVT_CHECKBOX, [=](wxCommandEvent &evt) {
+			selected_color->Enable(evt.IsChecked());
+		});
+		selected_color = new ColourButton(this, wxSize(55, 16), true, agi::Color("FFFFFF"));
+		selected_color->SetToolTip(_("The key color to be followed"));
+		selected_color->Enable(false);
 
-		wxFlexGridSizer* right_sizer = new wxFlexGridSizer(4, 2, 5, 5);
+		wxFlexGridSizer* right_sizer = new wxFlexGridSizer(5, 2, 5, 5);
 		add_with_label(right_sizer, _("Max Backwards"), textbox_max_backward);
 		add_with_label(right_sizer, _("Max Forwards"), textbox_max_forward);
 		add_with_label(right_sizer, _("Tolerance"), textbox_tolerance);
+		add_with_label(right_sizer, _("Overwrite Color"), overwrite_color);
+		add_with_label(right_sizer, _("Color"), selected_color);
 		right_sizer->AddGrowableCol(1, 1);
 
 		wxSizer* main_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -277,7 +289,10 @@ namespace {
 			while (!queued_frames.empty() && !ps->IsCancelled()) {
 				ps->SetProgress(i, totalTime);
 				ps->SetMessage(agi::format(_("Processing frame %d of %d"), i+1, totalTime));
-				process_frame(queued_frames.back());
+				bool successful = process_frame(queued_frames.back());
+				if (!successful) {
+					break;
+				}
 				queued_frames.pop_back();
 				i++;
 			}
@@ -299,7 +314,7 @@ namespace {
 		preview_frame->changeImage(preview_image);
 	}
 
-	void DialogAlignToVideo::process_frame(QueuedFrame queued_frame){
+	bool DialogAlignToVideo::process_frame(QueuedFrame queued_frame){
 		int n_frames = provider->GetFrameCount();
 		AssDialogue *line = queued_frame.line;
 		int x = queued_frame.x;
@@ -309,12 +324,12 @@ namespace {
 		if (!textbox_max_backward->GetValue().ToLong(&l_backward) || !textbox_max_forward->GetValue().ToLong(&l_forward) || !textbox_tolerance->GetValue().ToLong(&lt))
 		{
 			wxMessageBox(_("Bad max backwards, max forward or tolerance value!"));
-			return;
+			return false;
 		}
 		if (lt < 0 || lt > 255)
 		{
 			wxMessageBox(_("Bad tolerance value! Require: 0 <= tolerance <= 255"));
-			return;
+			return false;
 		}
 		int backward = int(l_backward);
 		int forward = int(l_forward);
@@ -326,15 +341,24 @@ namespace {
 		if (frame->flipped)
 			y = frame->height - y;
 
-		auto base_color = *view.at(x, y);
 		double lab[3];
-		rgb2lab(base_color[2], base_color[1], base_color[0], lab);
+		if (overwrite_color->IsChecked())
+		{
+			auto color = selected_color->GetColor();
+			auto r = color.r;
+			auto b = color.b;
+			auto g = color.g;
+			rgb2lab(r, g, b, lab);
+		} else {
+			auto base_color = *view.at(x, y);
+			rgb2lab(base_color[2], base_color[1], base_color[0], lab);
+		}
 
 		// Ensure selected color and position match
 		if(!check_point(*view.at(x,y), lab, tolerance))
 		{
 			wxMessageBox(_("Selected position and color are not within tolerance!"));
-			return;
+			return false;
 		}
 
 		int lrud[4];
@@ -364,6 +388,7 @@ namespace {
 		auto timecode = context->project->Timecodes();
 		line->Start = timecode.TimeAtFrame(left, agi::vfr::Time::START);
 		line->End = timecode.TimeAtFrame(right, agi::vfr::Time::END); // exclusive
+		return true;
 	}
 
 	bool DialogAlignToVideo::check_exists(int pos, int x, int y, int* lrud, double* orig, unsigned char tolerance)
