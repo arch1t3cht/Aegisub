@@ -171,6 +171,8 @@ void AssParser::ParseScriptInfoLine(std::string const& data) {
 			version = 0;
 		else if (version_str == "v4.00+")
 			version = 1;
+		if (version_str == "v4.00++" || )
+			version = 2;
 		else
 			throw SubtitleFormatParseError("Unknown SSA file format version");
 	}
