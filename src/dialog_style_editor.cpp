@@ -49,6 +49,7 @@
 #include "subs_preview.h"
 #include "utils.h"
 #include "validators.h"
+#include "options.h"
 
 #include <libaegisub/of_type_adaptor.h>
 #include <libaegisub/make_unique.h>
@@ -197,7 +198,7 @@ DialogStyleEditor::DialogStyleEditor(wxWindow *parent, AssStyle *style, agi::Con
 		new ColourButton(this, wxSize(55, 16), true, style->outline, ColorValidator(&work->outline)),
 		new ColourButton(this, wxSize(55, 16), true, style->shadow, ColorValidator(&work->shadow))
 	};
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		margin[i] = new wxSpinCtrl(this, -1, std::to_wstring(style->Margin[i]),
 			wxDefaultPosition, wxDefaultSize,
 			wxSP_ARROW_KEYS, -9999, 9999, style->Margin[i]);
@@ -224,7 +225,17 @@ DialogStyleEditor::DialogStyleEditor(wxWindow *parent, AssStyle *style, agi::Con
 	colorButton[3]->SetToolTip(_("Choose shadow color"));
 	margin[0]->SetToolTip(_("Distance from left edge, in pixels"));
 	margin[1]->SetToolTip(_("Distance from right edge, in pixels"));
-	margin[2]->SetToolTip(_("Distance from top/bottom edge, in pixels"));
+	std::string sub_version = OPT_GET("Subtitle/Sub Format")->GetString();
+	if (sub_version == "v4.00+")
+	{
+		margin[2]->SetToolTip(_("Distance from top/bottom edge, in pixels"));
+		margin[3]->Disable();
+	}
+	else if (sub_version == "v4.00++") {
+		margin[2]->SetToolTip(_("Distance from top edge, in pixels"));
+		margin[3]->SetToolTip(_("Distance from bottom edge, in pixels"));
+	}
+
 	OutlineType->SetToolTip(_("When selected, display an opaque box behind the subtitles instead of an outline around the text"));
 	Outline->SetToolTip(_("Outline width, in pixels"));
 	Shadow->SetToolTip(_("Shadow distance, in pixels"));
@@ -288,9 +299,16 @@ DialogStyleEditor::DialogStyleEditor(wxWindow *parent, AssStyle *style, agi::Con
 	ColorsSizer->AddStretchSpacer(1);
 
 	// Margins
-	wxString marginLabels[] = { _("Left"), _("Right"), _("Vert") };
+	wxString marginLabels[] = { _("Left"), _("Right"), _("Vert"), "" };
+	if (sub_version == "v4.00++")
+		{
+			marginLabels[2] = _("Top");
+			marginLabels[3] = _("Bottom");
+		}
+	else if (sub_version == "v4.00+")
+		marginLabels[3] = "";
 	MarginSizer->AddStretchSpacer(1);
-	for (int i=0;i<3;i++) {
+	for (int i=0;i<4;i++) {
 		auto sizer = new wxBoxSizer(wxVERTICAL);
 		sizer->AddStretchSpacer(1);
 		sizer->Add(new wxStaticText(this, -1, marginLabels[i]), 0, wxCENTER, 0);
@@ -481,7 +499,7 @@ void DialogStyleEditor::UpdateWorkStyle() {
 
 	work->alignment = ControlToAlign(Alignment->GetSelection());
 
-	for (size_t i = 0; i < 3; ++i)
+	for (size_t i = 0; i < 4; ++i)
 		work->Margin[i] = margin[i]->GetValue();
 
 	work->bold = BoxBold->IsChecked();

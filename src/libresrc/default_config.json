@@ -407,6 +407,7 @@
 			"Syntax" : true
 		},
 		"Provider" : "libass",
+		"Sub Format": "v4.00++",
 		"Time Edit" : {
 			"Insert Mode" : true
 		}

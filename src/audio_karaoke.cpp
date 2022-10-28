@@ -242,6 +242,7 @@ void AudioKaraoke::OnContextMenu(wxContextMenuEvent&) {
 	AddMenuItem(context_menu, "\\k", _("Change karaoke tag to \\k"), type);
 	AddMenuItem(context_menu, "\\kf", _("Change karaoke tag to \\kf"), type);
 	AddMenuItem(context_menu, "\\ko", _("Change karaoke tag to \\ko"), type);
+	AddMenuItem(context_menu, "\\kt", _("Change karaoke tag to \\kt"), type);
 
 	PopupMenu(&context_menu);
 }

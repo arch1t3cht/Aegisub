@@ -61,7 +61,7 @@ public:
 	double outline_w = 2.;     ///< Outline width in pixels
 	double shadow_w = 2.;      ///< Shadow distance in pixels
 	int alignment = 2;         ///< \an-style line alignment
-	std::array<int, 3> Margin; ///< Left / Right / Vertical
+	std::array<int, 4> Margin; ///< Left / Right / Top / Bottom
 	int encoding = 1;          ///< ASS font encoding needed for some non-unicode fonts
 
 	/// Update the raw line data after one or more of the public members have been changed

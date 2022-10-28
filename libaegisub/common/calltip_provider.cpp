@@ -62,6 +62,7 @@ const proto_lit proto_2[] = {
 	{"fs", "\\fsFont Size"},
 	{"kf", "\\kfDuration"},
 	{"ko", "\\koDuration"},
+	{"kt", "\\ktDuration"},
 	{nullptr, nullptr}
 };
 

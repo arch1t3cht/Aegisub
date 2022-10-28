@@ -153,6 +153,7 @@ AssDialogue *paste_over(wxWindow *parent, std::vector<bool>& pasteOverOptions, A
 	if (pasteOverOptions[6])  old_line->Margin[0] = new_line->Margin[0];
 	if (pasteOverOptions[7])  old_line->Margin[1] = new_line->Margin[1];
 	if (pasteOverOptions[8])  old_line->Margin[2] = new_line->Margin[2];
+	if (pasteOverOptions[8])  old_line->Margin[3] = new_line->Margin[3];
 	if (pasteOverOptions[9])  old_line->Effect    = new_line->Effect;
 	if (pasteOverOptions[10]) old_line->Text      = new_line->Text;
 

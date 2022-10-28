@@ -279,6 +279,7 @@ static void load_protos() {
 	proto[++i].Set("\\fe", VariableDataType::TEXT); // \fe<charset>
 	proto[++i].Set("\\ko", VariableDataType::INT, AssParameterClass::KARAOKE); // \ko<duration>
 	proto[++i].Set("\\kf", VariableDataType::INT, AssParameterClass::KARAOKE); // \kf<duration>
+	proto[++i].Set("\\kt", VariableDataType::INT, AssParameterClass::KARAOKE); // \kt<duration>
 	proto[++i].Set("\\be", VariableDataType::INT, AssParameterClass::ABSOLUTE_SIZE); // \be<strength>
 	proto[++i].Set("\\blur", VariableDataType::FLOAT, AssParameterClass::ABSOLUTE_SIZE); // \blur<strength>
 	proto[++i].Set("\\fn", VariableDataType::TEXT); // \fn<name>

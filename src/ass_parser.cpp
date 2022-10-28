@@ -171,7 +171,7 @@ void AssParser::ParseScriptInfoLine(std::string const& data) {
 			version = 0;
 		else if (version_str == "v4.00+")
 			version = 1;
-		if (version_str == "v4.00++" || )
+		if (version_str == "v4.00++")
 			version = 2;
 		else
 			throw SubtitleFormatParseError("Unknown SSA file format version");
@@ -206,7 +206,7 @@ void AssParser::ParseMetadataLine(std::string const& data) {
 
 void AssParser::ParseEventLine(std::string const& data) {
 	if (boost::starts_with(data, "Dialogue:") || boost::starts_with(data, "Comment:"))
-		target->Events.push_back(*new AssDialogue(data));
+		target->Events.push_back(*new AssDialogue(data, version));
 }
 
 void AssParser::ParseStyleLine(std::string const& data) {

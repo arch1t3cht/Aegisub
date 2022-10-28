@@ -64,9 +64,9 @@ AssDialogue::AssDialogue(AssDialogue const& that)
 
 AssDialogue::AssDialogue(AssDialogueBase const& that) : AssDialogueBase(that) { }
 
-AssDialogue::AssDialogue(std::string const& data) {
+AssDialogue::AssDialogue(std::string const& data, int version) {
 	Id = ++next_id;
-	Parse(data);
+	Parse(data, version);
 }
 
 AssDialogue::~AssDialogue () { }
@@ -88,7 +88,7 @@ public:
 	std::string next_str_trim() { return agi::str(boost::trim_copy(next_tok())); }
 };
 
-void AssDialogue::Parse(std::string const& raw) {
+void AssDialogue::Parse(std::string const& raw, int version) {
 	agi::StringRange str;
 	if (boost::starts_with(raw, "Dialogue:")) {
 		Comment = false;
@@ -117,8 +117,18 @@ void AssDialogue::Parse(std::string const& raw) {
 	End = tkn.next_str_trim();
 	Style = tkn.next_str_trim();
 	Actor = tkn.next_str_trim();
-	for (int& margin : Margin)
-		margin = mid(-9999, boost::lexical_cast<int>(tkn.next_str()), 99999);
+	if (version == 1)
+	{
+		for (int& margin : Margin)
+			margin = mid(-9999, boost::lexical_cast<int>(tkn.next_str()), 99999);
+		Margin[3] = Margin[2];
+	}
+	else if (version == 2)
+	{
+		for (int& margin : Margin)
+			margin = mid(-9999, boost::lexical_cast<int>(tkn.next_str()), 99999);
+	}
+	
 	Effect = tkn.next_str_trim();
 
 	std::string text{tkn.next_tok().begin(), str.end()};

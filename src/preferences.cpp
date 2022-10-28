@@ -458,7 +458,18 @@ void Advanced_Video(wxTreebook *book, Preferences *parent) {
 	p->OptionAdd(expert, _("Video Panning"), "Video/Video Pan");
 	p->OptionAdd(expert, _("Default to Video Zoom"), "Video/Default to Video Zoom")
 		->SetToolTip("Reverses the behavior of Ctrl while scrolling the video display. If not set, scrolling will default to UI zoom and Ctrl+scrolling will zoom the video. If set, this will be reversed.");
-	
+
+	auto subFormat = p->PageSizer("Subtitles");
+	const wxString sub_formats[] = { "v4.00++", "v4.00+"}; // Do not change this, since ass_file.cpp depends on this value.
+	wxArrayString sub_formats_choice(8, sub_formats);
+
+	auto assBox = new wxStaticBoxSizer(wxVERTICAL, p, _("When saving to .ass files, Aegisub will write to v4.00++ by default."));
+	auto assBox2 = new wxStaticBoxSizer(wxVERTICAL, p, _("If you care about compatibility, change this to v4.00+ for compatibility for legacy renderers such as vsfilter."));
+	p->sizer->Add(assBox, 0, wxEXPAND, 5);
+	p->sizer->AddSpacer(2);
+	p->sizer->Add(assBox2, 0, wxEXPAND, 5);
+	p->sizer->AddSpacer(8);
+	p->OptionChoice(subFormat, _("ASS Subtitle Format"), sub_formats_choice, "Subtitle/Sub Format");
 
 #ifdef WITH_AVISYNTH
 	auto avisynth = p->PageSizer("Avisynth");

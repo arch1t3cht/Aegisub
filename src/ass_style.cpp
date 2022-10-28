@@ -43,6 +43,7 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/lexical_cast.hpp>
 #include <wx/intl.h>
+#include "options.h"
 
 AssStyle::AssStyle() {
 	std::fill(Margin.begin(), Margin.end(), 10);
@@ -161,12 +162,19 @@ AssStyle::AssStyle(std::string const& str, int version) {
 	Margin[0] = mid(-9999, p.next_int(), 99999);
 	Margin[1] = mid(-9999, p.next_int(), 99999);
 	Margin[2] = mid(-9999, p.next_int(), 99999);
+	if (version == 2)
+		Margin[3] = mid(-9999, p.next_int(), 99999);
+	else
+		Margin[3] = Margin[2];
 
 	// Skip alpha level
 	if (version == 0)
 		p.skip_token();
 
 	encoding = p.next_int();
+
+	if (version == 2)
+
 
 	p.check_done();
 
@@ -176,18 +184,34 @@ AssStyle::AssStyle(std::string const& str, int version) {
 void AssStyle::UpdateData() {
 	replace(name.begin(), name.end(), ',', ';');
 	replace(font.begin(), font.end(), ',', ';');
-
-	data = agi::format("Style: %s,%s,%g,%s,%s,%s,%s,%d,%d,%d,%d,%g,%g,%g,%g,%d,%g,%g,%i,%i,%i,%i,%i",
-		name, font, fontsize,
-		primary.GetAssStyleFormatted(),
-		secondary.GetAssStyleFormatted(),
-		outline.GetAssStyleFormatted(),
-		shadow.GetAssStyleFormatted(),
-		(bold? -1 : 0), (italic ? -1 : 0),
-		(underline ? -1 : 0), (strikeout ? -1 : 0),
-		scalex, scaley, spacing, angle,
-		borderstyle, outline_w, shadow_w, alignment,
-		Margin[0], Margin[1], Margin[2], encoding);
+	
+	if (OPT_GET("Subtitle/Sub Format")->GetString() == "v4.00+")
+		data = agi::format("Style: %s,%s,%g,%s,%s,%s,%s,%d,%d,%d,%d,%g,%g,%g,%g,%d,%g,%g,%i,%i,%i,%i,%i",
+			name, font, fontsize,
+			primary.GetAssStyleFormatted(),
+			secondary.GetAssStyleFormatted(),
+			outline.GetAssStyleFormatted(),
+			shadow.GetAssStyleFormatted(),
+			(bold? -1 : 0), (italic ? -1 : 0),
+			(underline ? -1 : 0), (strikeout ? -1 : 0),
+			scalex, scaley, spacing, angle,
+			borderstyle, outline_w, shadow_w, alignment,
+			Margin[0], Margin[1], Margin[2], encoding);
+	else if (OPT_GET("Subtitle/Sub Format")->GetString() == "v4.00++")
+	{
+		data = agi::format("Style: %s,%s,%g,%s,%s,%s,%s,%d,%d,%d,%d,%g,%g,%g,%g,%d,%g,%g,%i,%i,%i,%i,%i,%i",
+			name, font, fontsize,
+			primary.GetAssStyleFormatted(),
+			secondary.GetAssStyleFormatted(),
+			outline.GetAssStyleFormatted(),
+			shadow.GetAssStyleFormatted(),
+			(bold? -1 : 0), (italic ? -1 : 0),
+			(underline ? -1 : 0), (strikeout ? -1 : 0),
+			scalex, scaley, spacing, angle,
+			borderstyle, outline_w, shadow_w, alignment,
+			Margin[0], Margin[1], Margin[2], Margin[3], encoding);
+	}
+	
 }
 
 void AssStyle::GetEncodings(wxArrayString &encodingStrings) {

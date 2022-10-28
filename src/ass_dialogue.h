@@ -134,7 +134,7 @@ struct AssDialogueBase {
 	/// Layer number
 	int Layer = 0;
 	/// Margins: 0 = Left, 1 = Right, 2 = Top (Vertical)
-	std::array<int, 3> Margin = std::array<int, 3>{{ 0, 0, 0 }};
+	std::array<int, 4> Margin = std::array<int, 4>{{ 0, 0, 0, 0 }};
 	/// Starting time
 	agi::Time Start = 0;
 	/// Ending time
@@ -154,7 +154,7 @@ struct AssDialogueBase {
 class AssDialogue final : public AssEntry, public AssDialogueBase, public AssEntryListHook {
 	/// @brief Parse raw ASS data into everything else
 	/// @param data ASS line
-	void Parse(std::string const& data);
+	void Parse(std::string const& data, int version=1);
 public:
 	AssEntryGroup Group() const override { return AssEntryGroup::DIALOGUE; }
 
@@ -177,7 +177,7 @@ public:
 	AssDialogue();
 	AssDialogue(AssDialogue const&);
 	AssDialogue(AssDialogueBase const&);
-	AssDialogue(std::string const& data);
+	AssDialogue(std::string const& data, int version);
 	~AssDialogue();
 };
 

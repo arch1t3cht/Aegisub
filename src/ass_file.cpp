@@ -40,7 +40,7 @@ AssFile::~AssFile() {
 
 void AssFile::LoadDefault(bool include_dialogue_line, std::string const& style_catalog) {
 	Info.emplace_back("Title", "Default Aegisub file");
-	Info.emplace_back("ScriptType", "v4.00+");
+	Info.emplace_back("ScriptType", OPT_GET("Subtitle/Sub Format")->GetString());
 	Info.emplace_back("WrapStyle", "0");
 	Info.emplace_back("ScaledBorderAndShadow", "yes");
 	if (!OPT_GET("Subtitle/Default Resolution/Auto")->GetBool()) {
