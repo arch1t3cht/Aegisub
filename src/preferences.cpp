@@ -203,6 +203,36 @@ void Video(wxTreebook *book, Preferences *parent) {
 	p->SetSizerAndFit(p->sizer);
 }
 
+void Subtitle(wxTreebook *book, Preferences *parent) {
+	auto p = new OptionPage(book, parent, _("Subtitles"));
+
+	auto subs = p->PageSizer(_("Subtitles"));
+
+	wxArrayString sp_choice = to_wx(SubtitlesProviderFactory::GetClasses());
+	p->OptionChoice(subs, _("Provider"), sp_choice, "Subtitle/Provider");
+
+	const wxString sub_formats[] = { "v4.00++", "v4.00+"}; // Do not change this, since ass_file.cpp depends on this value.
+	wxArrayString sub_formats_choice(8, sub_formats);
+
+	// ASS Output format
+	auto assBox = new wxStaticBoxSizer(wxVERTICAL, p, _("When saving to .ass files, Aegisub will write to v4.00++ by default. This enables additional features but will have compatibility issues with old versions of libass/vsfilter."));
+	subs->Add(assBox, 0, wxEXPAND, 5);
+	subs->AddSpacer(2);
+	p->OptionChoice(subs, _("ASS output format"), sub_formats_choice, "Subtitle/Sub Format");
+
+	// Kerning option
+	auto kerningBox = new wxStaticBoxSizer(wxVERTICAL, p, _("Enables setting \'kerning: yes\' in the ASS header file and tells the subtitle provider to use kerning if possible. Currently only supported on libass."));
+	subs->Add(kerningBox, 0, wxEXPAND, 5);
+	subs->AddSpacer(2);
+	p->OptionAdd(subs, _("Kerning by default"), "Subtitle/Kerning");
+
+	// Match bracket pairs in bidirectional text
+	auto kerningBox = new wxStaticBoxSizer(wxVERTICAL, p, _("Match bracket pairs in bidirectional text according to Unicode 6.3's revised Algorithm. Currently only supported on libass."));
+	subs->Add(kerningBox, 0, wxEXPAND, 5);
+	subs->AddSpacer(2);
+	p->OptionAdd(subs, _("Match bracket pairs in bidirectional text"), "Subtitle/Kerning");
+}
+
 /// Interface preferences page
 void Interface(wxTreebook *book, Preferences *parent) {
 	auto p = new OptionPage(book, parent, _("Interface"));
@@ -451,25 +481,10 @@ void Advanced_Video(wxTreebook *book, Preferences *parent) {
 
 	wxArrayString vp_choice = to_wx(VideoProviderFactory::GetClasses());
 	p->OptionChoice(expert, _("Video provider"), vp_choice, "Video/Provider");
-
-	wxArrayString sp_choice = to_wx(SubtitlesProviderFactory::GetClasses());
-	p->OptionChoice(expert, _("Subtitles provider"), sp_choice, "Subtitle/Provider");
 	
 	p->OptionAdd(expert, _("Video Panning"), "Video/Video Pan");
 	p->OptionAdd(expert, _("Default to Video Zoom"), "Video/Default to Video Zoom")
 		->SetToolTip("Reverses the behavior of Ctrl while scrolling the video display. If not set, scrolling will default to UI zoom and Ctrl+scrolling will zoom the video. If set, this will be reversed.");
-
-	auto subFormat = p->PageSizer("Subtitles");
-	const wxString sub_formats[] = { "v4.00++", "v4.00+"}; // Do not change this, since ass_file.cpp depends on this value.
-	wxArrayString sub_formats_choice(8, sub_formats);
-
-	auto assBox = new wxStaticBoxSizer(wxVERTICAL, p, _("When saving to .ass files, Aegisub will write to v4.00++ by default."));
-	auto assBox2 = new wxStaticBoxSizer(wxVERTICAL, p, _("If you care about compatibility, change this to v4.00+ for compatibility for legacy renderers such as vsfilter."));
-	p->sizer->Add(assBox, 0, wxEXPAND, 5);
-	p->sizer->AddSpacer(2);
-	p->sizer->Add(assBox2, 0, wxEXPAND, 5);
-	p->sizer->AddSpacer(8);
-	p->OptionChoice(subFormat, _("ASS Subtitle Format"), sub_formats_choice, "Subtitle/Sub Format");
 
 #ifdef WITH_AVISYNTH
 	auto avisynth = p->PageSizer("Avisynth");
@@ -770,6 +785,7 @@ Preferences::Preferences(wxWindow *parent): wxDialog(parent, -1, _("Preferences"
 	General_DefaultStyles(book, this);
 	Audio(book, this);
 	Video(book, this);
+	Subtitle(book, this);
 	Interface(book, this);
 	Interface_Colours(book, this);
 	new Interface_Hotkeys(book, this);
