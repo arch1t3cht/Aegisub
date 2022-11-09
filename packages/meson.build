@@ -39,3 +39,5 @@ else
                      install_dir: datadir / 'icons' / 'hicolor' / dir / 'apps')
     endforeach
 endif
+
+subdir('appimage_bundle')
