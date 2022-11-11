@@ -9,9 +9,9 @@ We absolutely do, and I'm aware that adding another one [doesn't sound like](htt
   - [AegisubDC](https://github.com/Ristellise/AegisubDC) has the most modern features (in particular video-panning), but is Windows-only and not actively maintained anymore.
   - [The TypesettingTools fork](https://github.com/TypesettingTools/Aegisub) is the one that will one day become the upstream version and builds relatively effortlessly on all operating systems, but at the moment it's not moving much. It's the base for this fork, and I hope to one day merge most of these additions into it.
 - Only PR'ing the changes in here to various forks would cause even more chaos
-- I try to convince myself that this isn't really a "fork" in the traditional sense - one which aims to provide extended support and stability fixes. It's a collection of new feature additions which I built myself, together with some of the most important new features floating around other forks.
+- ~~I try to convince myself that this isn't really a "fork" in the traditional sense - one which aims to provide extended support and stability fixes. It's a collection of new feature additions which I built myself, together with some of the most important new features floating around other forks.~~ At this point it's probably too late to still be saying this. Still, the general mission hasn't changed. This fork collects new features and critical bugfixes, but won't be putting extra time into maintenance aspects like cleanup and refactors. Partly, this is also because any big refactors would make it harder to pull these changes into upstream repositories or future forks.
 
-    While this is usually also the version of Aegisub I'm currently using, I make absolutely no promises on stability. **Don't** use this version if you're just looking for any version of Aegisub - this is mostly intended for typesetting and other advanced usage.
+    While this is usually also the version of Aegisub I'm currently using, I make no promises on stability. **Don't** use this version if you're just looking for any version of Aegisub - this is mostly intended for typesetting and other advanced usage.
 
 ### Organization
 Being a collection of different feature additions, this repository consists of a set of branches for different features, so that they can easily be merged into other repositories. The [`feature`](https://github.com/arch1t3cht/Aegisub/tree/feature) branch merges together all the features I deem as currently usable. Due to the structure of the repository, I will be force-pushing to this branch and some of the individual branches very frequently, so they're not ideal for basing further branches on.
@@ -31,10 +31,11 @@ This list is for navigating the repository. Go to the [release page](https://git
 - [`workarounds`](https://github.com/arch1t3cht/Aegisub/tree/workarounds): Same as `bugfixes`, but these are hacky fixes that probably shouldn't be pulled without more work.
 - [`fixes`](https://github.com/arch1t3cht/Aegisub/tree/fixes): Miscellaneous bugfixes
 - [`misc`](https://github.com/arch1t3cht/Aegisub/tree/misc): Other miscellaneous additions
+- [`wangqr_gui`](https://github.com/arch1t3cht/Aegisub/tree/wangqr_gui): Merge wangqr's changes regarding the GUI. In particular, add high-DPI compatibility.
 - [`misc_dc`](https://github.com/arch1t3cht/Aegisub/tree/misc_dc): Miscellaneous changes taken from AegisubDC
 - [`xa2-ds`](https://github.com/arch1t3cht/Aegisub/tree/xa2-ds): Add XAudio2 backend and allow stereo playback for some other backends, by wangqr and Shinon.
 - [`stereo`](https://github.com/arch1t3cht/Aegisub/tree/stereo): Add multi-channel support for the other audio backends where possible.
-- [`video_panning_feature`](https://github.com/arch1t3cht/Aegisub/tree/video_panning_feature): Merge [moex3's video zoom and panning](https://github.com/TypesettingTools/Aegisub/pull/150), with an OSX fix and more options to control zoom behavior
+- [`video_panning_option`](https://github.com/arch1t3cht/Aegisub/tree/video_panning_option): Merge [moex3's video zoom and panning](https://github.com/TypesettingTools/Aegisub/pull/150), with several bugfixes and more options to control zoom behavior
 - [`spectrum-frequency-mapping`](https://github.com/arch1t3cht/Aegisub/tree/spectrum-frequency-mapping): Merge EleonoreMizo's [spectrum display improvements](https://github.com/TypesettingTools/Aegisub/pull/94), and also make Shift+Scroll vertically zoom the audio display
 - [`wangqr_time_video`](https://github.com/arch1t3cht/Aegisub/tree/wangqr_time_video): Merge wangqr's feature adding a tool for timing subtitles to changes in the video
 
@@ -64,11 +65,13 @@ If you're compiling yourself, try adding `--force-fallback-for=zlib` to the meso
 ### Compilation
 For compilation on Windows, see the TSTools documentation below. Also check the [GitHub workflow](https://github.com/arch1t3cht/Aegisub/blob/cibuilds/.github/workflows/ci.yml) for the project arguments.
 
-On Linux, you can use the [TSTools PKGBUILD](https://aur.archlinux.org/packages/aegisub-ttools-meson-git) as a base, in particular for installing the necessary dependencies if you don't want to compile them yourself.
-To compile manually,
-- Install Meson (at the moment, you'll need to downgrade Meson below 0.63.0: `pip install meson==0.62.2`)
+On Arch Linux, there is an AUR package called [aegisub-arch1t3cht-git](https://aur.archlinux.org/packages/aegisub-arch1t3cht-git). It's not maintained by me but seems to work.
+
+On other distributions or for manual compilation you can use this package or the [TSTools PKGBUILD](https://aur.archlinux.org/packages/aegisub-ttools-meson-git) as a reference, in particular for installing the necessary dependencies if you don't want to compile them yourself.
+If all dependencies are installed:
+- Install Meson
 - Clone the repository
-- In the repository, run `meson setup build` for the default configuration. See below for further options.
+- In the repository, run `meson setup build --buildtype=release` for the default configuration. See below for further options.
 - `cd` to the `build` directory and run `ninja`
 - You'll get an `aegisub` binary in the `build` folder. To install it to a system-wide location, run `ninja install`. To install to `/usr` instead of `/usr/local`, pass `--prefix=/usr` when configuring or reconfiguring meson.
 - When recompiling after pulling new commits, skip the `meson setup` setup and just immediately run `ninja` from the build directory - even when the build configuration changed.

@@ -49,7 +49,7 @@ struct VisualToolVectorClipDraggableFeature final : public VisualDraggableFeatur
 class VisualToolVectorClip final : public VisualTool<VisualToolVectorClipDraggableFeature> {
 	Spline spline; /// The current spline
 	wxToolBar *toolBar = nullptr; /// The subtoolbar
-	VisualToolVectorClipMode mode = VCLIP_DRAG; /// 0-7
+	int mode = VCLIP_DRAG; /// 0-7
 	bool inverse = false; /// is iclip?
 
 	std::set<Feature *> box_added;
@@ -75,9 +75,6 @@ public:
 	VisualToolVectorClip(VideoDisplay *parent, agi::Context *context);
 	void SetToolbar(wxToolBar *tb) override;
 
-	/// @brief Set the mode. Only valid if the tool is already active.
-	/// @param mode
-	void SetMode(VisualToolVectorClipMode mode);
-
-	VisualToolVectorClipMode GetMode();
+	void SetSubTool(int subtool) override;
+	int GetSubTool() override;
 };

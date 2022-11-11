@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
-    <description>Aegisub subtitle editor</description>
+    <description>Aegisub Subtitle Editor</description>
     <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
         <application>
             <!-- Windows 10 and Windows 11 -->

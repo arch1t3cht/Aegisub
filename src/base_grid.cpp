@@ -191,6 +191,9 @@ void BaseGrid::UpdateStyle() {
 	row_colors.FoldClosed.SetColour(to_wx(OPT_GET("Colour/Subtitle Grid/Background/Closed Fold")->GetColor()));
 	row_colors.LeftCol.SetColour(to_wx(OPT_GET("Colour/Subtitle Grid/Left Column")->GetColor()));
 
+	if (width_helper)
+		width_helper->ClearCache();
+
 	SetColumnWidths();
 
 	AdjustScrollbar();

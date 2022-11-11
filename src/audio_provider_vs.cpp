@@ -84,7 +84,9 @@ VapoursynthAudioProvider::VapoursynthAudioProvider(agi::fs::path const& filename
 	num_samples = vi->numSamples;
 }
 catch (VapoursynthError const& err) {
-	throw agi::AudioProviderError(agi::format("Vapoursynth error: %s", err.GetMessage()));
+	// Unlike the video provider manager, the audio provider factory catches AudioProviderErrors and picks whichever source doesn't throw one.
+	// So just rethrow the Error here with an extra label so the user will see the error message and know the audio wasn't loaded with VS
+	throw VapoursynthError(agi::format("Vapoursynth error: %s", err.GetMessage()));
 }
 
 template<typename T>
@@ -115,7 +117,7 @@ void VapoursynthAudioProvider::FillBufferWithFrame(void *buf, int n, int64_t sta
 
 	std::vector<const uint8_t *> planes(channels);
 	for (int c = 0; c < channels; c++) {
-		planes[c] = vs.GetAPI()->getReadPtr(frame, c);
+		planes[c] = vs.GetAPI()->getReadPtr(frame, c) + bytes_per_sample * start;
 		if (planes[c] == nullptr) {
 			vs.GetAPI()->freeFrame(frame);
 			throw VapoursynthError("Failed to read audio channel");

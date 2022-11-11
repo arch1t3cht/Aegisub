@@ -23,6 +23,7 @@
 #include "ass_dialogue.h"
 #include "ass_file.h"
 #include "ass_style.h"
+#include "auto4_base.h"
 #include "compat.h"
 #include "include/aegisub/context.h"
 #include "options.h"
@@ -473,6 +474,57 @@ void VisualToolBase::GetLineScale(AssDialogue *diag, Vector2D &scale) {
 		y = tag->front().Get(y);
 
 	scale = Vector2D(x, y);
+}
+
+float VisualToolBase::GetLineFontSize(AssDialogue *diag) {
+	float fs = 0.f;
+
+	if (AssStyle *style = c->ass->GetStyle(diag->Style))
+		fs = style->fontsize;
+	auto blocks = diag->ParseTags();
+	if (param_vec tag = find_tag(blocks, "\\fs"))
+		fs = tag->front().Get(fs);
+
+	return fs;
+}
+
+int VisualToolBase::GetLineAlignment(AssDialogue *diag) {
+	int an = 0;
+
+	if (AssStyle *style = c->ass->GetStyle(diag->Style))
+		an = style->alignment;
+	auto blocks = diag->ParseTags();
+	if (param_vec tag = find_tag(blocks, "\\an"))
+		an = tag->front().Get(an);
+
+	return an;
+}
+
+void VisualToolBase::GetLineBaseExtents(AssDialogue *diag, double &width, double &height, double &descent, double &extlead) {
+	width = 0.;
+	height = 0.;
+	descent = 0.;
+	extlead = 0.;
+
+	AssStyle style;
+	if (AssStyle *basestyle = c->ass->GetStyle(diag->Style)) {
+		style = AssStyle(basestyle->GetEntryData());
+		style.scalex = 100.;
+		style.scaley = 100.;
+	}
+
+	auto blocks = diag->ParseTags();
+	if (param_vec tag = find_tag(blocks, "\\fs"))
+		style.fontsize = tag->front().Get(style.fontsize);
+	if (param_vec tag = find_tag(blocks, "\\fn"))
+		style.font = tag->front().Get(style.font);
+
+	std::string text = diag->GetStrippedText();
+	if (!Automation4::CalculateTextExtents(&style, text, width, height, descent, extlead)) {
+		// meh... let's make some ballpark estimates
+		width = style.fontsize * text.length();
+		height = style.fontsize;
+	}
 }
 
 void VisualToolBase::GetLineClip(AssDialogue *diag, Vector2D &p1, Vector2D &p2, bool &inverse) {

@@ -75,24 +75,23 @@ void VisualToolVectorClip::SetToolbar(wxToolBar *toolBar) {
 	toolBar->ToggleTool(BUTTON_ID_BASE + VCLIP_DRAG, true);
 	toolBar->Realize();
 	toolBar->Show(true);
-	toolBar->Bind(wxEVT_TOOL, [=](wxCommandEvent& e) { SetMode((VisualToolVectorClipMode) (e.GetId() - BUTTON_ID_BASE)); });
-	SetMode(VCLIP_LINE);
-#undef ICON
+	toolBar->Bind(wxEVT_TOOL, [=](wxCommandEvent& e) { SetSubTool(e.GetId() - BUTTON_ID_BASE); });
+	SetSubTool(VCLIP_LINE);
 }
 
-void VisualToolVectorClip::SetMode(VisualToolVectorClipMode new_mode) {
+void VisualToolVectorClip::SetSubTool(int subtool) {
 	if (toolBar == nullptr) {
 		throw agi::InternalError("Vector clip toolbar hasn't been set yet!");
 	}
 	// Manually enforce radio behavior as we want one selection in the bar
 	// rather than one per group
 	for (int i = 0; i < VCLIP_LAST; i++)
-		toolBar->ToggleTool(BUTTON_ID_BASE + i, i == new_mode);
+		toolBar->ToggleTool(BUTTON_ID_BASE + i, i == subtool);
 
-	mode = new_mode;
+	mode = subtool;
 }
 
-VisualToolVectorClipMode VisualToolVectorClip::GetMode() {
+int VisualToolVectorClip::GetSubTool() {
 	return mode;
 }
 
@@ -452,7 +451,7 @@ void VisualToolVectorClip::UpdateHold() {
 
 	// End freedraw
 	if (!holding && (mode == VCLIP_FREEHAND || mode == VCLIP_FREEHAND_SMOOTH)) {
-		SetMode(VCLIP_DRAG);
+		SetSubTool(VCLIP_DRAG);
 		MakeFeatures();
 	}
 }

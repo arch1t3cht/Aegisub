@@ -73,6 +73,7 @@
         "video/tool/drag",
         "video/tool/rotate/z",
         "video/tool/rotate/xy",
+        "video/tool/perspective",
         "video/tool/scale",
         "video/tool/clip",
         "video/tool/vector_clip",

@@ -181,13 +181,11 @@ public:
 
 	void SetTool(std::unique_ptr<VisualToolBase> new_tool);
 
-	/// Will only set the vector clip mode if the vector clip tool is active already,
-	/// otherwise it just returns false.
-	bool SetVectorClipTool(VisualToolVectorClipMode vcliptoolmode) const;
+	void SetSubTool(int subtool) const { tool->SetSubTool(subtool); };
 
 	bool ToolIsType(std::type_info const& type) const;
 
-	bool ToolIsVectorClipTool(VisualToolVectorClipMode vcliptoolmode) const;
+	int GetSubTool() const { return tool->GetSubTool(); };
 
 	/// Discard all OpenGL state
 	void Unload();

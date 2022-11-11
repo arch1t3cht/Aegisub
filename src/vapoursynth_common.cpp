@@ -23,15 +23,17 @@
 #include <boost/algorithm/string/replace.hpp>
 
 int OpenScriptOrVideo(const VSSCRIPTAPI *api, VSScript *script, agi::fs::path const& filename, std::string default_script) {
+	int result;
 	if (agi::fs::HasExtension(filename, "py") || agi::fs::HasExtension(filename, "vpy")) {
-		return api->evaluateFile(script, filename.string().c_str());
+		result = api->evaluateFile(script, filename.string().c_str());
 	} else {
 		std::string fname = filename.string();
 		boost::replace_all(fname, "\\", "\\\\");
 		boost::replace_all(fname, "'", "\\'");
 		std::string vscript = "filename = '" + fname + "'\n" + default_script;
-		return api->evaluateBuffer(script, vscript.c_str(), "aegisub");
+		result = api->evaluateBuffer(script, vscript.c_str(), "aegisub");
 	}
+	return result;
 }
 
 #endif // WITH_VAPOURSYNTH

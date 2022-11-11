@@ -201,7 +201,7 @@ void VideoDisplay::Render() try {
 
 	E(glMatrixMode(GL_PROJECTION));
 	E(glLoadIdentity());
-	E(glOrtho(0.0f, client_w, client_h, 0.0f, -1000.0f, 1000.0f));
+	E(glOrtho(0.0f, std::max(client_w, 1), std::max(client_h, 1), 0.0f, -1000.0f, 1000.0f));
 
 	if (OPT_GET("Video/Overscan Mask")->GetBool()) {
 		double ar = con->videoController->GetAspectRatioValue();
@@ -233,19 +233,19 @@ catch (const agi::Exception &err) {
 }
 
 void VideoDisplay::DrawOverscanMask(float horizontal_percent, float vertical_percent) const {
-	Vector2D v(viewport_width, viewport_height);
-	Vector2D size = Vector2D(horizontal_percent, vertical_percent) / 2 * v;
+	Vector2D v = Vector2D(viewport_width, viewport_height) / scale_factor;
+	Vector2D size = Vector2D(horizontal_percent, vertical_percent) * v;
 
 	// Clockwise from top-left
 	Vector2D corners[] = {
 		size,
-		Vector2D(viewport_width - size.X(), size),
+		Vector2D(viewport_width / scale_factor - size.X(), size),
 		v - size,
-		Vector2D(size, viewport_height - size.Y())
+		Vector2D(size, viewport_height  / scale_factor - size.Y())
 	};
 
 	// Shift to compensate for black bars
-	Vector2D pos(viewport_left, viewport_top);
+	Vector2D pos = Vector2D(viewport_left, viewport_top) / scale_factor;
 	for (auto& corner : corners)
 		corner = corner + pos;
 
@@ -267,7 +267,7 @@ void VideoDisplay::DrawOverscanMask(float horizontal_percent, float vertical_per
 
 	std::vector<int> vstart(1, 0);
 	std::vector<int> vcount(1, count);
-	gl.DrawMultiPolygon(points, vstart, vcount, Vector2D(viewport_left, viewport_top), Vector2D(viewport_width, viewport_height), true);
+	gl.DrawMultiPolygon(points, vstart, vcount, pos, v, true);
 }
 
 void VideoDisplay::PositionVideo() {
@@ -360,7 +360,7 @@ void VideoDisplay::OnSizeEvent(wxSizeEvent &event) {
 		/* If the video is moving, we only need to update the size in this case */
 		else if (videoSize.GetWidth() == 0 && videoSize.GetHeight() == 0)
 			videoSize = GetClientSize() * videoZoomValue * scale_factor;
-		windowZoomValue = double(std::max(GetClientSize().GetHeight(), 1) * scale_factor) / con->project->VideoProvider()->GetHeight();
+		windowZoomValue = double(GetClientSize().GetHeight() * scale_factor) / con->project->VideoProvider()->GetHeight();
 		zoomBox->ChangeValue(fmt_wx("%g%%", windowZoomValue * 100.));
 		con->ass->Properties.video_zoom = windowZoomValue;
 		UpdateSize();
@@ -530,21 +530,8 @@ void VideoDisplay::SetTool(std::unique_ptr<VisualToolBase> new_tool) {
 	}
 }
 
-bool VideoDisplay::SetVectorClipTool(VisualToolVectorClipMode vcliptoolmode) const {
-	if (ToolIsType(typeid(VisualToolVectorClip))) {
-		static_cast<VisualToolVectorClip*>(tool.get())->SetMode(vcliptoolmode);
-		return true;
-	} else {
-		return false;
-	}
-}
-
 bool VideoDisplay::ToolIsType(std::type_info const& type) const {
 	return tool && typeid(*tool) == type;
-}
-
-bool VideoDisplay::ToolIsVectorClipTool(VisualToolVectorClipMode vcliptoolmode) const {
-	return ToolIsType(typeid(VisualToolVectorClip)) && static_cast<VisualToolVectorClip*>(tool.get());
 }
 
 Vector2D VideoDisplay::GetMousePosition() const {

@@ -78,7 +78,12 @@ VapourSynthWrapper::VapourSynthWrapper() {
 		if (!getVSScriptAPI)
 			throw VapoursynthError("Failed to get address of getVSScriptAPI from " VSSCRIPT_SO);
 
+		// Python will set the program's locale to the user's default locale, which will break
+		// half of wxwidgets on some operating systems due to locale mismatches. There's not really anything
+		// we can do to fix it except for saving it and setting it back to its original value afterwards.
+		std::string oldlocale(setlocale(LC_ALL, NULL));
 		scriptapi = getVSScriptAPI(VSSCRIPT_API_VERSION);
+		setlocale(LC_ALL, oldlocale.c_str());
 
 		if (!scriptapi)
 			throw VapoursynthError("Failed to get Vapoursynth ScriptAPI");
