@@ -508,7 +508,7 @@ void BaseGrid::OnMouseEvent(wxMouseEvent &event) {
 		CaptureMouse();
 	}
 
-	if (columns[col]->OnMouseEvent(dlg, context, event)) {
+	if (dlg && columns[col]->OnMouseEvent(dlg, context, event)) {
 		return;
 	}
 
