@@ -93,7 +93,7 @@
         { "command" : "grid/fold/open_all" },
         { "command" : "grid/fold/close_all" },
         { "command" : "grid/fold/clear_all" },
-        {},
+		{},
         { "submenu" : "main/subtitle/sort lines", "text" : "Sort All Lines" },
         { "submenu" : "main/subtitle/sort selected lines", "text" : "Sort Selected Lines" },
         { "command" : "grid/swap" },
