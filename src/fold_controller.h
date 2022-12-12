@@ -1,4 +1,4 @@
-// Copyright (c) 2022, arch1t3cht <arch1t3cht@gmail.com>>
+// Copyright (c) 2022, arch1t3cht <arch1t3cht@gmail.com>
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -23,6 +23,8 @@
 
 namespace agi { struct Context; }
 
+extern const char *folds_key;
+
 /// We allow hiding ass lines using cascading folds, each of which collapses a contiguous collection of dialogue lines into a single one.
 /// A fold is described by inclusive start and end points of the contiguous set of dialogue line it extends over.
 /// An existing fold can be active (collapsed) or inactive (existing, but not collapsed at the moment)
@@ -30,55 +32,58 @@ namespace agi { struct Context; }
 /// an intersection set not equal to one of the two folds.
 /// Only one fold may be started or ended at any given line.
 
-/// Since we need to track how the folds move when lines are inserted or deleted, we need to represent the fold
-/// data as part of the individual AssDialogue lines. Hooking into insertion or deletion calls is not possible
-/// without extensive restructuring, and also wouldn't interact well with undo/redo functionality.
+/// In order for folds to be preserved while adding or deleting lines and work nicely with operations like copy/paste,
+/// they need to be stored as extradata. Furthermore, in order for the subtitle grid and fold management commands to efficiently
+/// navigate the folds, we cache some information on the fold after each commit.
 ///
-/// Because of this, we store the data defining folds as part of the AssDialogue lines. We use a pre-commit hook
-/// to fix any format violations after changes are made. Furthermore, to be able to traverse the folds more easily,
-/// we compute various metadata and set up pointers between the fold parts.
+/// A fold descriptor for a line is an extradata field of the form <direction>;<collapsed>;<id>, where
+///     direction is 0 if this line starts a fold, and 1 if the line ends one
+///     collapsed is 1 if the fold is collapsed and 0 otherwise
+///     id is a unique id pairing this fold with its counterpart
 
 /// Part of the data for an AssDialogue object, describing folds starting or ending at this line.
 class FoldInfo {
-	// Base data describing the folds:w
+	// Cached, parsed versions of the contents of the extradata entry
 
-	/// Whether a fold starts or ends at the line. All other fields are only valid if this is true.
-	bool exists = false;
+	/// Whether there is some extradata entry on folds here
+	bool extraExists = false;
+	/// Whether a fold starts or ends at the line. The following three fields are only valid if this is true.
+	bool valid = false;
+	/// The id
+	int id = 0;
 	/// Whether the fold is currently collapsed
 	bool collapsed = false;
 	/// False if a fold is started here, true otherwise.
 	bool side = false;
-	/// A unique ID describing the fold. The other end of the fold has a matching ID and the opposite value for side.
-	int id = 0;
+
 
 	// Used in DoForFoldsAt to ensure each line is visited only once
 	bool visited = false;
-
-	// The following is cached data used for making traversing folds more efficient. These are only valid directly after
-	// a commit and shouldn't be changed outside of the pre-commit handler.
-
 	/// Whether the line is currently visible
 	bool visible = true;
 
 	/// If exists is true, this is a pointer to the other line with the given fold id
 	AssDialogue *counterpart = nullptr;
-
 	/// A pointer to the opener of the innermost fold containing the line, if one exists.
 	/// If the line starts a fold, this points to the next bigger fold.
 	AssDialogue *parent = nullptr;
-
 	/// If this line is visible, this points to the next visible line, if one exists
 	AssDialogue *nextVisible = nullptr;
+
+	/// Increased when there's an extradata entry in here that turned out to be invalid.
+	/// Once this hits some threshold, the extradata entry is deleted.
+	/// We don't delete it immediately to allow cut/pasting fold delimiters around.
+	int invalidCount = 0;
 
 	/// The row number where this line would appear in the subtitle grid. That is, the ordinary
 	/// Row value, but with hidden lines skipped.
 	/// Out of all AssDialogue lines with the same visibleRow, only the one with the lowest Row is shown.
-	int visibleRow;
+	int visibleRow = -1;
 
 	friend class FoldController;
 
 public:
-	bool hasFold() const { return exists; }
+	bool hasFold() const { return valid; }
 	bool isFolded() const { return collapsed; }
 	bool isEnd() const { return side; }
 
@@ -95,6 +100,7 @@ class FoldController {
 	agi::Context *context;
 	agi::signal::Connection pre_commit_listener;
 	int maxdepth = 0;
+	int max_fold_id = 0;
 
 	bool CanAddFold(AssDialogue& start, AssDialogue& end);
 
@@ -105,8 +111,6 @@ class FoldController {
 	bool DoForAllFolds(bool action(AssDialogue& line));
 
 	void FixFoldsPreCommit(int type, const AssDialogue *single_line);
-
-	void MakeFoldsFromFile();
 
 	// These are used for the DoForAllFolds action and should not be used as ordinary getters/setters
 
@@ -120,10 +124,25 @@ class FoldController {
 
 	static bool ActionToggleFold(AssDialogue& line);
 
+	/// Updates the line's extradata entry from the values in FoldInfo. Used after actions like toggling folds.
+	void UpdateLineExtradata(AssDialogue& line);
+
+	/// Sets valid = false and increases the invalidCounter, deleting the extradata if necessary
+	void InvalidateLineFold(AssDialogue &line);
+
 	/// After lines have been added or deleted, this ensures consistency again. Run with every relevant commit.
+	/// Performs the three actions below in order.
+	void UpdateFoldInfo();
+
+	/// Parses the extradata of all lines and sets the respective lines in the FoldInfo.
+	/// Also deduplicates extradata entries and mangles fold id's when necessary.
+	void ReadFromExtradata();
+
+	/// Ensures consistency by making sure every fold has two delimiters and folds are properly nested.
+	/// Cleans up extradata entries if they've been invalid for long enough.
 	void FixFolds();
 
-	/// If the fold base dataa is valid, sets up all the cached links in the FoldData
+	/// Once the fold base data is valid, sets up all the cached links in the FoldData.
 	void LinkFolds();
 
 public:
