@@ -40,7 +40,6 @@
 #include "ass_karaoke.h"
 #include "ass_style.h"
 #include "compat.h"
-#include "fold_controller.h"
 
 #include <libaegisub/exception.h>
 #include <libaegisub/log.h>
@@ -99,22 +98,6 @@ namespace {
 		bool ret = !!lua_toboolean(L, -1);
 		lua_pop(L, 1);
 		return ret;
-	}
-
-	template<typename T>
-	bool get_userdata_field(lua_State *L, const char *name, const char *line_class, T *target, bool required)
-	{
-		lua_getfield(L, -1, name);
-		if (!lua_isuserdata(L, -1)) {
-			if (!required) {
-				lua_pop(L, 1);
-				return false;
-			}
-			throw bad_field("userdata", name, line_class);
-		}
-		*target = *static_cast<T *>(lua_touserdata(L, -1));
-		lua_pop(L, 1);
-		return true;
 	}
 
 	using namespace Automation4;
@@ -197,10 +180,6 @@ namespace Automation4 {
 			set_field(L, "margin_b", dia->Margin[2]);
 
 			set_field(L, "text", dia->Text);
-
-			// preserve the folds
-			*static_cast<FoldInfo*>(lua_newuserdata(L, sizeof(FoldInfo))) = dia->Fold;
-			lua_setfield(L, -2, "_foldinfo");
 
 			// create extradata table
 			lua_newtable(L);
@@ -322,9 +301,6 @@ namespace Automation4 {
 			dia->Margin[2] = get_int_field(L, "margin_t", "dialogue");
 			dia->Effect = get_string_field(L, "effect", "dialogue");
 			dia->Text = get_string_field(L, "text", "dialogue");
-			if (!get_userdata_field(L, "_foldinfo", "dialogue", &dia->Fold, false)) {
-				dia->Fold = FoldInfo();
-			}
 
 			std::vector<uint32_t> new_ids;
 

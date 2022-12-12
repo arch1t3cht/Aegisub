@@ -246,6 +246,39 @@ uint32_t AssFile::AddExtradata(std::string const& key, std::string const& value)
 	return next_extradata_id++; // return old value, then post-increment
 }
 
+void AssFile::SetExtradataValue(AssDialogue& line, std::string const& key, std::string const& value, bool del) {
+	std::vector<uint32_t> id_list = line.ExtradataIds;
+	std::vector<bool> to_erase(id_list.size());
+	bool dirty = false;
+	bool found = false;
+
+	std::vector<ExtradataEntry> entry_list = GetExtradata(id_list);
+	for (int i = entry_list.size() - 1; i >= 0; i--) {
+		if (entry_list[i].key == key) {
+			if (!del && entry_list[i].value == value) {
+				found = true;
+			} else {
+				to_erase[i] = true;
+				dirty = true;
+			}
+		}
+	}
+
+	// The key is already set, we don't need to change anything
+	if (found && !dirty)
+		return;
+
+	for (int i = id_list.size() - 1; i >= 0; i--) {
+		if (to_erase[i])
+			id_list.erase(id_list.begin() + i, id_list.begin() + i + 1);
+	}
+
+	if (!del && !found)
+		id_list.push_back(AddExtradata(key, value));
+
+	line.ExtradataIds = id_list;
+}
+
 namespace {
 struct extradata_id_cmp {
 	bool operator()(ExtradataEntry const& e, uint32_t id) {

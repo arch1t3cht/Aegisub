@@ -85,7 +85,6 @@ struct ProjectProperties {
 	int active_row = 0;
 	int ar_mode = 0;
 	int video_position = 0;
-	std::vector<LineFold> folds;
 };
 
 class AssFile {
@@ -93,6 +92,8 @@ class AssFile {
 	agi::signal::Signal<int, const AssDialogue*> AnnounceCommit;
 	agi::signal::Signal<int, const AssDialogue*> AnnouncePreCommit;
 	agi::signal::Signal<AssFileCommit> PushState;
+
+	void SetExtradataValue(AssDialogue& line, std::string const& key, std::string const& value, bool del);
 public:
 	/// The lines in the file
 	std::vector<AssInfo> Info;
@@ -144,6 +145,10 @@ public:
 	uint32_t AddExtradata(std::string const& key, std::string const& value);
 	/// Fetch all extradata entries from a list of IDs
 	std::vector<ExtradataEntry> GetExtradata(std::vector<uint32_t> const& id_list) const;
+	/// Set an extradata kex:value pair for a dialogue line, clearing previous values for this key if necessary
+	void SetExtradataValue(AssDialogue& line, std::string const& key, std::string const& value) { SetExtradataValue(line, key, value, false); };
+	/// Delete any extradata values for the given key
+	void DeleteExtradataValue(AssDialogue& line, std::string const& key) { SetExtradataValue(line, key, "", true); };
 	/// Remove unreferenced extradata entries
 	void CleanExtradata();
 
@@ -178,7 +183,7 @@ public:
 		/// Extradata entries were added/modified/removed
 		COMMIT_EXTRADATA   = 0x100,
 		/// Folds were added or removed
-		COMMIT_FOLD        = 0x200,
+		COMMIT_FOLD        = COMMIT_EXTRADATA,
 	};
 
 	DEFINE_SIGNAL_ADDERS(AnnouncePreCommit, AddPreCommitListener)

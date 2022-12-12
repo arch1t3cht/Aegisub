@@ -1,4 +1,4 @@
-// Copyright (c) 2022, arch1t3cht <arch1t3cht@gmail.com>>
+// Copyright (c) 2022, arch1t3cht <arch1t3cht@gmail.com>
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -25,8 +25,10 @@
 #include <unordered_map>
 
 #include <libaegisub/log.h>
+#include <libaegisub/split.h>
+#include <libaegisub/util.h>
 
-static int next_fold_id = 0;
+const char *folds_key = "_aegi_folddata";
 
 FoldController::FoldController(agi::Context *c)
 : context(c)
@@ -35,12 +37,12 @@ FoldController::FoldController(agi::Context *c)
 
 
 bool FoldController::CanAddFold(AssDialogue& start, AssDialogue& end) {
-	if (start.Fold.exists || end.Fold.exists) {
+	if (start.Fold.valid || end.Fold.valid) {
 		return false;
 	}
 	int folddepth = 0;
 	for (auto it = std::next(context->ass->Events.begin(), start.Row); it->Row < end.Row; it++) {
-		if (it->Fold.exists) {
+		if (it->Fold.valid) {
 			folddepth += it->Fold.side ? -1 : 1;
 		}
 		if (folddepth < 0) {
@@ -51,17 +53,24 @@ bool FoldController::CanAddFold(AssDialogue& start, AssDialogue& end) {
 }
 
 void FoldController::RawAddFold(AssDialogue& start, AssDialogue& end, bool collapsed) {
-	int id = next_fold_id++;
+	int id = ++max_fold_id;
+	context->ass->SetExtradataValue(start, folds_key, agi::format("0;%d;%d", int(collapsed), id));
+	context->ass->SetExtradataValue(end, folds_key, agi::format("1;%d;%d", int(collapsed), id));
+}
 
-	start.Fold.exists = true;
-	start.Fold.collapsed = collapsed;
-	start.Fold.id = id;
-	start.Fold.side = false;
+void FoldController::UpdateLineExtradata(AssDialogue &line) {
+	if (line.Fold.extraExists)
+		context->ass->SetExtradataValue(line, folds_key, agi::format("%d;%d;%d", int(line.Fold.side), int(line.Fold.collapsed), int(line.Fold.id)));
+	else
+		context->ass->DeleteExtradataValue(line, folds_key);
+}
 
-	end.Fold.exists = true;
-	end.Fold.collapsed = collapsed;
-	end.Fold.id = id;
-	end.Fold.side = true;
+void FoldController::InvalidateLineFold(AssDialogue &line) {
+	line.Fold.valid = false;
+	if (++line.Fold.invalidCount > 100) {
+		line.Fold.extraExists = false;
+		UpdateLineExtradata(line);
+	}
 }
 
 void FoldController::AddFold(AssDialogue& start, AssDialogue& end, bool collapsed) {
@@ -73,10 +82,11 @@ void FoldController::AddFold(AssDialogue& start, AssDialogue& end, bool collapse
 
 bool FoldController::DoForAllFolds(bool action(AssDialogue& line)) {
 	for (AssDialogue& line : context->ass->Events) {
-		if (line.Fold.exists) {
-			if (action(line)) {
+		if (line.Fold.valid) {
+			bool result = action(line);
+			UpdateLineExtradata(line);
+			if (result)
 				return true;
-			}
 		}
 	}
 	return false;
@@ -84,33 +94,9 @@ bool FoldController::DoForAllFolds(bool action(AssDialogue& line)) {
 
 void FoldController::FixFoldsPreCommit(int type, const AssDialogue *single_line) {
 	if ((type & (AssFile::COMMIT_FOLD | AssFile::COMMIT_DIAG_ADDREM | AssFile::COMMIT_ORDER)) || type == AssFile::COMMIT_NEW) {
-		if (type == AssFile::COMMIT_NEW && context->subsController->IsUndoStackEmpty()) {
-			// This might be the biggest hack in all of this. We want to hook into the FileOpen signal to
-			// read and apply the folds from the project data, but if we do it naively, this will only happen
-			// after the first commit has been pushed to the undo stack. Thus, if a user uses Ctrl+Z after opening
-			// a file, all folds will be cleared.
-			// Instead, we hook into the first commit which is made after loading a file, right after the undo stack was cleared.
-			DoForAllFolds(FoldController::ActionClearFold);
-			MakeFoldsFromFile();
-		}
-		FixFolds();
+		UpdateFoldInfo();
 	}
 }
-
-void FoldController::MakeFoldsFromFile() {
-	if (context->ass->Properties.folds.empty()) {
-		return;
-	}
-
-	int numlines = context->ass->Events.size();
-	for (LineFold fold : context->ass->Properties.folds) {
-		if (fold.start >= 0 && fold.start < fold.end && fold.end <= numlines) {
-			auto opener = std::next(context->ass->Events.begin(), fold.start);
-			RawAddFold(*opener, *std::next(opener, fold.end - fold.start), fold.collapsed);
-		}
-	}
-}
-
 
 // For each line in lines, applies action() to the opening delimiter of the innermost fold containing this line.
 // Returns true as soon as any action() call returned true.
@@ -119,15 +105,54 @@ void FoldController::MakeFoldsFromFile() {
 // be followed by a commit.
 bool FoldController::DoForFoldsAt(std::vector<AssDialogue *> const& lines, bool action(AssDialogue& line)) {
 	for (AssDialogue *line : lines) {
-		if (line->Fold.parent != nullptr && !(line->Fold.exists && !line->Fold.side)) {
+		if (line->Fold.parent != nullptr && !(line->Fold.valid && !line->Fold.side)) {
 			line = line->Fold.parent;
 		}
-		if (!line->Fold.visited && action(*line)) {
-			return true;
+		if (!line->Fold.visited) {
+			bool result = action(*line);
+			UpdateLineExtradata(*line);
+			if (result)
+				return true;
 		}
 		line->Fold.visited = true;
 	}
 	return false;
+}
+
+void FoldController::UpdateFoldInfo() {
+	ReadFromExtradata();
+	FixFolds();
+	LinkFolds();
+}
+
+void FoldController::ReadFromExtradata() {
+	max_fold_id = 0;
+
+	for (auto line = context->ass->Events.begin(); line != context->ass->Events.end(); line++) {
+		line->Fold.extraExists = false;
+
+		for (auto const& extra : context->ass->GetExtradata(line->ExtradataIds)) {
+			if (extra.key == folds_key) {
+				std::vector<std::string> fields;
+				agi::Split(fields, extra.value, ';');
+				if (fields.size() != 3)
+					break;
+
+				int side;
+				int collapsed;
+				if (!agi::util::try_parse(fields[0], &side)) break;
+				if (!agi::util::try_parse(fields[1], &collapsed)) break;
+				if (!agi::util::try_parse(fields[2], &line->Fold.id)) break;
+				line->Fold.side = side;
+				line->Fold.collapsed = collapsed;
+
+				line->Fold.extraExists = true;
+				max_fold_id = std::max(max_fold_id, line->Fold.id);
+				break;
+			}
+		}
+		line->Fold.valid = line->Fold.extraExists;
+	}
 }
 
 void FoldController::FixFolds() {
@@ -142,15 +167,31 @@ void FoldController::FixFolds() {
 	// fold data with this ID is skipped and deleted.
 	std::unordered_map<int, bool> completedFolds;
 
+	// Map iteratively applied to all id's.
+	// Once some fold has been completely found, subsequent markers found with the same id will be mapped to this new id.
+	std::unordered_map<int, int> idRemap;
+
 	for (auto line = context->ass->Events.begin(); line != context->ass->Events.end(); line++) {
-		if (line->Fold.exists) {
-			if (completedFolds.count(line->Fold.id)) { 	// Duplicate entry
-				line->Fold.exists = false;
-				continue;
+		if (line->Fold.extraExists) {
+			bool needs_update = false;
+
+			while (idRemap.count(line->Fold.id)) {
+				LOG_D("fold") << "remapping " << line->Fold.id << " to " << idRemap[line->Fold.id];
+				line->Fold.id = idRemap[line->Fold.id];
+				needs_update = true;
 			}
+
+			if (completedFolds.count(line->Fold.id)) { 	// Duplicate entry - try to start a new one
+				LOG_D("fold") << "creating remap: " << line->Fold.id << " to " << max_fold_id + 1;
+				idRemap[line->Fold.id] = ++max_fold_id;
+				line->Fold.id = idRemap[line->Fold.id];
+				needs_update = true;
+			}
+			LOG_D("fold") << "done remapping";
+
 			if (!line->Fold.side) {
 				if (foldHeads.count(line->Fold.id)) { 	// Duplicate entry
-					line->Fold.exists = false;
+					InvalidateLineFold(*line);
 				} else {
 					foldHeads[line->Fold.id] = &*line;
 					foldStack.push_back(&*line);
@@ -160,7 +201,7 @@ void FoldController::FixFolds() {
 					// Deactivate it. Because we can, also push it to completedFolds:
 					// If its counterpart appears further below, we can delete it right away.
 					completedFolds[line->Fold.id] = true;
-					line->Fold.exists = false;
+					InvalidateLineFold(*line);
 				} else {
 					// We found a fold. Now we need to see if the stack matches.
 					// We scan our stack for the counterpart of the fold.
@@ -176,12 +217,15 @@ void FoldController::FixFolds() {
 							// Erase all folds further inward
 							for (int j = foldStack.size() - 1; j > i; j--) {
 								completedFolds[foldStack[j]->Fold.id] = true;
-								foldStack[j]->Fold.exists = false;
+								InvalidateLineFold(*foldStack[j]);
 								foldStack.pop_back();
 							}
 
 							// Sync the found fold and pop the stack
-							line->Fold.collapsed = foldStack[i]->Fold.collapsed;
+							if (line->Fold.collapsed != foldStack[i]->Fold.collapsed) {
+								line->Fold.collapsed = foldStack[i]->Fold.collapsed;
+								needs_update = true;
+							}
 							foldStack.pop_back();
 
 							found = true;
@@ -190,25 +234,30 @@ void FoldController::FixFolds() {
 					}
 					if (!found) {
 						completedFolds[line->Fold.id] = true;
-						line->Fold.exists = false;
+						InvalidateLineFold(*line);
 					}
 				}
+			}
+
+			if (needs_update) {
+				UpdateLineExtradata(*line);
 			}
 		}
 	}
 
 	// All remaining lines are invalid
 	for (AssDialogue *line : foldStack) {
-		line->Fold.exists = false;
+		line->Fold.valid = false;
+		if (++line->Fold.invalidCount > 100) {
+			line->Fold.extraExists = false;
+			UpdateLineExtradata(*line);
+		}
 	}
-
-	LinkFolds();
 }
 
 void FoldController::LinkFolds() {
 	std::vector<AssDialogue *> foldStack;
 	AssDialogue *lastVisible = nullptr;
-	context->ass->Properties.folds.clear();
 
 	maxdepth = 0;
 
@@ -217,10 +266,10 @@ void FoldController::LinkFolds() {
 	for (auto line = context->ass->Events.begin(); line != context->ass->Events.end(); line++) {
 		line->Fold.parent = foldStack.empty() ? nullptr : foldStack.back();
 		line->Fold.nextVisible = nullptr;
-		line->Fold.visible = highestFolded > foldStack.size();
+		line->Fold.visible = highestFolded > (int) foldStack.size();
 		line->Fold.visited = false;
 		line->Fold.visibleRow = visibleRow;
-		
+
 		if (line->Fold.visible) {
 			if (lastVisible != nullptr) {
 				lastVisible->Fold.nextVisible = &*line;
@@ -228,26 +277,20 @@ void FoldController::LinkFolds() {
 			lastVisible = &*line;
 			visibleRow++;
 		}
-		if (line->Fold.exists && !line->Fold.side) {
+		if (line->Fold.valid && !line->Fold.side) {
 			foldStack.push_back(&*line);
-			if (!line->Fold.collapsed && highestFolded == foldStack.size()) {
+			if (!line->Fold.collapsed && highestFolded == (int) foldStack.size()) {
 				highestFolded++;
 			}
-			if (foldStack.size() > maxdepth) {
+			if ((int) foldStack.size() > maxdepth) {
 				maxdepth = foldStack.size();
 			}
 		}
-		if (line->Fold.exists && line->Fold.side) {
-			context->ass->Properties.folds.push_back(LineFold {
-				foldStack.back()->Row,
-				line->Row,
-				line->Fold.collapsed,
-			});
-
+		if (line->Fold.valid && line->Fold.side) {
 			line->Fold.counterpart = foldStack.back();
 			(*foldStack.rbegin())->Fold.counterpart = &*line;
 
-			if (highestFolded >= foldStack.size()) {
+			if (highestFolded >= (int) foldStack.size()) {
 				highestFolded = foldStack.size();
 			}
 
@@ -260,9 +303,9 @@ int FoldController::GetMaxDepth() {
 	return maxdepth;
 }
 
-bool FoldController::ActionHasFold(AssDialogue& line) { return line.Fold.exists; }
+bool FoldController::ActionHasFold(AssDialogue& line) { return line.Fold.valid; }
 
-bool FoldController::ActionClearFold(AssDialogue& line) { line.Fold.exists = false; return false; }
+bool FoldController::ActionClearFold(AssDialogue& line) { line.Fold.extraExists = false; line.Fold.valid = false; return false; }
 
 bool FoldController::ActionOpenFold(AssDialogue& line) { line.Fold.collapsed = false; return false; }
 
