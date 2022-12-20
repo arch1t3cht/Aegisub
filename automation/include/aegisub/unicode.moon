@@ -69,7 +69,7 @@ unicode =
 
   -- Returns the number of characters in s
   -- Runs in O(s:len()) time!
-  len: check'string' (s) ->
+  len: ->
     n = 0
     n += 1 for c in unicode.chars s
     n
