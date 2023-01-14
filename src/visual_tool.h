@@ -127,6 +127,7 @@ protected:
 	void GetLineClip(AssDialogue *diag, Vector2D &p1, Vector2D &p2, bool &inverse);
 	std::string GetLineVectorClip(AssDialogue *diag, int &scale, bool &inverse);
 
+	void RemoveOverride(AssDialogue *line, std::string const& tag);
 	void SetOverride(AssDialogue* line, std::string const& tag, std::string const& value);
 	void SetSelectedOverride(std::string const& tag, std::string const& value);
 
