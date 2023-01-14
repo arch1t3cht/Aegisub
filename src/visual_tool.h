@@ -166,6 +166,8 @@ private:
 	virtual bool InitializeHold() { return false; }
 	/// @brief Called on every mouse event during a hold
 	virtual void UpdateHold() { }
+	/// @brief Called when the hold ended
+	virtual void EndHold() { }
 
 	/// @brief Called at the beginning of a drag
 	/// @param feature The visual feature clicked on
@@ -174,6 +176,9 @@ private:
 	/// @brief Called on every mouse event during a drag
 	/// @param feature The current feature to process; not necessarily the one clicked on
 	virtual void UpdateDrag(FeatureType *feature) { }
+	/// @brief Called at the end of a drag
+	/// @param feature The current feature to process; not necessarily the one clicked on
+	virtual void EndDrag(FeatureType *feature) { }
 
 protected:
 	std::set<FeatureType *> sel_features; ///< Currently selected visual features
