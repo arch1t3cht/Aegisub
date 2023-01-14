@@ -19,6 +19,7 @@
 #include "ass_dialogue.h"
 #include "ass_file.h"
 #include "ass_style.h"
+#include "auto4_base.h"
 #include "compat.h"
 #include "include/aegisub/context.h"
 #include "options.h"
@@ -27,12 +28,16 @@
 #include "video_display.h"
 #include "visual_tool_clip.h"
 #include "visual_tool_drag.h"
+#include "visual_tool_perspective.h"
 #include "visual_tool_vector_clip.h"
 
 #include <libaegisub/ass/time.h>
 #include <libaegisub/format.h>
 #include <libaegisub/of_type_adaptor.h>
+#include <libaegisub/split.h>
 #include <libaegisub/string.h>
+
+#include <boost/algorithm/string/replace.hpp>
 
 #include <algorithm>
 
@@ -476,6 +481,98 @@ void VisualToolBase::GetLineScale(AssDialogue *diag, Vector2D &scale) {
 	scale = Vector2D(x, y);
 }
 
+void VisualToolBase::GetLineOutline(AssDialogue *diag, Vector2D &outline) {
+	float x = 0.f, y = 0.f;
+
+	if (AssStyle *style = c->ass->GetStyle(diag->Style)) {
+		x = style->outline_w;
+		y = style->outline_w;
+	}
+
+	auto blocks = diag->ParseTags();
+
+	if (param_vec tag = find_tag(blocks, "\\bord")) {
+		x = tag->front().Get(x);
+		y = tag->front().Get(y);
+	}
+	if (param_vec tag = find_tag(blocks, "\\xbord"))
+		x = tag->front().Get(x);
+	if (param_vec tag = find_tag(blocks, "\\ybord"))
+		y = tag->front().Get(y);
+
+	outline = Vector2D(x, y);
+}
+
+void VisualToolBase::GetLineShadow(AssDialogue *diag, Vector2D &shadow) {
+	float x = 0.f, y = 0.f;
+
+	if (AssStyle *style = c->ass->GetStyle(diag->Style)) {
+		x = style->shadow_w;
+		y = style->shadow_w;
+	}
+
+	auto blocks = diag->ParseTags();
+
+	if (param_vec tag = find_tag(blocks, "\\shad")) {
+		x = tag->front().Get(x);
+		y = tag->front().Get(y);
+	}
+	if (param_vec tag = find_tag(blocks, "\\xshad"))
+		x = tag->front().Get(x);
+	if (param_vec tag = find_tag(blocks, "\\yshad"))
+		y = tag->front().Get(y);
+
+	shadow = Vector2D(x, y);
+}
+
+int VisualToolBase::GetLineAlignment(AssDialogue *diag) {
+	int an = 0;
+
+	if (AssStyle *style = c->ass->GetStyle(diag->Style))
+		an = style->alignment;
+	auto blocks = diag->ParseTags();
+	if (param_vec tag = find_tag(blocks, "\\an"))
+		an = tag->front().Get(an);
+
+	return an;
+}
+
+void VisualToolBase::GetLineBaseExtents(AssDialogue *diag, double &width, double &height, double &descent, double &extlead) {
+	width = 0.;
+	height = 0.;
+	descent = 0.;
+	extlead = 0.;
+
+	AssStyle style;
+	if (AssStyle *basestyle = c->ass->GetStyle(diag->Style)) {
+		style = AssStyle(basestyle->GetEntryData());
+		style.scalex = 100.;
+		style.scaley = 100.;
+	}
+
+	auto blocks = diag->ParseTags();
+	if (param_vec tag = find_tag(blocks, "\\fs"))
+		style.fontsize = tag->front().Get(style.fontsize);
+	if (param_vec tag = find_tag(blocks, "\\fn"))
+		style.font = tag->front().Get(style.font);
+
+	std::string text = diag->GetStrippedText();
+	std::vector<std::string> textlines;
+	boost::replace_all(text, "\\N", "\n");
+	agi::Split(textlines, text, '\n');
+	for (std::string line : textlines) {
+		double linewidth = 0;
+		double lineheight = 0;
+		if (!Automation4::CalculateTextExtents(&style, line, linewidth, lineheight, descent, extlead)) {
+			// meh... let's make some ballpark estimates
+			linewidth = style.fontsize * line.length();
+			lineheight = style.fontsize;
+		}
+		width = std::max(width, linewidth);
+		height += lineheight;
+	}
+}
+
 void VisualToolBase::GetLineClip(AssDialogue *diag, Vector2D &p1, Vector2D &p2, bool &inverse) {
 	inverse = false;
 
@@ -546,12 +643,17 @@ void VisualToolBase::SetOverride(AssDialogue* line, std::string const& tag, std:
 	if (!line) return;
 
 	std::string removeTag;
+	std::string removeTag2;
 	if (tag == "\\1c") removeTag = "\\c";
 	else if (tag == "\\frz") removeTag = "\\fr";
 	else if (tag == "\\pos") removeTag = "\\move";
 	else if (tag == "\\move") removeTag = "\\pos";
 	else if (tag == "\\clip") removeTag = "\\iclip";
 	else if (tag == "\\iclip") removeTag = "\\clip";
+	else if (tag == "\\xbord" || tag == "\\ybord") removeTag = "\\bord";
+	else if (tag == "\\xshad" || tag == "\\yshad") removeTag = "\\shad";
+	else if (tag == "\\bord") { removeTag = "\\xbord"; removeTag2 = "\\ybord"; }
+	else if (tag == "\\shad") { removeTag = "\\xshad"; removeTag2 = "\\yshad"; }
 
 	// Get block at start
 	auto blocks = line->ParseTags();
@@ -562,7 +664,7 @@ void VisualToolBase::SetOverride(AssDialogue* line, std::string const& tag, std:
 		// Remove old of same
 		for (size_t i = 0; i < ovr->Tags.size(); i++) {
 			std::string const& name = ovr->Tags[i].Name;
-			if (tag == name || removeTag == name) {
+			if (tag == name || removeTag == name || removeTag2 == name) {
 				ovr->Tags.erase(ovr->Tags.begin() + i);
 				i--;
 			}
