@@ -209,6 +209,9 @@ void VisualTool<FeatureType>::OnMouseEvent(wxMouseEvent &event) {
 					else
 						SetSelection(active_feature, true);
 				}
+			} else {
+				for (auto sel : sel_features)
+					EndDrag(sel);
 			}
 
 			active_feature = nullptr;
@@ -219,6 +222,7 @@ void VisualTool<FeatureType>::OnMouseEvent(wxMouseEvent &event) {
 	else if (holding) {
 		if (!event.LeftIsDown()) {
 			holding = false;
+			EndHold();
 
 			parent->ReleaseMouse();
 			parent->SetFocus();
