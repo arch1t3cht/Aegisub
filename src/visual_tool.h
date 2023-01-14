@@ -124,6 +124,16 @@ protected:
 	void GetLineRotation(AssDialogue *diag, float &rx, float &ry, float &rz);
 	void GetLineShear(AssDialogue *diag, float& fax, float& fay);
 	void GetLineScale(AssDialogue *diag, Vector2D &scale);
+	void GetLineOutline(AssDialogue *diag, Vector2D &outline);
+	void GetLineShadow(AssDialogue *diag, Vector2D &shadow);
+	float GetLineFontSize(AssDialogue *diag);
+	int GetLineAlignment(AssDialogue *diag);
+	/// @brief Compute text extents of the given line without any formatting
+	///
+	/// Formatting tags are stripped and \fs tags are respected, but \fscx and \fscy are kept as 100 even if
+	/// they are different in the style.
+	/// Returns a rough estimate when getting the precise extents fails
+	void GetLineBaseExtents(AssDialogue *diag, double &width, double &height, double &descent, double &extlead);
 	void GetLineClip(AssDialogue *diag, Vector2D &p1, Vector2D &p2, bool &inverse);
 	std::string GetLineVectorClip(AssDialogue *diag, int &scale, bool &inverse);
 
