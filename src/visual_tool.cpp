@@ -528,6 +528,20 @@ void VisualToolBase::SetSelectedOverride(std::string const& tag, std::string con
 		SetOverride(line, tag, value);
 }
 
+void VisualToolBase::RemoveOverride(AssDialogue *line, std::string const& tag) {
+	if (!line) return;
+	auto blocks = line->ParseTags();
+	for (auto ovr : blocks | agi::of_type<AssDialogueBlockOverride>()) {
+		for (size_t i = 0; i < ovr->Tags.size(); i++) {
+			if (tag == ovr->Tags[i].Name) {
+				ovr->Tags.erase(ovr->Tags.begin() + i);
+				i--;
+			}
+		}
+	}
+	line->UpdateText(blocks);
+}
+
 void VisualToolBase::SetOverride(AssDialogue* line, std::string const& tag, std::string const& value) {
 	if (!line) return;
 
