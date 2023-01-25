@@ -23,6 +23,7 @@
 #include "../visual_tool_clip.h"
 #include "../visual_tool_cross.h"
 #include "../visual_tool_drag.h"
+#include "../visual_tool_perspective.h"
 #include "../visual_tool_rotatexy.h"
 #include "../visual_tool_rotatez.h"
 #include "../visual_tool_scale.h"
@@ -67,6 +68,33 @@ namespace {
 		}
 	};
 
+	template<VisualToolPerspectiveSetting M>
+	struct visual_tool_persp_setting : public Command {
+		CMD_TYPE(COMMAND_VALIDATE | COMMAND_TOGGLE)
+
+		bool Validate(const agi::Context *c) override {
+			return c->videoDisplay->ToolIsType(typeid(VisualToolPerspective));
+		}
+
+		virtual const bool CheckActive(int subtool) {
+			return subtool & M;
+		}
+
+		virtual const int UpdateSubTool(int subtool) {
+			return subtool ^ M;
+		}
+
+		bool IsActive(const agi::Context *c) override {
+			return Validate(c) && CheckActive(c->videoDisplay->GetSubTool());
+		}
+
+		void operator()(agi::Context *c) override {
+			if (!c->videoDisplay->ToolIsType(typeid(VisualToolPerspective)))
+				c->videoDisplay->SetTool(std::make_unique<VisualToolPerspective>(c->videoDisplay, c));
+			c->videoDisplay->SetSubTool(UpdateSubTool(c->videoDisplay->GetSubTool()));
+		}
+	};
+
 	struct visual_mode_cross final : public visual_tool_command<VisualToolCross> {
 		CMD_NAME("video/tool/cross")
 		CMD_ICON(visual_standard)
@@ -99,6 +127,14 @@ namespace {
 		STR_HELP("Rotate subtitles on their X and Y axes")
 	};
 
+	struct visual_mode_perspective final : public visual_tool_command<VisualToolPerspective> {
+		CMD_NAME("video/tool/perspective")
+		CMD_ICON(visual_perspective)
+		STR_MENU("Apply 3D Perspective")
+		STR_DISP("Apply 3D Perspective")
+		STR_HELP("Rotate and shear subtitles to make them fit a given quad's perspective")
+	};
+
 	struct visual_mode_scale final : public visual_tool_command<VisualToolScale> {
 		CMD_NAME("video/tool/scale")
 		CMD_ICON(visual_scale)
@@ -121,6 +157,113 @@ namespace {
 		STR_MENU("Vector Clip")
 		STR_DISP("Vector Clip")
 		STR_HELP("Clip subtitles to a vectorial area")
+	};
+
+	// Perspective settings
+	struct visual_mode_perspective_plane final : public visual_tool_persp_setting<PERSP_OUTER> {
+		CMD_NAME("video/tool/perspective/plane")
+		CMD_ICON(visual_perspective_plane)
+		STR_MENU("Show Surrounding Plane")
+		STR_DISP("Show Surrounding Plane")
+		STR_HELP("Toggles showing a second quad for the ambient 3D plane.")
+	};
+
+	// Perspective settings
+	struct visual_mode_perspective_lock_inner final : public visual_tool_persp_setting<PERSP_LOCK_OUTER> {
+		CMD_NAME("video/tool/perspective/lock_outer")
+		CMD_ICON(visual_perspective_lock_outer)
+		STR_MENU("Lock Outer Quad")
+		STR_DISP("Lock Outer Quad")
+		STR_HELP("When the surrounding plane is also visible, switches which quad is locked. If inactive, the inner quad can only be resized without changing the perspective plane. If active, this holds for the outer quad instead.")
+
+		bool Validate(const agi::Context *c) override {
+			return c->videoDisplay->ToolIsType(typeid(VisualToolPerspective)) && c->videoDisplay->GetSubTool() | PERSP_OUTER;
+		}
+	};
+
+	struct visual_mode_perspective_grid final : public visual_tool_persp_setting<PERSP_GRID> {
+		CMD_NAME("video/tool/perspective/grid")
+		CMD_ICON(visual_perspective_grid)
+		STR_MENU("Show Grid")
+		STR_DISP("Show Grid")
+		STR_HELP("Toggles showing a 3D grid in the visual perspective tool")
+	};
+
+	struct visual_mode_perspective_orgmode_center : public visual_tool_persp_setting<PERSP_ORGMODE_CENTER> {
+		CMD_NAME("video/tool/perspective/orgmode/center")
+		CMD_ICON(visual_perspective_orgmode_center)
+		STR_MENU("\\org Mode: Center")
+		STR_DISP("\\org Mode: Center")
+		STR_HELP("Puts \\org at the center of the perspective quad")
+
+		const bool CheckActive(int subtool) override {
+			return (subtool & PERSP_ORGMODE) == PERSP_ORGMODE_CENTER;
+		}
+
+		const int UpdateSubTool(int subtool) override {
+			return (subtool & ~PERSP_ORGMODE) | PERSP_ORGMODE_CENTER;
+		}
+	};
+
+	struct visual_mode_perspective_orgmode_nofax : public visual_tool_persp_setting<PERSP_ORGMODE_NOFAX> {
+		CMD_NAME("video/tool/perspective/orgmode/nofax")
+		CMD_ICON(visual_perspective_orgmode_nofax)
+		STR_MENU("\\org Mode: No \\fax")
+		STR_DISP("\\org Mode: No \\fax")
+		STR_HELP("Finds a value for \\org where \\fax can be zero, if possible. Use this mode if your event contains line breaks.")
+
+		const bool CheckActive(int subtool) override {
+			return (subtool & PERSP_ORGMODE) == PERSP_ORGMODE_NOFAX;
+		}
+
+		const int UpdateSubTool(int subtool) override {
+			return (subtool & ~PERSP_ORGMODE) | PERSP_ORGMODE_NOFAX;
+		}
+	};
+
+	struct visual_mode_perspective_orgmode_keep : public visual_tool_persp_setting<PERSP_ORGMODE_KEEP> {
+		CMD_NAME("video/tool/perspective/orgmode/keep")
+		CMD_ICON(visual_perspective_orgmode_keep)
+		STR_MENU("\\org Mode: Keep")
+		STR_DISP("\\org Mode: Keep")
+		STR_HELP("Fixes the position of \\org")
+
+		const bool CheckActive(int subtool) override {
+			return (subtool & PERSP_ORGMODE) == PERSP_ORGMODE_KEEP;
+		}
+
+		const int UpdateSubTool(int subtool) override {
+			return (subtool & ~PERSP_ORGMODE) | PERSP_ORGMODE_KEEP;
+		}
+	};
+
+	struct visual_mode_perspective_orgmode_cycle : public visual_tool_persp_setting<PERSP_ORGMODE> {
+		CMD_NAME("video/tool/perspective/orgmode/cycle")
+		STR_MENU("Cycle \\org mode")
+		STR_DISP("Cycle \\org mode")
+		STR_HELP("Cycles through the three \\org modes")
+
+		const bool CheckActive(int subtool) override {
+			return false;
+		}
+
+		const int UpdateSubTool(int subtool) override {
+			int newtool = 0;
+			switch (subtool & PERSP_ORGMODE) {
+				case PERSP_ORGMODE_CENTER:
+					newtool = PERSP_ORGMODE_NOFAX;
+					break;
+				case PERSP_ORGMODE_NOFAX:
+					newtool = PERSP_ORGMODE_KEEP;
+					break;
+				case PERSP_ORGMODE_KEEP:
+					newtool = PERSP_ORGMODE_CENTER;
+					break;
+				default:
+					break;
+			}
+			return (subtool & ~PERSP_ORGMODE) | newtool;
+		}
 	};
 
 	// Vector clip tools
@@ -190,6 +333,7 @@ namespace cmd {
 		reg(std::make_unique<visual_mode_drag>());
 		reg(std::make_unique<visual_mode_rotate_z>());
 		reg(std::make_unique<visual_mode_rotate_xy>());
+		reg(std::make_unique<visual_mode_perspective>());
 		reg(std::make_unique<visual_mode_scale>());
 		reg(std::make_unique<visual_mode_clip>());
 		reg(std::make_unique<visual_mode_vector_clip>());
@@ -202,5 +346,13 @@ namespace cmd {
 		reg(std::make_unique<visual_mode_vclip_remove>());
 		reg(std::make_unique<visual_mode_vclip_freehand>());
 		reg(std::make_unique<visual_mode_vclip_freehand_smooth>());
+
+		reg(std::make_unique<visual_mode_perspective_plane>());
+		reg(std::make_unique<visual_mode_perspective_lock_inner>());
+		reg(std::make_unique<visual_mode_perspective_grid>());
+		reg(std::make_unique<visual_mode_perspective_orgmode_center>());
+		reg(std::make_unique<visual_mode_perspective_orgmode_nofax>());
+		reg(std::make_unique<visual_mode_perspective_orgmode_keep>());
+		reg(std::make_unique<visual_mode_perspective_orgmode_cycle>());
 	}
 }

@@ -681,4 +681,5 @@ void VisualToolBase::SetOverride(AssDialogue* line, std::string const& tag, std:
 template class VisualTool<VisualDraggableFeature>;
 template class VisualTool<ClipCorner>;
 template class VisualTool<VisualToolDragDraggableFeature>;
+template class VisualTool<VisualToolPerspectiveDraggableFeature>;
 template class VisualTool<VisualToolVectorClipDraggableFeature>;

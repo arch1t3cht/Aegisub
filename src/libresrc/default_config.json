@@ -588,6 +588,12 @@
 			"Skip Whitespace" : true
 		},
 		"Visual" : {
+			"Perspective": {
+				"Outer": false,
+				"Outer Locked": false,
+				"Grid": false,
+				"Org Mode": 0
+			},
 			"Autohide": false
 		}
 	},

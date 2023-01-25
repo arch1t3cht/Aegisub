@@ -341,13 +341,16 @@
 			"Alt-Left"
 		],
 		"video/tool/clip" : [
-			"H"
+			"J"
 		],
 		"video/tool/cross" : [
 			"A"
 		],
 		"video/tool/drag" : [
 			"S"
+		],
+		"video/tool/perspective": [
+			"G"
 		],
 		"video/tool/rotate/xy" : [
 			"F"
@@ -356,10 +359,10 @@
 			"D"
 		],
 		"video/tool/scale" : [
-			"G"
+			"H"
 		],
 		"video/tool/vector_clip" : [
-			"J"
+			"K"
 		]
 	}
 }
