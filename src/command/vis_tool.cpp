@@ -177,7 +177,7 @@ namespace {
 		STR_HELP("When the surrounding plane is also visible, switches which quad is locked. If inactive, the inner quad can only be resized without changing the perspective plane. If active, this holds for the outer quad instead.")
 
 		bool Validate(const agi::Context *c) override {
-			return c->videoDisplay->ToolIsType(typeid(VisualToolPerspective)) && c->videoDisplay->GetSubTool() | PERSP_OUTER;
+			return c->videoDisplay->ToolIsType(typeid(VisualToolPerspective)) && c->videoDisplay->GetSubTool() & PERSP_OUTER;
 		}
 	};
 
