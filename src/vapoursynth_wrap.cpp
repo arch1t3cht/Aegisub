@@ -26,8 +26,6 @@
 
 #include "options.h"
 
-#include <mutex>
-
 #ifndef _WIN32
 #include <dlfcn.h>
 #endif
@@ -35,7 +33,13 @@
 #ifdef _WIN32
 #define VSSCRIPT_SO "vsscript.dll"
 #else
+#ifdef __APPLE__
+#define VSSCRIPT_SO "libvapoursynth-script.dylib"
+#define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL
+#else
 #define VSSCRIPT_SO "libvapoursynth-script.so"
+#define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL | RTLD_DEEPBIND
+#endif
 #endif
 
 // Allocate storage for and initialise static members
@@ -63,7 +67,7 @@ VapourSynthWrapper::VapourSynthWrapper() {
 #undef _Lstr
 #undef CONCATENATE
 #else
-		hLib = dlopen(VSSCRIPT_SO, RTLD_LAZY | RTLD_GLOBAL | RTLD_DEEPBIND);
+		hLib = dlopen(VSSCRIPT_SO, DLOPEN_FLAGS);
 #endif
 
 		if (!hLib)

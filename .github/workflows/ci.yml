@@ -61,7 +61,7 @@ jobs:
             name: macOS Release,
             os: macos-latest,
             buildtype: release,
-            args: -Ddefault_library=static -Dbuild_osx_bundle=true -Dlocal_boost=true
+            args: -Ddefault_library=static -Dbuild_osx_bundle=true -Dlocal_boost=true -Dvapoursynth=enabled
           }
 
     steps:
