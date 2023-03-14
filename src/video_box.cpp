@@ -58,11 +58,15 @@ VideoBox::VideoBox(wxWindow *parent, bool isDetached, agi::Context *context)
 
 	auto mainToolbar = toolbar::GetToolbar(this, "video", context, "Video", false);
 
-	VideoPosition = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(110, -1), wxTE_READONLY);
+	VideoPosition = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
 	VideoPosition->SetToolTip(_("Current frame time and number"));
+	VideoPosition->SetInitialSize(wxSize(110,
+		VideoPosition->GetSizeFromTextSize(VideoPosition->GetTextExtent("0:12:34.567 - 8901")).y));
 
-	VideoSubsPos = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(110, -1), wxTE_READONLY);
+	VideoSubsPos = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
 	VideoSubsPos->SetToolTip(_("Time of this frame relative to start and end of current subs"));
+	VideoSubsPos->SetInitialSize(wxSize(110,
+		VideoSubsPos->GetSizeFromTextSize(VideoSubsPos->GetTextExtent("+98765ms; -43210ms")).y));
 
 	wxArrayString choices;
 	for (int i = 1; i <= 24; ++i)
