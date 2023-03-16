@@ -167,7 +167,7 @@ def wrap_lwlibavsource(filename: str, cachedir: str | None = None, **kwargs: Any
 
 
 def make_keyframes(clip: vs.VideoNode, use_scxvid: bool = False,
-                   resize_h: int = 360, resize_format: int = vs.YUV420P8,
+                   resize_h: int = 360, resize_format: int = vs.GRAY8,
                    **kwargs: Any) -> List[int]:
     """
     Generates a list of keyframes from a clip, using either WWXD or Scxvid.
@@ -181,7 +181,7 @@ def make_keyframes(clip: vs.VideoNode, use_scxvid: bool = False,
     The remaining keyword arguments are passed on to the respective filter.
     """
 
-    clip = core.resize.Bilinear(clip, width=resize_h * clip.width // clip.height, height=resize_h, format=resize_format);
+    clip = core.resize.Bilinear(clip, width=resize_h * clip.width // clip.height, height=resize_h, format=resize_format)
 
     if use_scxvid:
         ensure_plugin("scxvid", "libscxvid", "To use the keyframe generation, the scxvid plugin for VapourSynth must be installed")
