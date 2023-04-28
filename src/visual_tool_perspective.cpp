@@ -35,6 +35,8 @@
 #include <libaegisub/split.h>
 #include <libaegisub/util.h>
 
+#include <libaegisub/log.h>
+
 #include <cmath>
 #include <wx/colour.h>
 
@@ -783,7 +785,7 @@ void VisualToolPerspective::TextToPersp() {
 	GetLineBaseExtents(active_line, textwidth, textheight, descend, extlead);
 	textwidth = std::max(textwidth, 1.);
 	textheight = std::max(textheight, 1.);
-	double textleft, texttop = 0.;
+	double textleft = 0., texttop = 0.;
 
 	switch ((align - 1) % 3) {
 		case 1:
