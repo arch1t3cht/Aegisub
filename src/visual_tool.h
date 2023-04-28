@@ -129,11 +129,18 @@ protected:
 	float GetLineFontSize(AssDialogue *diag);
 	int GetLineAlignment(AssDialogue *diag);
 	/// @brief Compute text extents of the given line without any formatting
+	/// @param diag The dialogue line
+	/// @return The top left and bottom right corners of the line's bounding box respectively.
 	///
 	/// Formatting tags are stripped and \fs tags are respected, but \fscx and \fscy are kept as 100 even if
 	/// they are different in the style.
+	/// For text the top left corner of the bounding box will always be at the origin, but this needn't be
+	/// the case for drawings. The width and height of the bounding box are the shifts used for text alignment.
+	///
+	///	This function works for most common line formats, but can be inaccurate for more complex cases such as lines
+	///	containing both text and drawings.
 	/// Returns a rough estimate when getting the precise extents fails
-	void GetLineBaseExtents(AssDialogue *diag, double &width, double &height, double &descent, double &extlead);
+	std::pair<Vector2D, Vector2D> GetLineBaseExtents(AssDialogue *diag);
 	void GetLineClip(AssDialogue *diag, Vector2D &p1, Vector2D &p2, bool &inverse);
 	std::string GetLineVectorClip(AssDialogue *diag, int &scale, bool &inverse);
 

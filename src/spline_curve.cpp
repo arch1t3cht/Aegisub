@@ -116,6 +116,15 @@ Vector2D& SplineCurve::EndPoint() {
 	}
 }
 
+std::vector<Vector2D> SplineCurve::AnchorPoints() {
+	switch (type) {
+		case POINT:    return std::vector<Vector2D>({p1});
+		case LINE:     return std::vector<Vector2D>({p1, p2});
+		case BICUBIC:  return std::vector<Vector2D>({p1, p2, p3, p4});
+		default:       return std::vector<Vector2D>();
+	}
+}
+
 Vector2D SplineCurve::GetClosestPoint(Vector2D ref) const {
 	return GetPoint(GetClosestParam(ref));
 }
