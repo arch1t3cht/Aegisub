@@ -37,6 +37,8 @@
 #include <libaegisub/split.h>
 #include <libaegisub/string.h>
 
+#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
 #include <algorithm>
@@ -537,11 +539,9 @@ int VisualToolBase::GetLineAlignment(AssDialogue *diag) {
 	return an;
 }
 
-void VisualToolBase::GetLineBaseExtents(AssDialogue *diag, double &width, double &height, double &descent, double &extlead) {
-	width = 0.;
-	height = 0.;
-	descent = 0.;
-	extlead = 0.;
+std::pair<Vector2D, Vector2D> VisualToolBase::GetLineBaseExtents(AssDialogue *diag) {
+	double width = 0.;
+	double height = 0.;
 
 	AssStyle style;
 	if (AssStyle *basestyle = c->ass->GetStyle(diag->Style)) {
@@ -551,25 +551,57 @@ void VisualToolBase::GetLineBaseExtents(AssDialogue *diag, double &width, double
 	}
 
 	auto blocks = diag->ParseTags();
-	if (param_vec tag = find_tag(blocks, "\\fs"))
-		style.fontsize = tag->front().Get(style.fontsize);
-	if (param_vec tag = find_tag(blocks, "\\fn"))
-		style.font = tag->front().Get(style.font);
+	param_vec ptag = find_tag(blocks, "\\p");
 
-	std::string text = diag->GetStrippedText();
-	std::vector<std::string> textlines;
-	boost::replace_all(text, "\\N", "\n");
-	agi::Split(textlines, text, '\n');
-	for (std::string line : textlines) {
-		double linewidth = 0;
-		double lineheight = 0;
-		if (!Automation4::CalculateTextExtents(&style, line, linewidth, lineheight, descent, extlead)) {
-			// meh... let's make some ballpark estimates
-			linewidth = style.fontsize * line.length();
-			lineheight = style.fontsize;
+	if (ptag && ptag->front().Get(0)) {		// A drawing
+		Spline spline;
+		spline.SetScale(ptag->front().Get(1));
+		std::string drawing_text = join(blocks | agi::of_type<AssDialogueBlockDrawing>() | boost::adaptors::transformed([&](AssDialogueBlock *d) { return d->GetText(); }), "");
+		spline.DecodeFromAss(drawing_text);
+
+		if (!spline.size())
+			return std::make_pair(Vector2D(0, 0), Vector2D(0, 0));
+
+		float left = FLT_MAX;
+		float top = FLT_MAX;
+		float right = -FLT_MAX;
+		float bot = -FLT_MAX;
+
+		for (SplineCurve curve : spline) {
+			for (Vector2D pt : curve.AnchorPoints()) {
+				left = std::min(left, pt.X());
+				top = std::min(top, pt.Y());
+				right = std::max(right, pt.X());
+				bot = std::max(bot, pt.Y());
+			}
 		}
-		width = std::max(width, linewidth);
-		height += lineheight;
+
+		return std::make_pair(Vector2D(left, top), Vector2D(right, bot));
+	} else {
+		if (param_vec tag = find_tag(blocks, "\\fs"))
+			style.fontsize = tag->front().Get(style.fontsize);
+		if (param_vec tag = find_tag(blocks, "\\fn"))
+			style.font = tag->front().Get(style.font);
+
+		std::string text = diag->GetStrippedText();
+		std::vector<std::string> textlines;
+		boost::replace_all(text, "\\N", "\n");
+		agi::Split(textlines, text, '\n');
+		for (std::string line : textlines) {
+			double linewidth = 0;
+			double lineheight = 0;
+
+			double descent;
+			double extlead;
+			if (!Automation4::CalculateTextExtents(&style, line, linewidth, lineheight, descent, extlead)) {
+				// meh... let's make some ballpark estimates
+				linewidth = style.fontsize * line.length();
+				lineheight = style.fontsize;
+			}
+			width = std::max(width, linewidth);
+			height += lineheight;
+		}
+		return std::make_pair(Vector2D(0, 0), Vector2D(width, height));
 	}
 }
 
