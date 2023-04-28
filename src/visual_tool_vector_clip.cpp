@@ -32,7 +32,7 @@ int BUTTON_ID_BASE = 1300;
 
 VisualToolVectorClip::VisualToolVectorClip(VideoDisplay *parent, agi::Context *context)
 : VisualTool<VisualToolVectorClipDraggableFeature>(parent, context)
-, spline(*this)
+, spline(this)
 {
 }
 
