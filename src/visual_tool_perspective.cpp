@@ -334,7 +334,7 @@ void VisualToolPerspective::Draw() {
 		gl.SetRotation(angle_x, angle_y, angle_z);
 		gl.SetScale(fsc);
 		gl.SetShear(fax, fay);
-		Vector2D glScale = textheight * Vector2D(1, 1) / spacing / 4;
+		Vector2D glScale = (bbox.second.Y() - bbox.first.Y()) * Vector2D(1, 1) / spacing / 4;
 		gl.SetScale(100 * glScale);
 
 		// Draw grid
@@ -680,17 +680,18 @@ bool VisualToolPerspective::InnerToText() {
 
 	float quadwidth = ab.Len();
 	float quadheight = abs(ad.Y());
-	float scalex = quadwidth / textwidth;
-	float scaley = quadheight / textheight;
+	float scalex = quadwidth / std::max(bbox.second.X() - bbox.first.X(), 1.0f);
+	float scaley = quadheight / std::max(bbox.second.Y() - bbox.first.Y(), 1.0f);
+	Vector2D scale = Vector2D(scalex, scaley);
 
 	float shiftv = align <= 3 ? 1 : (align <= 6 ? 0.5 : 0);
 	float shifth = align % 3 == 0 ? 1 : (align % 3 == 2 ? 0.5 : 0);
-	pos = org + r[0].XY() + Vector2D(quadwidth * shifth, quadheight * shiftv);
+	pos = org + r[0].XY() - bbox.first * scale + Vector2D(quadwidth * shifth, quadheight * shiftv);
 	angle_x = rotx * rad2deg;
 	angle_y = -roty * rad2deg;
 	angle_z = -rotz * rad2deg;
 	Vector2D oldfsc = fsc;
-	fsc = 100 * Vector2D(scalex, scaley);
+	fsc = 100 * scale;
 	fax = rawfax * scaley / scalex;
 	fay = 0;
 
@@ -781,40 +782,39 @@ void VisualToolPerspective::TextToPersp() {
 
 	align = GetLineAlignment(active_line);
 
-	double descend, extlead;
-	GetLineBaseExtents(active_line, textwidth, textheight, descend, extlead);
-	textwidth = std::max(textwidth, 1.);
-	textheight = std::max(textheight, 1.);
-	double textleft = 0., texttop = 0.;
+	bbox = GetLineBaseExtents(active_line);
+	float textwidth = std::max(bbox.second.X() - bbox.first.X(), 1.f);
+	float textheight = std::max(bbox.second.Y() - bbox.first.Y(), 1.f);
+	double shiftx = 0., shifty = 0.;
 
 	switch ((align - 1) % 3) {
 		case 1:
-			textleft = -textwidth / 2;
+			shiftx = -textwidth / 2;
 			break;
 		case 2:
-			textleft = -textwidth;
+			shiftx = -textwidth;
 			break;
 		default:
 			break;
 	}
 	switch ((align - 1) / 3) {
 		case 0:
-			texttop = -textheight;
+			shifty = -textheight;
 			break;
 		case 1:
-			texttop = -textheight / 2;
+			shifty = -textheight / 2;
 			break;
 		default:
 			break;
 	}
 
-	std::vector<Vector2D> textrect = MakeRect(Vector2D(0, 0), Vector2D(textwidth, textheight));
+	std::vector<Vector2D> textrect = MakeRect(bbox.first, bbox.second);
 	for (int i = 0; i < 4; i++) {
 		Vector2D p = textrect[i];
 		// Apply \fax and \fay
 		p = Vector2D(p.X() + p.Y() * fax, p.X() * fay + p.Y());
 		// Translate to alignment point
-		p = p + Vector2D(textleft, texttop);
+		p = p + Vector2D(shiftx, shifty);
 		// Apply scaling
 		p = Vector2D(p.X() * fsc.X() / 100., p.Y() * fsc.Y() / 100.);
 		// Translate relative to origin

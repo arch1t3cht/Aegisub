@@ -38,7 +38,7 @@ class VisualToolBase;
 
 class Spline final : private std::vector<SplineCurve> {
 	/// Visual tool to do the conversion between script and video pixels
-	const VisualToolBase &coord_translator;
+	const VisualToolBase *coord_translator = nullptr;
 	/// Spline scale
 	int scale = 0;
 	int raw_scale = 0;
@@ -49,7 +49,8 @@ class Spline final : private std::vector<SplineCurve> {
 	/// Script coordinates -> Video coordinates
 	Vector2D FromScript(Vector2D vec) const;
 public:
-	Spline(const VisualToolBase &scale);
+	Spline() {};
+	Spline(const VisualToolBase *scale);
 
 	/// Encode to an ASS vector drawing
 	std::string EncodeToAss() const;

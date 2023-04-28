@@ -41,17 +41,22 @@
 
 #include <limits>
 
-Spline::Spline(const VisualToolBase &tl)
+Spline::Spline(const VisualToolBase *tl)
 : coord_translator(tl)
 {
 }
 
 Vector2D Spline::ToScript(Vector2D vec) const {
-	return coord_translator.ToScriptCoords(vec) * scale;
+	if (coord_translator)
+		vec = coord_translator->ToScriptCoords(vec);
+	return vec * scale;
 }
 
 Vector2D Spline::FromScript(Vector2D vec) const {
-	return coord_translator.FromScriptCoords(vec / scale);
+	vec = vec / scale;
+	if (coord_translator)
+		vec = coord_translator->FromScriptCoords(vec);
+	return vec;
 }
 
 void Spline::SetScale(int new_scale) {

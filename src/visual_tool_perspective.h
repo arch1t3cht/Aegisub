@@ -52,7 +52,7 @@ public:
 
 class VisualToolPerspective final : public VisualTool<VisualToolPerspectiveDraggableFeature> {
 	wxToolBar *toolBar = nullptr; /// The subtoolbar
-	int settings = 0; 
+	int settings = 0;
 
 	agi::OptionValue* optOuter;
 	agi::OptionValue* optOuterLocked;
@@ -69,8 +69,9 @@ class VisualToolPerspective final : public VisualTool<VisualToolPerspectiveDragg
 
 	int align = 0;
 
-	double textwidth = 0.f;
-	double textheight = 0.f;
+	// Corners of the bounding box of the event without any formatting.
+	// The top left corner is the zero vector for text but might not be for drawings.
+	std::pair<Vector2D, Vector2D> bbox;
 
 	Vector2D fsc;
 
