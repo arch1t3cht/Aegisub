@@ -79,16 +79,13 @@ void FoldController::AddFold(AssDialogue& start, AssDialogue& end, bool collapse
 	}
 }
 
-bool FoldController::DoForAllFolds(bool action(AssDialogue& line)) {
+void FoldController::DoForAllFolds(std::function<void(AssDialogue&)> action) {
 	for (AssDialogue& line : context->ass->Events) {
 		if (line.Fold.valid) {
-			bool result = action(line);
+			action(line);
 			UpdateLineExtradata(line);
-			if (result)
-				return true;
 		}
 	}
-	return false;
 }
 
 void FoldController::FixFoldsPreCommit(int type, const AssDialogue *single_line) {
@@ -98,24 +95,22 @@ void FoldController::FixFoldsPreCommit(int type, const AssDialogue *single_line)
 }
 
 // For each line in lines, applies action() to the opening delimiter of the innermost fold containing this line.
-// Returns true as soon as any action() call returned true.
 //
 // In general, this can leave the folds in an inconsistent state, so unless action() is read-only this should always
 // be followed by a commit.
-bool FoldController::DoForFoldsAt(std::vector<AssDialogue *> const& lines, bool action(AssDialogue& line)) {
+void FoldController::DoForFoldsAt(std::vector<AssDialogue *> const& lines, std::function<void(AssDialogue&)> action) {
+	std::map<int, bool> visited;
 	for (AssDialogue *line : lines) {
 		if (line->Fold.parent != nullptr && !(line->Fold.valid && !line->Fold.side)) {
 			line = line->Fold.parent;
 		}
-		if (!line->Fold.visited) {
-			bool result = action(*line);
-			UpdateLineExtradata(*line);
-			if (result)
-				return true;
-		}
-		line->Fold.visited = true;
+		if (visited.count(line->Row))
+			continue;
+
+		action(*line);
+		UpdateLineExtradata(*line);
+		visited[line->Row] = true;
 	}
-	return false;
 }
 
 void FoldController::UpdateFoldInfo() {
@@ -263,7 +258,6 @@ void FoldController::LinkFolds() {
 		line->Fold.parent = foldStack.empty() ? nullptr : foldStack.back();
 		line->Fold.nextVisible = nullptr;
 		line->Fold.visible = highestFolded > (int) foldStack.size();
-		line->Fold.visited = false;
 		line->Fold.visibleRow = visibleRow;
 
 		if (line->Fold.visible) {
@@ -299,56 +293,68 @@ int FoldController::GetMaxDepth() {
 	return maxdepth;
 }
 
-bool FoldController::ActionHasFold(AssDialogue& line) { return line.Fold.valid; }
-
-bool FoldController::ActionClearFold(AssDialogue& line) { line.Fold.extraExists = false; line.Fold.valid = false; return false; }
-
-bool FoldController::ActionOpenFold(AssDialogue& line) { line.Fold.collapsed = false; return false; }
-
-bool FoldController::ActionCloseFold(AssDialogue& line) { line.Fold.collapsed = true; return false; }
-
-bool FoldController::ActionToggleFold(AssDialogue& line) { line.Fold.collapsed = !line.Fold.collapsed; return false; }
-
 
 void FoldController::ClearAllFolds() {
-	FoldController::DoForAllFolds(FoldController::ActionClearFold);
+	DoForAllFolds([&](AssDialogue &line) {
+		line.Fold.extraExists = false; line.Fold.valid = false;
+	});
 	context->ass->Commit(_("clear all folds"), AssFile::COMMIT_FOLD);
 }
 
 void FoldController::OpenAllFolds() {
-	FoldController::DoForAllFolds(FoldController::ActionOpenFold);
+	DoForAllFolds([&](AssDialogue &line) {
+		line.Fold.collapsed = false;
+	});
 	context->ass->Commit(_("open all folds"), AssFile::COMMIT_FOLD);
 }
 
 void FoldController::CloseAllFolds() {
-	FoldController::DoForAllFolds(FoldController::ActionCloseFold);
+	DoForAllFolds([&](AssDialogue &line) {
+		line.Fold.collapsed = true;
+	});
 	context->ass->Commit(_("close all folds"), AssFile::COMMIT_FOLD);
 }
 
 bool FoldController::HasFolds() {
-	return FoldController::DoForAllFolds(FoldController::ActionHasFold);
+	bool hasfold = false;
+	DoForAllFolds([&](AssDialogue &line) {
+		hasfold = hasfold || line.Fold.valid;
+	});
+	return hasfold;
 }
 
 void FoldController::ClearFoldsAt(std::vector<AssDialogue *> const& lines) {
-	FoldController::DoForFoldsAt(lines, FoldController::ActionClearFold);
+	DoForFoldsAt(lines, [&](AssDialogue &line) {
+		line.Fold.extraExists = false; line.Fold.valid = false;
+	});
 	context->ass->Commit(_("clear folds"), AssFile::COMMIT_FOLD);
 }
 
 void FoldController::OpenFoldsAt(std::vector<AssDialogue *> const& lines) {
-	FoldController::DoForFoldsAt(lines, FoldController::ActionOpenFold);
+	DoForFoldsAt(lines, [&](AssDialogue &line) {
+		line.Fold.collapsed = false;
+	});
 	context->ass->Commit(_("open folds"), AssFile::COMMIT_FOLD);
 }
 
 void FoldController::CloseFoldsAt(std::vector<AssDialogue *> const& lines) {
-	FoldController::DoForFoldsAt(lines, FoldController::ActionCloseFold);
+	DoForFoldsAt(lines, [&](AssDialogue &line) {
+		line.Fold.collapsed = true;
+	});
 	context->ass->Commit(_("close folds"), AssFile::COMMIT_FOLD);
 }
 
 void FoldController::ToggleFoldsAt(std::vector<AssDialogue *> const& lines) {
-	FoldController::DoForFoldsAt(lines, FoldController::ActionToggleFold);
+	DoForFoldsAt(lines, [&](AssDialogue &line) {
+		line.Fold.collapsed = !line.Fold.collapsed;
+	});
 	context->ass->Commit(_("toggle folds"), AssFile::COMMIT_FOLD);
 }
 
 bool FoldController::AreFoldsAt(std::vector<AssDialogue *> const& lines) {
-	return FoldController::DoForFoldsAt(lines, FoldController::ActionHasFold);
+	bool hasfold = false;
+	DoForFoldsAt(lines, [&](AssDialogue &line) {
+		hasfold = hasfold || line.Fold.valid;
+	});
+	return hasfold;
 }
