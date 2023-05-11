@@ -54,13 +54,6 @@ struct ExtradataEntry {
 	std::string value;
 };
 
-// Both start and end are inclusive
-struct LineFold {
-	int start;
-	int end;
-	bool collapsed;
-};
-
 struct AssFileCommit {
 	wxString const& message;
 	int *commit_id;

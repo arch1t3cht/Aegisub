@@ -150,9 +150,7 @@ struct GridColumnFolds final : GridColumn {
 	bool OnMouseEvent(AssDialogue *d, agi::Context *c, wxMouseEvent &event) const override {
 		if ((event.LeftDown() || event.LeftDClick()) && !event.ShiftDown() && !event.CmdDown() && !event.AltDown()) {
 			if (d->Fold.hasFold() && !d->Fold.isEnd()) {
-				std::vector<AssDialogue *> lines;
-				lines.push_back(d);
-				c->foldController->ToggleFoldsAt(lines);
+				c->foldController->ToggleFoldsAt({d});
 				return true;
 			}
 		}
