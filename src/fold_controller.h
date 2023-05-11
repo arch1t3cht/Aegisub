@@ -56,9 +56,6 @@ class FoldInfo {
 	/// False if a fold is started here, true otherwise.
 	bool side = false;
 
-
-	// Used in DoForFoldsAt to ensure each line is visited only once
-	bool visited = false;
 	/// Whether the line is currently visible
 	bool visible = true;
 
@@ -106,23 +103,11 @@ class FoldController {
 
 	void RawAddFold(AssDialogue& start, AssDialogue& end, bool collapsed);
 
-	bool DoForFoldsAt(std::vector<AssDialogue *> const& lines, bool action(AssDialogue& line));
+	void DoForFoldsAt(std::vector<AssDialogue *> const& lines, std::function<void(AssDialogue&)> action);
 
-	bool DoForAllFolds(bool action(AssDialogue& line));
+	void DoForAllFolds(std::function<void(AssDialogue&)> action);
 
 	void FixFoldsPreCommit(int type, const AssDialogue *single_line);
-
-	// These are used for the DoForAllFolds action and should not be used as ordinary getters/setters
-
-	static bool ActionHasFold(AssDialogue& line);
-
-	static bool ActionClearFold(AssDialogue& line);
-
-	static bool ActionOpenFold(AssDialogue& line);
-
-	static bool ActionCloseFold(AssDialogue& line);
-
-	static bool ActionToggleFold(AssDialogue& line);
 
 	/// Updates the line's extradata entry from the values in FoldInfo. Used after actions like toggling folds.
 	void UpdateLineExtradata(AssDialogue& line);
