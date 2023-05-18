@@ -33,6 +33,7 @@ int BUTTON_ID_BASE = 1300;
 VisualToolVectorClip::VisualToolVectorClip(VideoDisplay *parent, agi::Context *context)
 : VisualTool<VisualToolVectorClipDraggableFeature>(parent, context)
 , spline(this)
+, featureSize(OPT_GET("Tool/Visual/Shape Handle Size")->GetInt())
 {
 }
 
@@ -149,11 +150,11 @@ void VisualToolVectorClip::Draw() {
 
 		if (feature.type == DRAG_SMALL_SQUARE) {
 			gl.SetLineColour(line_color, .5f, 1);
-			gl.DrawRectangle(feature.pos - 3, feature.pos + 3);
+			gl.DrawRectangle(feature.pos - featureSize, feature.pos + featureSize);
 		}
 		else {
 			gl.SetLineColour(feature_color, .5f, 1);
-			gl.DrawCircle(feature.pos, 2.f);
+			gl.DrawCircle(feature.pos, featureSize * 2.f / 3.f);
 		}
 	}
 
