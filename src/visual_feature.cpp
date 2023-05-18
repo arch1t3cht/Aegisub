@@ -33,7 +33,12 @@
 ///
 
 #include "gl_wrap.h"
+#include "options.h"
 #include "visual_feature.h"
+
+VisualDraggableFeature::VisualDraggableFeature()
+: size(OPT_GET("Tool/Visual/Shape Handle Size")->GetInt())
+{}
 
 bool VisualDraggableFeature::IsMouseOver(Vector2D mouse_pos) const {
 	if (!pos) return false;
@@ -54,10 +59,10 @@ bool VisualDraggableFeature::IsMouseOver(Vector2D mouse_pos) const {
 		}
 
 		case DRAG_SMALL_SQUARE:
-			return fabs(delta.X()) < 3 && fabs(delta.Y()) < 3;
+			return fabs(delta.X()) < size && fabs(delta.Y()) < size;
 
 		case DRAG_SMALL_CIRCLE:
-			return delta.SquareLen() < 9;
+			return delta.SquareLen() < 3 * size;
 
 		default:
 			return false;
@@ -88,11 +93,11 @@ void VisualDraggableFeature::Draw(OpenGLWrapper const& gl) const {
 			break;
 
 		case DRAG_SMALL_SQUARE:
-			gl.DrawRectangle(pos - 3, pos + 3);
+			gl.DrawRectangle(pos - size, pos + size);
 			break;
 
 		case DRAG_SMALL_CIRCLE:
-			gl.DrawCircle(pos, 3);
+			gl.DrawCircle(pos, size);
 			break;
 		default:
 			break;
