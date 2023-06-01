@@ -326,6 +326,10 @@ bool FoldController::HasFolds() {
 void FoldController::ClearFoldsAt(std::vector<AssDialogue *> const& lines) {
 	DoForFoldsAt(lines, [&](AssDialogue &line) {
 		line.Fold.extraExists = false; line.Fold.valid = false;
+		if (line.Fold.counterpart) {
+			line.Fold.counterpart->Fold.extraExists = false;
+			line.Fold.counterpart->Fold.valid = false;
+		}
 	});
 	context->ass->Commit(_("clear folds"), AssFile::COMMIT_FOLD);
 }
@@ -333,6 +337,8 @@ void FoldController::ClearFoldsAt(std::vector<AssDialogue *> const& lines) {
 void FoldController::OpenFoldsAt(std::vector<AssDialogue *> const& lines) {
 	DoForFoldsAt(lines, [&](AssDialogue &line) {
 		line.Fold.collapsed = false;
+		if (line.Fold.counterpart)
+			line.Fold.counterpart->Fold.collapsed = line.Fold.collapsed;
 	});
 	context->ass->Commit(_("open folds"), AssFile::COMMIT_FOLD);
 }
@@ -340,6 +346,8 @@ void FoldController::OpenFoldsAt(std::vector<AssDialogue *> const& lines) {
 void FoldController::CloseFoldsAt(std::vector<AssDialogue *> const& lines) {
 	DoForFoldsAt(lines, [&](AssDialogue &line) {
 		line.Fold.collapsed = true;
+		if (line.Fold.counterpart)
+			line.Fold.counterpart->Fold.collapsed = line.Fold.collapsed;
 	});
 	context->ass->Commit(_("close folds"), AssFile::COMMIT_FOLD);
 }
@@ -347,6 +355,8 @@ void FoldController::CloseFoldsAt(std::vector<AssDialogue *> const& lines) {
 void FoldController::ToggleFoldsAt(std::vector<AssDialogue *> const& lines) {
 	DoForFoldsAt(lines, [&](AssDialogue &line) {
 		line.Fold.collapsed = !line.Fold.collapsed;
+		if (line.Fold.counterpart)
+			line.Fold.counterpart->Fold.collapsed = line.Fold.collapsed;
 	});
 	context->ass->Commit(_("toggle folds"), AssFile::COMMIT_FOLD);
 }
