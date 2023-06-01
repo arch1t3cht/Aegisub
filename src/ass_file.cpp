@@ -235,7 +235,7 @@ uint32_t AssFile::AddExtradata(std::string_view key, std::string_view value) {
 			return data.id;
 		}
 	}
-	Extradata.push_back(ExtradataEntry{next_extradata_id, std::string(key), std::string(value)});
+	Extradata.push_back(ExtradataEntry{next_extradata_id, 0, std::string(key), std::string(value)});
 	return next_extradata_id++; // return old value, then post-increment
 }
 
@@ -333,10 +333,16 @@ void AssFile::CleanExtradata() {
 		}
 	}
 
+	for (ExtradataEntry &e : Extradata) {
+		if (ids_used.count(e.id))
+			e.expiration_counter = 0;
+		else
+			e.expiration_counter++;
+	}
 	if (ids_used.size() != Extradata.size()) {
 		// Erase all no-longer-used extradata entries
 		Extradata.erase(std::remove_if(begin(Extradata), end(Extradata), [&](ExtradataEntry const& e) {
-			return !ids_used.count(e.id);
+			return e.expiration_counter >= 10;
 		}), end(Extradata));
 	}
 }
