@@ -216,7 +216,7 @@ void AssParser::ParseExtradataLine(std::string const &data) {
 
 		// ensure next_extradata_id is always at least 1 more than the largest existing id
 		target->next_extradata_id = std::max(id+1, target->next_extradata_id);
-		target->Extradata.push_back(ExtradataEntry{id, std::move(key), std::move(value)});
+		target->Extradata.push_back(ExtradataEntry{id, 0, std::move(key), std::move(value)});
 	}
 }
 
