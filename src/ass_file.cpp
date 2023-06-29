@@ -342,7 +342,7 @@ void AssFile::CleanExtradata() {
 	if (ids_used.size() != Extradata.size()) {
 		// Erase all no-longer-used extradata entries
 		Extradata.erase(std::remove_if(begin(Extradata), end(Extradata), [&](ExtradataEntry const& e) {
-			return e.expiration_counter >= 10;
+			return e.expiration_counter >= EXTRADATA_EXPIRATION_LIMIT;
 		}), end(Extradata));
 	}
 }
