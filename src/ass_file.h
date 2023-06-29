@@ -48,6 +48,8 @@ class wxString;
 template<typename T>
 using EntryList = typename boost::intrusive::make_list<T, boost::intrusive::constant_time_size<false>, boost::intrusive::base_hook<AssEntryListHook>>::type;
 
+const int EXTRADATA_EXPIRATION_LIMIT = 10;
+
 struct ExtradataEntry {
 	uint32_t id;
 	int expiration_counter;
