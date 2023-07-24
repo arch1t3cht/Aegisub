@@ -238,6 +238,11 @@ void Interface(wxTreebook *book, Preferences *parent) {
 	auto visual_tools = p->PageSizer(_("Visual Tools"));
 	p->OptionAdd(visual_tools, _("Shape handle size"), "Tool/Visual/Shape Handle Size");
 
+#if defined(__WXMSW__) && wxVERSION_NUMBER >= 3300
+	auto dark_mode = p->PageSizer(_("Dark Mode"));
+	p->OptionAdd(dark_mode, _("Enable experimental dark mode (restart required)"), "App/Dark Mode");
+#endif
+
 	p->SetSizerAndFit(p->sizer);
 }
 
