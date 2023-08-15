@@ -420,7 +420,7 @@ size_t IconvWrapper::DstStrLen(const char* str) {
 bool IsConversionSupported(const char *src, const char *dst) {
 	iconv_t cd = iconv_open(dst, src);
 	bool supported = cd != iconv_invalid;
-	iconv_close(cd);
+	if (supported) iconv_close(cd);
 	return supported;
 }
 
