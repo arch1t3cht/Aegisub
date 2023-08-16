@@ -645,7 +645,7 @@ msgstr "현재 음향 선택 재생"
 
 #: ../src/command/audio.cpp:206
 msgid "Play the current audio selection, ignoring changes made while playing"
-msgstr "현재 음향 선택 항목을 재생하는 동안 변경된 내용은 무시하고 재생"
+msgstr "현재 음향 선택 영역을 재생하는 동안 변경된 내용은 무시하고 재생"
 
 #: ../src/command/audio.cpp:217 ../src/command/audio.cpp:218
 #: ../src/command/video.cpp:688
@@ -662,7 +662,7 @@ msgstr "음향 선택 재생"
 
 #: ../src/command/audio.cpp:234
 msgid "Play audio until the end of the selection is reached"
-msgstr "선택 항목의 끝에 도달할 때까지 음향 재생"
+msgstr "선택 영역의 끝에 도달할 때까지 음향 재생"
 
 #: ../src/command/audio.cpp:244 ../src/command/audio.cpp:245
 msgid "Play audio selection or stop"
@@ -670,7 +670,7 @@ msgstr "음향 선택 재생 또는 중지"
 
 #: ../src/command/audio.cpp:246
 msgid "Play selection, or stop playback if it's already playing"
-msgstr "선택 항목 재생 또는 이미 재생 중인 경우 재생 중지"
+msgstr "선택 영역 재생 또는 이미 재생 중인 경우 재생 중지"
 
 #: ../src/command/audio.cpp:261 ../src/command/audio.cpp:262
 msgid "Stop playing"
@@ -683,27 +683,27 @@ msgstr "음향 및 영상 재생 중지"
 #: ../src/command/audio.cpp:279 ../src/command/audio.cpp:280
 #: ../src/command/audio.cpp:281
 msgid "Play 500 ms before selection"
-msgstr "선택 항목의 500밀리초 전 재생"
+msgstr "선택 영역의 0.5초 전 재생"
 
 #: ../src/command/audio.cpp:293 ../src/command/audio.cpp:294
 #: ../src/command/audio.cpp:295
 msgid "Play 500 ms after selection"
-msgstr "선택 항목의 500밀리초 후 재생"
+msgstr "선택 영역의 0.5초 후 재생"
 
 #: ../src/command/audio.cpp:307 ../src/command/audio.cpp:308
 #: ../src/command/audio.cpp:309
 msgid "Play last 500 ms of selection"
-msgstr "선택 항목의 마지막 500밀리초 재생"
+msgstr "선택 영역의 마지막 0.5초 재생"
 
 #: ../src/command/audio.cpp:321 ../src/command/audio.cpp:322
 #: ../src/command/audio.cpp:323
 msgid "Play first 500 ms of selection"
-msgstr "선택 항목의 첫 500밀리초 재생"
+msgstr "선택 영역의 첫 0.05초 재생"
 
 #: ../src/command/audio.cpp:337 ../src/command/audio.cpp:338
 #: ../src/command/audio.cpp:339
 msgid "Play from selection start to end of file"
-msgstr "선택 항목의 시작부터 끝까지 재생"
+msgstr "선택 영역의 시작부터 끝까지 재생"
 
 #: ../src/command/audio.cpp:350 ../src/command/audio.cpp:351
 msgid "Commit"
@@ -739,11 +739,11 @@ msgstr "보류 중인 음향 타이밍 변경 사항을 적용하고 현재 라�
 
 #: ../src/command/audio.cpp:409 ../src/command/audio.cpp:410
 msgid "Go to selection"
-msgstr "선택 항목으로 이동"
+msgstr "선택 영역으로 이동"
 
 #: ../src/command/audio.cpp:411
 msgid "Scroll the audio display to center on the current audio selection"
-msgstr "음향 화면을 스크롤하여 현재 음향 선택 항목의 중앙으로 이동"
+msgstr "음향 화면을 스크롤하여 현재 음향 선택 영역의 중앙으로 이동"
 
 #: ../src/command/audio.cpp:420 ../src/command/audio.cpp:421
 msgid "Scroll left"
@@ -910,7 +910,7 @@ msgstr "굵게 적용/해제"
 
 #: ../src/command/edit.cpp:439
 msgid "Toggle bold (\\b) for the current selection or at the current cursor position"
-msgstr "현재 선택 항목 또는 현재 커서 위치에 굵게(\\b) 적용/해제"
+msgstr "현재 선택 영역 또는 현재 커서 위치에 굵게(\\b) 적용/해제"
 
 #: ../src/command/edit.cpp:442
 msgid "toggle bold"
@@ -922,7 +922,7 @@ msgstr "기울이기 적용/해제"
 
 #: ../src/command/edit.cpp:451
 msgid "Toggle italics (\\i) for the current selection or at the current cursor position"
-msgstr "현재 선택 항목 또는 현재 커서 위치에 기울이기(\\i)를 적용/해제"
+msgstr "현재 선택 영역 또는 현재 커서 위치에 기울이기(\\i)를 적용/해제"
 
 #: ../src/command/edit.cpp:454
 msgid "toggle italic"
@@ -934,7 +934,7 @@ msgstr "밑줄 적용/해제"
 
 #: ../src/command/edit.cpp:463
 msgid "Toggle underline (\\u) for the current selection or at the current cursor position"
-msgstr "현재 선택 항목 또는 현재 커서 위치에 밑줄(\\u) 적용/해제"
+msgstr "현재 선택 영역 또는 현재 커서 위치에 밑줄(\\u) 적용/해제"
 
 #: ../src/command/edit.cpp:466
 msgid "toggle underline"
@@ -946,7 +946,7 @@ msgstr "취소선 적용/해제"
 
 #: ../src/command/edit.cpp:475
 msgid "Toggle strikeout (\\s) for the current selection or at the current cursor position"
-msgstr "현재 선택 항목 또는 현재 커서 위치에 취소선(\\s) 적용/해제"
+msgstr "현재 선택 영역 또는 현재 커서 위치에 취소선(\\s) 적용/해제"
 
 #: ../src/command/edit.cpp:478
 msgid "toggle strikeout"
@@ -1598,15 +1598,15 @@ msgstr "모든 펼치기/접기 제거"
 
 #: ../src/command/help.cpp:48
 msgid "&Bug Tracker..."
-msgstr "버그 신고(&B)..."
+msgstr "버그 제보(&B)..."
 
 #: ../src/command/help.cpp:49
 msgid "Bug Tracker"
-msgstr "버그 신고"
+msgstr "버그 제보"
 
 #: ../src/command/help.cpp:50
 msgid "Visit Aegisub's bug tracker to report bugs and request new features"
-msgstr "새 기능 요청 및 버그 신고가 필요할 때, Aegusub 버그 신고 페이지 방문"
+msgstr "새 기능 요청 및 버그 제보가 필요할 때, Aegusub 버그 제보 페이지 방문"
 
 #: ../src/command/help.cpp:69
 msgid "&Contents"
@@ -1997,7 +1997,7 @@ msgstr "현재 프레임으로 이동"
 
 #: ../src/command/time.cpp:131
 msgid "Shift selection so that the active line starts at current frame"
-msgstr "활성 라인이 현재 프레임에서 시작되도록 선택 항목 이동"
+msgstr "활성 라인이 현재 프레임에서 시작되도록 선택 영역 이동"
 
 #: ../src/command/time.cpp:147
 msgid "shift to frame"
@@ -2597,7 +2597,7 @@ msgstr "PNG 스냅샷 저장(자막 없음)"
 
 #: ../src/command/video.cpp:544
 msgid "Save the currently displayed frame without the subtitles to a PNG file in the video's directory"
-msgstr "자막 없이 현재 표시된 프레임을 동영상 디렉토리에 PNG 파일로 저장"
+msgstr "자막 없이 현재 표시된 프레임을 동영상 디렉터리에 PNG 파일로 저장"
 
 #: ../src/command/video.cpp:553 ../src/command/video.cpp:554
 msgid "Save PNG snapshot (only subtitles)"
@@ -3325,12 +3325,12 @@ msgstr "프레임 속도(fps) :"
 
 #: ../src/dialog_dummy_video.cpp:125
 msgid "Duration (frames):"
-msgstr "기간(프레임) :"
+msgstr "총 재생(프레임) :"
 
 #: ../src/dialog_dummy_video.cpp:171
 #, c-format
 msgid "Resulting duration: %s"
-msgstr "처리 기간 : %s"
+msgstr "총 재생 시간 : %s"
 
 #: ../src/dialog_export.cpp:102
 msgid "Export"
@@ -4040,15 +4040,15 @@ msgstr "설명(&N)"
 
 #: ../src/dialog_selection.cpp:149
 msgid "&Add to selection"
-msgstr "선택 항목에 추가(&A)"
+msgstr "선택 영역에 추가(&A)"
 
 #: ../src/dialog_selection.cpp:149
 msgid "Intersect &with selection"
-msgstr "선택 항목과 교차(&W)"
+msgstr "선택 영역과 교차(&W)"
 
 #: ../src/dialog_selection.cpp:149
 msgid "S&ubtract from selection"
-msgstr "선택 항목에서 빼기(&U)"
+msgstr "선택 영역에서 빼기(&U)"
 
 #: ../src/dialog_selection.cpp:149
 msgid "Set se&lection"
@@ -4058,23 +4058,23 @@ msgstr "선택 설정(&L)"
 #, c-format
 msgid "Selection was set to one line"
 msgid_plural "Selection was set to %u lines"
-msgstr[0] "선택 항목이 1 라인으로 설정"
-msgstr[1] "선택 항목이 %u 라인으로 설정"
+msgstr[0] "선택 영역이 1 라인으로 설정"
+msgstr[1] "선택 영역이 %u 라인으로 설정"
 
 #: ../src/dialog_selection.cpp:213
 msgid "Selection was set to no lines"
-msgstr "선택 항목이 라인 없음으로 설정됨"
+msgstr "선택 영역이 라인 없음으로 설정됨"
 
 #: ../src/dialog_selection.cpp:219
 #, c-format
 msgid "One line was added to selection"
 msgid_plural "%u lines were added to selection"
-msgstr[0] "선택 항목에 1 라인이 추가됨"
-msgstr[1] "선택 항목에 %u 라인이 추가됨"
+msgstr[0] "선택 영역에 1 라인이 추가됨"
+msgstr[1] "선택 영역에 %u 라인이 추가됨"
 
 #: ../src/dialog_selection.cpp:220
 msgid "No lines were added to selection"
-msgstr "선택 항목에 라인이 추가되지 않음"
+msgstr "선택 영역에 라인이 추가되지 않음"
 
 #: ../src/dialog_selection.cpp:231
 #, c-format
@@ -4085,7 +4085,7 @@ msgstr[1] "%u라인이 선택에서 제거됨"
 
 #: ../src/dialog_selection.cpp:232
 msgid "No lines were removed from selection"
-msgstr "선택 항목에서 제거된 라인이 없음"
+msgstr "선택 영역에서 제거된 라인이 없음"
 
 #: ../src/dialog_selection.cpp:237
 msgid "Selection"
@@ -4179,7 +4179,7 @@ msgstr "전체 행(&A)"
 
 #: ../src/dialog_shift_times.cpp:164
 msgid "Selection &onward"
-msgstr "선택 항목 이후(&O)"
+msgstr "선택 영역 이후(&O)"
 
 #: ../src/dialog_shift_times.cpp:165
 msgid "Affect"
@@ -6722,15 +6722,13 @@ msgstr "그러면 컴퓨터에 Aegisub {#BUILD_GIT_VERSION_STRING}이 설치됩�
 msgid "Update Checker:"
 msgstr "업데이트 확인 :"
 
-#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "Finished writing to %s.\n"
 #~ msgstr ""
 #~ "\n"
-#~ "%s에 기록 완료\n"
+#~ "%s에 기록을 완료했습니다.\n"
 
-#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "Script info:\n"
@@ -6744,24 +6742,25 @@ msgstr "업데이트 확인 :"
 #~ "Features provided by script:\n"
 #~ msgstr ""
 #~ "\n"
-#~ "스크립트 정보:\n"
-#~ "이름: %s\n"
-#~ "설명: %s\n"
-#~ "제작자: %s\n"
-#~ "버전: %s\n"
-#~ "위치: %s\n"
-#~ "상태: %s\n"
+#~ "\n"
+#~ "스크립트 정보 :\n"
+#~ "이름 : %s\n"
+#~ "설명 : %s\n"
+#~ "저자 : %s\n"
+#~ "버전 : %s\n"
+#~ "위치 : %s\n"
+#~ "상태 : %s\n"
 #~ "\n"
 #~ "스크립트가 제공하는 기능:\n"
 
 #~ msgid "    Export filter: "
-#~ msgstr "    내보내기 필터: "
+#~ msgstr "    내보내기 필터 : "
 
 #~ msgid "    Macro: "
-#~ msgstr "    매크로: "
+#~ msgstr "    매크로 : "
 
 #~ msgid "    Subtitle format handler: "
-#~ msgstr "    자막 형식 처리기: "
+#~ msgstr "    자막 형식 처리기 : "
 
 #~ msgid " frames "
 #~ msgstr "프레임"
@@ -6769,27 +6768,21 @@ msgstr "업데이트 확인 :"
 #~ msgid " styles?"
 #~ msgstr "스타일?"
 
-#, c-format
 #~ msgid "\"%s\" found on dialogue line \"%d\".\n"
-#~ msgstr "\"%s\" dialogue 라인이 검색됨 \"%d\".\n"
+#~ msgstr "\"%s\" 대화 라인 \"%d\"에서 찾았습니다.\n"
 
-#, c-format
 #~ msgid "\"%s\" found on style \"%s\".\n"
-#~ msgstr "\"%s\" 스타일 검색됨 \"%s\".\n"
+#~ msgstr "\"%s\" 스타일 \"%s\"에서 찾았습니다.\n"
 
-#, c-format
 #~ msgid "\"%s\" found.\n"
-#~ msgstr "\"%s\" 검색됨 \n"
+#~ msgstr "\"%s\"을(를) 찾았습니다.\n"
 
-#, c-format
 #~ msgid "%i matches were replaced."
-#~ msgstr "%i 일치되는 항목를 바꾸다."
+#~ msgstr "%i 일치 항목이 교체되었습니다."
 
-#, c-format
 #~ msgid "%u lines were added to selection"
 #~ msgstr "선택 영역에 %u 라인을 추가"
 
-#, c-format
 #~ msgid "%u lines were removed from selection"
 #~ msgstr "선택 영역에서 %u 라인을 제거"
 
@@ -6806,19 +6799,19 @@ msgstr "업데이트 확인 :"
 #~ msgstr "복제(&D)"
 
 #~ msgid "&Duplicate and Shift by 1 Frame"
-#~ msgstr "한개 프레임 이동후 복제(&D) "
+#~ msgstr "1프레임 이동 후 복제(&D) "
 
 #~ msgid "&Duplicate and shift by 1 frame"
-#~ msgstr "한 프레임 이동후 복제(&D)"
+#~ msgstr "1프레임 이동 후 복제(&D)"
 
 #~ msgid "&Forums"
 #~ msgstr "포럼(&F)"
 
 #~ msgid "&No"
-#~ msgstr "취소(&N)"
+#~ msgstr "아니오(&N)"
 
 #~ msgid "&Open Subtitles with Charset..."
-#~ msgstr "외국어 자막 열기(&O)"
+#~ msgstr "문자 집합을 지정하여 자막 열기(&O)"
 
 #~ msgid "&Redo"
 #~ msgstr "다시 실행(&R)"
@@ -6839,28 +6832,28 @@ msgstr "업데이트 확인 :"
 #~ msgstr "확인(&Y)"
 
 #~ msgid "<- Copy to storage"
-#~ msgstr "<- 저장 공간에 복사"
+#~ msgstr "← 저장 장치에 복사"
 
 #~ msgid "ASS Override Tag mode set to "
-#~ msgstr "ASS 덮어쓰기 태크 모드 설정"
+#~ msgstr "ASS 태그 재정의 모드를 "
 
 #~ msgid "Accept Line"
 #~ msgstr "라인 적용"
 
 #~ msgid "Accept Split"
-#~ msgstr "분할 작업 적용"
+#~ msgstr "분할 적용"
 
 #~ msgid "Add lead in (%KEY%)"
-#~ msgstr "리드 인(시작점) 추가 (%KEY%)"
+#~ msgstr "리드 인 추가(%KEY%)"
 
 #~ msgid "Add lead in:"
-#~ msgstr "리드 인(시작점) 추가:"
+#~ msgstr "리드 인 추가 :"
 
 #~ msgid "Add lead out (%KEY%)"
-#~ msgstr "리드 아웃(종료점) 추가 (%KEY%)"
+#~ msgstr "리드 아웃 추가(%KEY%)"
 
 #~ msgid "Add lead out:"
-#~ msgstr "리드 아웃(종료점) 추가:"
+#~ msgstr "리드 아웃 추가 :"
 
 #~ msgid "Add to dictionary"
 #~ msgstr "디렉터리에 추가"
@@ -6869,65 +6862,53 @@ msgstr "업데이트 확인 :"
 #~ msgstr "선택 영역에 추가"
 
 #~ msgid "Advanced - EXPERT USERS ONLY"
-#~ msgstr "고급 - 고급 사용자 설정"
+#~ msgstr "고급 - 전문가 전용"
 
 #~ msgid ""
-#~ "Aegisub can export subtitles to many different formats, character "
-#~ "encodings, and even compensate Variable Frame Rate so you can hardsub "
-#~ "them - it's all in the Export option in File menu."
+#~ "Aegisub can export subtitles to many different formats, character encodings,"
+#~ " and even compensate Variable Frame Rate so you can hardsub them - it's all "
+#~ "in the Export option in File menu."
 #~ msgstr ""
-#~ "Aegusub 프로그램은 매우 다양한 형식 과 언어 코드 인코딩으로 자막 내보기를 "
-#~ "할 수 있으며 , 심지어 변하기 쉬운 재생 속도를 보정할 수 있으며 또한  어려"
-#~ "운 자막에서도 할 수 있습니다- Aegisub 프로그램의 파일 메뉴 내보내기 항목에"
-#~ "서 모두할 수 있습니다."
+#~ "Aegisub는 다양한 형식과 문자 인코딩으로 자막을 내보낼 수 있으며, 가변 프레임 속도를 보정하여 하드서빙할 수도 있습니다. 이 모든"
+#~ " 기능은 파일 메뉴의 내보내기 옵션에 있습니다."
 
 #~ msgid ""
 #~ "Aegisub can take over the following file types.\n"
 #~ "\n"
-#~ "If you want Aegisub to no longer be associated with a file type, you must "
-#~ "tell another program to take over the file type."
+#~ "If you want Aegisub to no longer be associated with a file type, you must tell another program to take over the file type."
 #~ msgstr ""
-#~ "Aegisub가 다음 파일 형식에 연결이 가능합니다.\n"
+#~ "Aegisub가 인수할 수 있는 파일 형식은 다음과 같습니다.\n"
 #~ "\n"
-#~ "파일 형식 연결을 취소하려면, 다른 프로그램으로 파일 형식 연결을 다시 설정"
-#~ "하십시오."
+#~ "Aegisub가 더 이상 파일 형식과 연결되지 않도록 하려면 다른 프로그램에 해당 파일 형식을 인수하도록 지시해야 합니다."
 
 #~ msgid ""
-#~ "Aegisub has several features to make sure you will never lose your work. "
-#~ "It will periodically save your subtitles to autosave folder, and will "
-#~ "create a copy of subs whenever you open them, to autoback folder. Also, "
-#~ "if it crashes, it will attempt to save a restore file."
+#~ "Aegisub has several features to make sure you will never lose your work. It "
+#~ "will periodically save your subtitles to autosave folder, and will create a "
+#~ "copy of subs whenever you open them, to autoback folder. Also, if it "
+#~ "crashes, it will attempt to save a restore file."
 #~ msgstr ""
-#~ "Aegisub 프로그램은 작업을 잃어버리지 않게 하는 몇가지 기능을 가지고 있습니"
-#~ "다.자동 저장 기능은 정기적으로 작업중인 자막 파일을 정기적으로 자동 저장 "
-#~ "폴더에 저장합니다, 자동 백업 기능은 자막 파일을 열 때 언제나 자막 파일을 "
-#~ "복사해서 자동백업 폴더에 저장합니다.또한 자동 복원 기능은 Aegisub 프로그램"
-#~ "이 충돌 하면 작업중인 자막 파일을 복원 파일에 저장하도록 시도합니다."
+#~ "Aegisub에는 작업물을 절대 잃어버리지 않도록 하는 몇 가지 기능이 있습니다. 주기적으로 자막을 자동 저장 폴더에 저장하고, 자막을 "
+#~ "열 때마다 자막 사본을 자동 백업 폴더에 생성합니다. 또한 충돌이 발생하면 복원 파일을 저장하려고 시도합니다."
 
 #~ msgid ""
 #~ "Aegisub is already associated with all supported file types.\n"
 #~ "\n"
-#~ "If you want Aegisub to no longer be associated with a file type, you must "
-#~ "tell another program to take over the file type."
+#~ "If you want Aegisub to no longer be associated with a file type, you must tell another program to take over the file type."
 #~ msgstr ""
-#~ "Aegisub가 이미 지원된 모든 파일 형식에 연결되 있습니다.\n"
+#~ "Aegisub는 이미 지원되는 모든 파일 형식과 연결되어 있습니다.\n"
 #~ "\n"
-#~ "파일 형식 연결을 취소하려면, 다른 프로그램으로 파일 형식 연결을 다시 설정"
-#~ "하십시오."
+#~ "Aegisub를 더 이상 파일 형식과 연결하지 않으려면 다른 프로그램에 해당 파일 형식을 대신하도록 지시해야 합니다."
 
 #~ msgid ""
-#~ "Aegisub is not your default editor for subtitle files. Do you want to "
-#~ "make Aegisub your default editor for subtitle files?"
-#~ msgstr ""
-#~ "Aegisub가 기본 자막 에디터가 아닙니다. Aegisub를 기본 자막 에디터로 설정하"
-#~ "시겠습니까?"
+#~ "Aegisub is not your default editor for subtitle files. Do you want to make "
+#~ "Aegisub your default editor for subtitle files?"
+#~ msgstr "Aegisub는 자막 파일용 기본 편집기가 아닙니다. Aegisub를 자막 파일의 기본 편집기로 사용하시겠습니까?"
 
 #~ msgid "Aegisub must restart for the changes to take effect. Restart now?"
-#~ msgstr ""
-#~ "변경 사항을 적용할려면 Aegisub를 재시작해야 합니다.다시 시작하겠습니까?"
+#~ msgstr "변경 사항을 적용하려면 Aegisub를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?"
 
 #~ msgid "Affect selection only"
-#~ msgstr "선택 영역 적용"
+#~ msgstr "선택 항목에만 적용"
 
 #~ msgid "All"
 #~ msgstr "모두"
@@ -6942,363 +6923,357 @@ msgstr "업데이트 확인 :"
 #~ msgstr "전체 행"
 
 #~ msgid "Allow grid to take focus"
-#~ msgstr "그리드는 집중하는데 효과적이다."
+#~ msgstr "그리드에 초점 맞추기 허용"
 
 #~ msgid "Allow pre-2.56a Avisynth"
-#~ msgstr "Avisynth Ver2.56a 이전 버전 사용"
+#~ msgstr "2.56a 이전 버전 Avisynth 허용"
 
 #~ msgid "Always perform this check when Aegisub starts"
-#~ msgstr "실행시 항상 체크하기"
+#~ msgstr "Aegisub를 시작할 때, 항상 이 검사를 수행"
 
-#, c-format
-#~ msgid ""
-#~ "An Automation script failed to load. File name: '%s', error reported:"
-#~ msgstr ""
-#~ "자동화 스크립트 로드가 실패했습니다. 파일 이름: '%s', 오류를 보고하다:"
+#~ msgid "An Automation script failed to load. File name: '%s', error reported:"
+#~ msgstr "스크립트 자동화를 불러오지 못했습니다. 파일 이름 : '%s', 오류 보고 :"
 
 #~ msgid "Are you sure you want to delete these "
-#~ msgstr "선택된것을 삭제할까요?"
+#~ msgstr "정말 삭제하시겠습니까 "
 
 #~ msgid "Associate extensions"
-#~ msgstr "확장자 프로그램에 연결"
+#~ msgstr "확장 프로그램 연결"
 
 #~ msgid "Associate file types"
 #~ msgstr "파일 형식 연결"
 
 #~ msgid "Associate file types with Aegisub"
-#~ msgstr "Aegisub 프로그림과 파일 형식를 연결하다"
+#~ msgstr "파일 형식을 Aegisub와 연결"
 
 #~ msgid "Associations"
-#~ msgstr "연결 정보"
+#~ msgstr "연결"
 
 #~ msgid "Attach fonts to current subtitles"
 #~ msgstr "현재 자막에 글꼴 첨부"
 
 #~ msgid "Attaching fonts to file...\n"
-#~ msgstr "파일에 글꼴 첨부중...\n"
+#~ msgstr "파일에 글꼴 첨부...\n"
 
 #~ msgid "Attempt to interpolate kanji."
-#~ msgstr "kanji 입력를 시도하다."
+#~ msgstr "한자 입력를 시도합니다."
 
 #~ msgid "Attempting to open \"%s\"..."
-#~ msgstr "\"%s\" 열기 시도중..."
+#~ msgstr "\"%s\" 열기 시도 중..."
 
 #~ msgid "Audio Add Lead In"
-#~ msgstr "[오디오]  리드인 추가"
+#~ msgstr "음향 리드 인 추가"
 
 #~ msgid "Audio Add Lead Out"
-#~ msgstr "[오디오]  리드아웃 추가"
+#~ msgstr "음향 리드 아웃 추가"
 
 #~ msgid "Audio Commit"
-#~ msgstr "[오디오]  적용"
+#~ msgstr "음향 적용"
 
 #~ msgid "Audio Commit (Stay)"
-#~ msgstr "[오디오]  적용 (대기)"
+#~ msgstr "음향 적용(대기)"
 
 #~ msgid "Audio Commit Alt"
-#~ msgstr "[오디오]  적용  Alt"
+#~ msgstr "음향 적용 대체"
 
 #~ msgid "Audio Karaoke Decrease Len"
-#~ msgstr "[오디오]  가라오케 길이 감소"
+#~ msgstr "음향 가라오케 렌 감소"
 
 #~ msgid "Audio Karaoke Decrease Len Shift"
-#~ msgstr "[오디오]  가라오케 길이 감소되면서 이동"
+#~ msgstr "음향 가라오케 렌 시프트 감소"
 
 #~ msgid "Audio Karaoke Increase Len"
-#~ msgstr "[오디오]  가라오케 길이 증가 "
+#~ msgstr "음향 가라오케 렌 증가"
 
 #~ msgid "Audio Karaoke Increase Len Shift"
-#~ msgstr "[오디오]  가라오케 길이 증가되면서 이동"
+#~ msgstr "음향 가라오케 렌 시프트 증가"
 
 #~ msgid "Audio Medusa Enter"
-#~ msgstr "[오디오 Medusa] 입력"
+#~ msgstr "음향 메두사 입력"
 
 #~ msgid "Audio Medusa Next"
-#~ msgstr "[오디오 Medusa] 다음"
+#~ msgstr "음향 메두사 다음"
 
 #~ msgid "Audio Medusa Play"
-#~ msgstr "[오디오 Medusa] 재생"
+#~ msgstr "음향 메두사 재생"
 
 #~ msgid "Audio Medusa Play After"
-#~ msgstr "[오디오 Medusa] 이후 재생"
+#~ msgstr "음향 메두사 재생 후"
 
 #~ msgid "Audio Medusa Play Before"
-#~ msgstr "[오디오 Medusa] 이전 재생"
+#~ msgstr "음향 메두사 재생 전"
 
 #~ msgid "Audio Medusa Previous"
-#~ msgstr "[오디오 Medusa] 이전"
+#~ msgstr "음향 메두사 이전"
 
 #~ msgid "Audio Medusa Shift End Back"
-#~ msgstr "[오디오 Medusa] 종료 뒤로 이동"
+#~ msgstr "음향 메두사 시프트 엔드 백"
 
 #~ msgid "Audio Medusa Shift End Forward"
-#~ msgstr "[오디오 Medusa] 종료 앞으로 이동"
+#~ msgstr "음향 메두사 시프트 엔드 포워드"
 
 #~ msgid "Audio Medusa Shift Start Back"
-#~ msgstr "[오디오 Medusa] 시작 뒤로 이동"
+#~ msgstr "음향 메두사 시프트 다시 시작"
 
 #~ msgid "Audio Medusa Shift Start Forward"
-#~ msgstr "[오디오 Medusa] 시작 앞으로 이동"
+#~ msgstr "음향 메두사 시프트 스타트 포워드"
 
 #~ msgid "Audio Medusa Stop"
-#~ msgstr "[오디오 Medusa] 중지"
+#~ msgstr "음향 메두사 중지"
 
 #~ msgid "Audio Medusa Toggle"
-#~ msgstr "[오디오 Medusa] 토글"
+#~ msgstr "음향 메두사 적용/해제"
 
 #~ msgid "Audio Next Line"
-#~ msgstr "[오디오]  다음 라인"
+#~ msgstr "음향 다음 라인"
 
 #~ msgid "Audio Next Line Alt"
-#~ msgstr "[오디오]  다음라인 Alt"
+#~ msgstr "음향 다음 라인 대체"
 
 #~ msgid "Audio Play"
-#~ msgstr "[오디오]  재생"
+#~ msgstr "음향 재생"
 
 #~ msgid "Audio Play 500ms After"
-#~ msgstr "[오디오]  이후 0.5초간 재생"
+#~ msgstr "음향 재생 0.5초 후"
 
 #~ msgid "Audio Play 500ms Before"
-#~ msgstr "[오디오]  이전 0.5초간 재생"
+#~ msgstr "음향 재생 0.5초 후"
 
 #~ msgid "Audio Play Alt"
-#~ msgstr "[오디오]  재생 Alt "
+#~ msgstr "음향 재생 대체"
 
 #~ msgid "Audio Play First 500ms"
-#~ msgstr "[오디오]  시작 0.5 초간 재생"
+#~ msgstr "음향 재생 첫 0.5초"
 
 #~ msgid "Audio Play Last 500ms"
-#~ msgstr "[오디오]  미자막 0.5초간 재생"
+#~ msgstr "음향 재생 마지막 0.5초"
 
 #~ msgid "Audio Play Original Line"
-#~ msgstr "[오디오]  원본 라인 재생"
+#~ msgstr "음향 재생 원본 라인"
 
 #~ msgid "Audio Play To End"
-#~ msgstr "[오디오]  종료까지 재생"
+#~ msgstr "음향 재생 끝내기"
 
 #~ msgid "Audio Play or Stop"
-#~ msgstr "[오디오]  재생 또는 중지"
+#~ msgstr "음향 재생 또는 중지"
 
 #~ msgid "Audio Prev Line"
-#~ msgstr "[오디오]  이전 라인"
+#~ msgstr "음향 이전 라인"
 
 #~ msgid "Audio Prev Line Alt"
-#~ msgstr "[오디오]  라인 이전 Alt "
+#~ msgstr "음향 이전 라인 대체"
 
 #~ msgid "Audio Scroll Left"
-#~ msgstr "[오디오]  왼쪽으로 전환"
+#~ msgstr "왼쪽으로 음향 스크롤"
 
 #~ msgid "Audio Scroll Right"
-#~ msgstr "[오디오]  오른쪽으로 전환"
+#~ msgstr "오른쪽으로 음향 스크롤"
 
 #~ msgid "Audio Stop"
-#~ msgstr "[오디오]  정지"
+#~ msgstr "음향 중지"
 
 #~ msgid "Auto Check for Updates"
-#~ msgstr "자동 업데이트 검사"
+#~ msgstr "업데이트 자동 확인"
 
 #~ msgid "Auto goes to next line on commit"
-#~ msgstr "다음라인으로 자동이동 적용"
+#~ msgstr "적용 시, 다음 라인으로 자동 이동"
 
 #~ msgid "Auto scrolls audio display to selected line"
-#~ msgstr "선택된 라인 자동으로 오디오 표시"
+#~ msgstr "음향 표시를 선택한 라인으로 자동 스크롤"
 
 #~ msgid "Auto-backup"
 #~ msgstr "자동 백업"
 
 #~ msgid "Auto-backup path:"
-#~ msgstr "자동 백업 경로:"
+#~ msgstr "자동 백업 경로 :"
 
 #~ msgid "Auto-save"
 #~ msgstr "자동 저장"
 
 #~ msgid "Auto-save every"
-#~ msgstr "자동 저장 간격"
+#~ msgstr "모든 항목 자동 저장"
 
 #~ msgid "Auto-save path:"
-#~ msgstr "자동 저장 경로:"
+#~ msgstr "자동 저장 경로 :"
 
 #~ msgid "Automatically load linked files:"
-#~ msgstr "자동-로드 파일 경로:"
+#~ msgstr "연결된 파일 자동 불러오기 :"
 
 #~ msgid "Avisynth renders its own subs"
-#~ msgstr "Avisynth 자막을 사용하게 한다."
+#~ msgstr "Avisynth 자체 자막 렌더링"
 
 #~ msgid "Backward"
 #~ msgstr "뒤로"
 
 #~ msgid "Below Normal (recommended)"
-#~ msgstr "기준 이하 ( 추천 )"
+#~ msgstr "보통 이하(권장)"
 
 #~ msgid "Bold"
 #~ msgstr "굵게"
 
 #~ msgid "Boundary - end"
-#~ msgstr "경계선 - 종료"
+#~ msgstr "경계 - 종료"
 
 #~ msgid "Boundary - inactive"
-#~ msgstr "경계선 - 비활성"
+#~ msgstr "경계 - 비활성"
 
 #~ msgid "Boundary - start"
-#~ msgstr "경계선 - 시작"
+#~ msgstr "경계 - 시작"
 
 #~ msgid "Bug tracker hosting by:"
-#~ msgstr "버그 신고 사이트:"
+#~ msgstr "버그 제보 :"
 
 #~ msgid "C&ut"
-#~ msgstr "자르기(&U)"
+#~ msgstr "잘라내기(&U)"
 
 #~ msgid "Cancel Split"
-#~ msgstr "분할 작업 취소"
+#~ msgstr "분할 취소"
 
 #~ msgid "Change aspect ratio"
-#~ msgstr "비디오의 가로 세로의 비 바꾸기"
+#~ msgstr "종횡비 변경"
 
 #~ msgid "Change script resolution"
-#~ msgstr "스크립트 해상도 바꾸기"
+#~ msgstr "스크립트 해상도 변경"
 
 #~ msgid "Changes resolution and modifies subtitles to conform to change"
-#~ msgstr "변경된 해상도와 수정된 자막이 맞는지 확인하고 바꾸기"
+#~ msgstr "해상도를 변경하고 변경 사항에 맞게 자막을 수정"
 
 #~ msgid "Changes times of subs so end times begin on next's start time"
-#~ msgstr "현재 자막 종료 시간를 다음 자막 시작 시간으로 바꾸기"
+#~ msgstr "다음 시작 시간에 자막 종료 시간이 시작되도록 자막 시간 변경"
 
 #~ msgid "Changes times of subs so start times begin on previous's end time"
-#~ msgstr "종료 시간 앞으로 자막의 시작 시간 바꾸기"
+#~ msgstr "자막 시작 시간이 이전 종료 시간부터 시작되도록 자막 시간 변경"
 
 #~ msgid "Check File Associations on Start"
-#~ msgstr "실행시 파일 확장자 확인"
+#~ msgstr "시작 시, 파일 연결 확인"
 
 #~ msgid "Checkerboard pattern"
 #~ msgstr "체커보드 패턴"
 
 #~ msgid "Checking fonts...\n"
-#~ msgstr "글꼴 검사중...\n"
+#~ msgstr "글꼴 확인하기...\n"
 
-#, c-format
 #~ msgid "Choose %s track"
-#~ msgstr "%s 트랙 고르기"
+#~ msgstr "트랙 %s 선택"
 
 #~ msgid ""
 #~ "Choose the folder where the fonts will be collected to.\n"
 #~ "It will be created if it doesn't exist."
 #~ msgstr ""
-#~ "글꼴을 저장할 폴더를 선택하세요.\n"
-#~ "폴더가 없으면 새로 만드세요."
+#~ "글꼴을 수집할 폴더를 선택합니다.\n"
+#~ "존재하지 않는 경우 생성됩니다."
 
 #~ msgid "Clean Script Info"
 #~ msgstr "스크립트 정보 지우기"
 
 #~ msgid "Clear Hotkey"
-#~ msgstr "바로 가기 키 지우기"
+#~ msgstr "단축키 지우기"
 
 #~ msgid "Click on list:"
-#~ msgstr "클릭할 목록:"
+#~ msgstr "목록 클릭 :"
 
 #~ msgid "Closes the currently open audio file"
-#~ msgstr "현재 열려 있는 오디오 파일 닫기"
+#~ msgstr "현재 열려 있는 음향 파일 닫기"
 
 #~ msgid "Closes the currently open keyframes list"
-#~ msgstr "현재 열려 있는 키 프레임 목록 닫기"
+#~ msgstr "현재 열려 있는 키프레임 목록 닫기"
 
 #~ msgid "Closes the currently open timecodes file"
-#~ msgstr "현재 열려 있는 타임 코드 파일 닫기"
+#~ msgstr "현재 열려 있는 타임코드 파일 닫기"
 
 #~ msgid "Closes the currently open video file"
-#~ msgstr "현재 열려 있는 비디오 파일 닫기"
+#~ msgstr "현재 열려 있는 영상 파일 닫기"
 
 #~ msgid ""
-#~ "Collecting font data from system. This might take a while, depending on "
-#~ "the number of fonts installed. Results are cached and subsequent "
-#~ "executions will be faster...\n"
+#~ "Collecting font data from system. This might take a while, depending on the "
+#~ "number of fonts installed. Results are cached and subsequent executions will"
+#~ " be faster...\n"
 #~ msgstr ""
-#~ "시스템에서 글꼴 데이터를 가져오다.설치된 글꼴 갯수에 따라서 시간이 걸리지"
-#~ "도 모릅니다.저장된 결과로 이후 빠르게 실행할 수 있습니다.\n"
+#~ "시스템에서 글꼴 데이터를 수집 중입니다. 설치된 글꼴 수에 따라 다소 시간이 걸릴 수 있습니다. 결과가 캐시되어 후속 실행이 더 "
+#~ "빨라집니다...\n"
 
 #~ msgid "Collision: "
-#~ msgstr "충돌:"
+#~ msgstr "충돌 :"
 
 #~ msgid "Color Picker"
-#~ msgstr "컬러 선택"
+#~ msgstr "색 선택"
 
 #~ msgid "Commit changes (%KEY%/%KEY%)"
-#~ msgstr "변경 내용 적용 (%KEY%/%KEY%)"
+#~ msgstr "변경 사항 적용(%KEY%/%KEY%)"
 
 #~ msgid "Commit splits and leave split-mode"
-#~ msgstr "분할 작업 적용하고 분할 작업 모드 나가기"
+#~ msgstr "분할 적용하고 분할 모드 종료"
 
 #~ msgid "Commit?"
 #~ msgstr "적용하시겠습니까?"
 
 #~ msgid "Commits the text (Enter). Hold Ctrl to stay in line (%KEY%)."
-#~ msgstr "Commits the text (Enter). Hold Ctrl to stay in line (%KEY%)."
+#~ msgstr "텍스트를 적용합니다(Enter). 줄을 유지하려면 Ctrl 키를 누릅니다(%KEY%)."
 
 #~ msgid ""
 #~ "Configuration file is either invalid or corrupt. The current file will be "
 #~ "backed up and replaced with a default file."
-#~ msgstr ""
-#~ "구성파일이 잘못되거나 오류입니다.현재 파일을 백업하거나 기본구성파일로 바"
-#~ "꾸세요."
+#~ msgstr "구성 파일이 잘못되었거나 손상되었습니다. 현재 파일이 백업되고 기본 파일로 대체됩니다."
 
 #~ msgid "Constant: "
-#~ msgstr "상수:"
+#~ msgstr "상수 :"
 
 #~ msgid "Contains"
 #~ msgstr "포함"
 
 #~ msgid "Copies selected lines to clipboard"
-#~ msgstr "클립보드에 선택된 라인 복사"
+#~ msgstr "선택한 라인을 클립보드에 복사"
 
 #~ msgid "Copy"
 #~ msgstr "복사"
 
 #~ msgid "Copy of "
-#~ msgstr "복사 내용"
+#~ msgstr "사본 "
 
 #~ msgid "Copy subtitles"
 #~ msgstr "자막 복사"
 
 #~ msgid "Copy to current script ->"
-#~ msgstr "현재 스크립트에 복사 ->"
+#~ msgstr "현재 스크립트로 복사 →"
 
 #~ msgid "Could not open Internet File system. Aborting.\n"
-#~ msgstr "인터넷 파일 시스템을 열 수 없습니다. 취소합니다.\n"
+#~ msgstr "인터넷 파일 시스템을 열 수 없습니다. 중단합니다.\n"
 
 #~ msgid "Couldn't allocate memory."
 #~ msgstr "메모리를 할당할 수 없습니다."
 
 #~ msgid "Crash recovery path:"
-#~ msgstr "충돌시 복구할 파일 경로:"
+#~ msgstr "충돌 복구 경로 :"
 
 #~ msgid "Create an audio clip of the selected line"
-#~ msgstr "선택된 라인에 오디오 클립 만들기"
+#~ msgstr "선택한 대사의 음향 클립 만들기"
 
 #~ msgid "Current line: ?"
-#~ msgstr "현재 라인:?"
+#~ msgstr "현재 라인 : ?"
 
 #~ msgid "Cut"
 #~ msgstr "잘라내기"
 
 #~ msgid "Cuts selected lines to clipboard"
-#~ msgstr "클립보드에 선택된 라인 자르기"
+#~ msgstr "선택한 라인을 클립보드로 잘라내기"
 
 #~ msgid "DEBUG: Verify all fonts in system"
-#~ msgstr "DEBUG: 시스템의 모든 글꼴 확인"
+#~ msgstr "DEBUG : 시스템의 모든 글꼴 확인"
 
 #~ msgid "DON'T PANIC!"
-#~ msgstr "허둥대지 마라, 침착해라!"
+#~ msgstr "당황하지 마세요!"
 
 #~ msgid "Debug: "
-#~ msgstr "디버그: "
+#~ msgstr "디버그 : "
 
 #~ msgid "Default All"
-#~ msgstr "기본 설정"
+#~ msgstr "모두 기본값"
 
 #~ msgid "Default lead-in length"
-#~ msgstr "기본 리드인(시작점) 길이"
+#~ msgstr "기본 리드인 길이"
 
 #~ msgid "Default lead-out length"
-#~ msgstr "기본 리드아웃(종료점) 길이"
+#~ msgstr "기본 리드아웃 길이"
 
 #~ msgid "Default timing length"
 #~ msgstr "기본 타이밍 길이"
@@ -7307,227 +7282,226 @@ msgstr "업데이트 확인 :"
 #~ msgstr "대상 스타일"
 
 #~ msgid "Detach video, displaying it in a separate Window"
-#~ msgstr "분리된 창에 표시되고 있는 비디오 닫기"
+#~ msgstr "영상을 분리하여 별도의 창에 표시"
 
 #~ msgid "Dialogues"
-#~ msgstr "대화"
+#~ msgstr "대화 상자"
 
 #~ msgid "Discard all splits and leave split-mode"
-#~ msgstr "전체 분할 작업 취소하고 분할 작업 모드 나가기"
+#~ msgstr "모든 분할을 삭제하고 분할 모드에서 나가기"
 
 #~ msgid "Display"
 #~ msgstr "표시"
 
 #~ msgid "Display audio and subtitles only"
-#~ msgstr "오디오와 자막 표시"
+#~ msgstr "음향 및 자막만 표시"
 
 #~ msgid "Display audio, video and subtitles"
 #~ msgstr "오디오, 비디오 그리고 자막 표시"
 
 #~ msgid "Display subtitles only"
-#~ msgstr "자막 표시"
+#~ msgstr "자막만 표시"
 
 #~ msgid "Display video and subtitles only"
-#~ msgstr "비디오 와 자막 표시"
+#~ msgstr "비디오 및 자막만 표시"
 
 #~ msgid ""
 #~ "Do you want to commit your changes? If you choose No, they will be "
 #~ "discarded."
-#~ msgstr ""
-#~ "변경 내용을 적용하시겠습니까? No를 선택하시면 변경 내용이 취소됩니다."
+#~ msgstr "변경 내용을 적용하시겠습니까? 아니오를 선택하면 변경 사항이 삭제됩니다."
 
 #~ msgid "Doesn't Match"
 #~ msgstr "일치하지 않음 "
 
 #~ msgid "Done collecting font data."
-#~ msgstr "글꼴 데이터 가져오기 완료 하였습니다."
+#~ msgstr "글꼴 데이터 수집이 완료되었습니다."
 
 #~ msgid "Done."
-#~ msgstr "완료"
+#~ msgstr "완료되었습니다."
 
 #~ msgid "Done. All fonts found."
-#~ msgstr "완료! 전체 글꼴 검색됨"
+#~ msgstr "완료되었습니다. 모든 글꼴을 찾았습니다."
 
 #~ msgid "Done. Some fonts could not be found."
-#~ msgstr "완료! 약간의 글꼴들을 검색할 수 없습니다."
+#~ msgstr "완료되었습니다. 일부 글꼴을 찾을 수 없습니다."
 
 #~ msgid "Draw cursor time"
-#~ msgstr "커서 시간 표시"
+#~ msgstr "커서 시간 가져오기"
 
 #~ msgid "Draw keyframes"
-#~ msgstr "키 프레임 표시"
+#~ msgstr "키프레임 가져오기"
 
 #~ msgid "Draw secondary lines"
-#~ msgstr "보조 라인 표시"
+#~ msgstr "보조 라인 가져오기"
 
 #~ msgid "Draw selection background"
-#~ msgstr "선택 배경 표시 "
+#~ msgstr "선택 배경 가져오기"
 
 #~ msgid "Draw timeline"
-#~ msgstr "시간라인 표시"
+#~ msgstr "타임라인 가져오기"
 
 #~ msgid "Draw video position"
-#~ msgstr "비디오 위치 표시"
+#~ msgstr "영상 위치 가져오기"
 
 #~ msgid "Duplicate lines and shift by one frame"
-#~ msgstr "한개 프레임 이동후 라인 복제"
+#~ msgstr "라인 복제 및 1프레임씩 이동"
 
 #~ msgid "Edit Box Commit"
-#~ msgstr "편집 도구 실행"
+#~ msgstr "편집 도구 적용"
 
 #~ msgid "Enable Medusa-Style Timing Shortcuts"
-#~ msgstr "Medusa-스타일 타이밍 바로 가기 키 사용"
+#~ msgstr "메두사 스타일 타이밍 단축키 활성화"
 
 #~ msgid "Enable preview"
-#~ msgstr "미리보기 사용"
+#~ msgstr "미리 보기 활성화"
 
 #~ msgid "Enable preview (slow)"
-#~ msgstr "미리 보기 사용(느림)"
+#~ msgstr "미리 보기 활성화(느림)"
 
 #~ msgid "End times only"
-#~ msgstr "종료 시간"
+#~ msgstr "종료 시간만"
 
 #~ msgid ""
-#~ "Enter aspect ratio in either decimal (e.g. 2.35) or fractional (e.g. "
-#~ "16:9) form. Enter a value like 853x480 to set a specific resolution."
+#~ "Enter aspect ratio in either decimal (e.g. 2.35) or fractional (e.g. 16:9) "
+#~ "form. Enter a value like 853x480 to set a specific resolution."
 #~ msgstr ""
-#~ "decimal (e.g. 2.35) 또는  fractional (e.g. 16:9) 형식으로 가로세로비 입력"
-#~ "하다. 지정된 해상도 설정은 853x480 처럼 값을 입력하다."
+#~ "종횡비를 소수점(예 : 2.35) 또는 분수(예 : 16:9) 형식으로 입력합니다. 특정 해상도를 설정하려면 853x480과 같은 값을 "
+#~ "입력합니다."
 
 #~ msgid "Enter split-mode"
-#~ msgstr "분할 작업 모드 들어가기"
+#~ msgstr "분할 모드로 전환"
 
 #~ msgid ""
 #~ "Enter the name of the destination zip file to collect the fonts to.\n"
 #~ "If a folder is entered, a default name will be used."
 #~ msgstr ""
-#~ "수집된 글꼴이 있는 위치에 대상 zip 파일 이름을 입력하세요.\n"
-#~ "폴더를 입력시 기본 설정 이름을 사용하세요."
+#~ "글꼴을 수집할 대상 zip 파일의 이름을 입력합니다.\n"
+#~ "폴더를 입력하면 기본 이름이 사용됩니다."
 
 #~ msgid "Error: "
-#~ msgstr "오류: "
+#~ msgstr "오류 : "
 
 #~ msgid "Exact match"
 #~ msgstr "정확히 일치"
 
 #~ msgid "Executing "
-#~ msgstr "실행중"
+#~ msgstr "실행하기"
 
 #~ msgid "Exporting PRS"
 #~ msgstr "PRS 내보내기"
 
 #~ msgid "Failed.\n"
-#~ msgstr "실패.\n"
+#~ msgstr "실패했습니다.\n"
 
 #~ msgid "Fatal error: "
-#~ msgstr "심각한 오류: "
+#~ msgstr "치명적인 오류 : "
 
 #~ msgid "File backup saved as \""
-#~ msgstr "다른 이름으로 파일 백업 저장  \""
+#~ msgstr "파일 백업은 \\\"로 저장"
 
 #~ msgid "File paths"
-#~ msgstr "파일 위치"
+#~ msgstr "파일 경로"
 
 #~ msgid "File save/load"
-#~ msgstr "파일 저장/로드"
+#~ msgstr "파일 저장/불러오기"
 
 #~ msgid "Find next"
 #~ msgstr "다음 찾기"
 
 #~ msgid "Find next match of last word"
-#~ msgstr "마지막으로 일치된 단어이후 찾기"
+#~ msgstr "마지막 단어의 다음 일치 찾기"
 
 #~ msgid "Find words in subtitles"
 #~ msgstr "자막에서 단어 찾기"
 
 #~ msgid "Font Face Name"
-#~ msgstr "글꼴 이름"
+#~ msgstr "글꼴 서체 이름"
 
 #~ msgid "Font: "
-#~ msgstr "글꼴:"
+#~ msgstr "글꼴 : "
 
 #~ msgid "Forces video to 16:9 aspect ratio"
-#~ msgstr "화면 비율 16;9 고정"
+#~ msgstr "영상을 16:9 종횡비로 강제"
 
 #~ msgid "Forces video to 2.35 aspect ratio"
-#~ msgstr "화면 비율 2.35 고정"
+#~ msgstr "영상을 2.35:1 종횡비로 강제"
 
 #~ msgid "Forces video to 4:3 aspect ratio"
-#~ msgstr "화면 비율 4:3 고정"
+#~ msgstr "영상을 4:3 종횡비로 강제"
 
 #~ msgid "Forces video to a custom aspect ratio"
-#~ msgstr "화면 비율를 사용자 설정으로 고정"
+#~ msgstr "영상을 사용자 지정 종횡비로 강제"
 
 #~ msgid "Forum and wiki hosting by:"
-#~ msgstr "포럼 및 위키(wiki) 사이트:"
+#~ msgstr "포럼 및 위키 :"
 
 #~ msgid "Forward"
 #~ msgstr "앞으로"
 
 #~ msgid "Found.\n"
-#~ msgstr "검색됨.\n"
+#~ msgstr "찾았습니다.\n"
 
 #~ msgid "Frame"
 #~ msgstr "프레임"
 
 #~ msgid "Frames: "
-#~ msgstr "프레임:"
+#~ msgstr "프레임 :"
 
 #~ msgid "From Video"
-#~ msgstr "비디오에서"
+#~ msgstr "영상에서"
 
 #~ msgid "From video"
-#~ msgstr "비디오에서"
+#~ msgstr "영상에서"
 
 #~ msgid "Function"
 #~ msgstr "기능"
 
 #~ msgid "Go Back a Line"
-#~ msgstr "이전 라인으로 이동"
+#~ msgstr "1라인 뒤로 이동"
 
 #~ msgid "Grab times from line upon selection"
-#~ msgstr "선택 영역에 라인과 시간을 일치"
+#~ msgstr "선택 시, 라인에서 시간 가져오기"
 
 #~ msgid "Grid delete rows"
-#~ msgstr "[그리드] 줄 삭제"
+#~ msgstr "그리드 행 삭제"
 
 #~ msgid "Grid duplicate and shift one frame"
-#~ msgstr "[그리드] 한개 프레임 이동후 복제"
+#~ msgstr "그리드 복제 및 1프레임 이동"
 
 #~ msgid "Grid duplicate rows"
-#~ msgstr "[그리드] 줄 복제"
+#~ msgstr "그리드 중복 행"
 
 #~ msgid "Grid global next line"
-#~ msgstr "[그리드] 글로벌 다음 라인"
+#~ msgstr "그리드 전역 다음 라인"
 
 #~ msgid "Grid global prev line"
-#~ msgstr "[그리드] 글로벌 이전 라인"
+#~ msgstr "그리드 전역 이전 라인"
 
 #~ msgid "Grid move row down"
-#~ msgstr "[그리드] 줄 아래로 이동"
+#~ msgstr "그리드 행 아래로 이동"
 
 #~ msgid "Grid move row up"
-#~ msgstr "[그리드] 줄 위로 이동"
+#~ msgstr "그리드 행 위로 이동"
 
 #~ msgid "Group some text first."
-#~ msgstr "자막의 첫 라인"
+#~ msgstr "먼저 일부 텍스트를 그룹화합니다."
 
 #~ msgid "Groups"
 #~ msgstr "그룹"
 
 #~ msgid "HD cache name"
-#~ msgstr "HD 캐쉬 이름"
+#~ msgstr "HD 캐시 이름"
 
 #~ msgid "HD cache path"
-#~ msgstr "HD 캐쉬 위치"
+#~ msgstr "HD 캐시 경로"
 
 #~ msgid ""
 #~ "Having video open is often more a nuisance than a help when timing "
-#~ "subtitles. Timing with only audio open is often much easier. You can "
-#~ "always adjust the subtitles to match the video later on."
+#~ "subtitles. Timing with only audio open is often much easier. You can always "
+#~ "adjust the subtitles to match the video later on."
 #~ msgstr ""
-#~ "비디오 열기후 자막 타이밍의 도움말은 매우 성가시다. 대개는 쉽게 오디오 타"
-#~ "이밍만 열다.나중에 비디오에 일치되게 자막을 늘 조정할 수 있습니다."
+#~ "자막 타이밍을 맞출 때 영상을 열어두는 것은 종종 도움이 되기보다는 귀찮은 일이 됩니다. 음향만 열려 있는 상태에서 타이밍을 맞추는 것이"
+#~ " 훨씬 쉬운 경우가 많습니다. 나중에 언제든지 자막을 영상과 일치하도록 조정할 수 있습니다."
 
 #~ msgid "Header"
 #~ msgstr "머리글"
@@ -7536,35 +7510,33 @@ msgstr "업데이트 확인 :"
 #~ msgstr "도움말"
 
 #~ msgid "Highlight subtitles that are currently visible in video"
-#~ msgstr "하이라이트 자막은 비디오에 일반적으로 시각적인 효과를 준다."
+#~ msgstr "현재 영상에 표시되는 자막을 강조 표시합니다."
 
 #~ msgid "Hint: "
-#~ msgstr "참조: "
+#~ msgstr "힌트 : "
 
 #~ msgid "History"
-#~ msgstr "사용 기록"
+#~ msgstr "기록"
 
 #~ msgid "Hotkey conflict"
-#~ msgstr "바로 가기 키 충돌"
+#~ msgstr "단축키 충돌"
 
 #~ msgid "If anything goes wrong, blame movax."
-#~ msgstr "잘못된 곳으로 이동하게 되면 mova 잘못이다."
+#~ msgstr "문제가 발생하면 movax를 탓입니다."
 
 #~ msgid ""
 #~ "If the audio doesn't seem to work properly during video playback, try "
-#~ "loading audio separately. Just select Audio->Load from video, that "
-#~ "usually makes the audio much more reliable."
+#~ "loading audio separately. Just select Audio->Load from video, that usually "
+#~ "makes the audio much more reliable."
 #~ msgstr ""
-#~ "비디오 재생중에 오디오 작업을 원만하게 하지못한다면 따로 오디오 로딩를 시"
-#~ "도해라. 바로 오디오 선택 --> 비디오에서 로드, 이것은 확실하게 오디오를 만"
-#~ "든다."
+#~ "영상 재생 중에 음향이 제대로 작동하지 않는 것 같으면 음향을 별도로 불러와 보세요. 음향→영상에서 불러오기를 선택하면 일반적으로 음향이"
+#~ " 훨씬 더 안정적으로 재생됩니다."
 
 #~ msgid ""
-#~ "If you decode your audio to a PCM WAV file before loading it in Aegisub, "
-#~ "you don't have to wait for it to be decoded before you can use it."
+#~ "If you decode your audio to a PCM WAV file before loading it in Aegisub, you"
+#~ " don't have to wait for it to be decoded before you can use it."
 #~ msgstr ""
-#~ "Aegisub 로딩전에 PCM 음성 파일을 디코드했으면, 디코드 시간을 기다릴 필요 "
-#~ "없이 사용할 수 있습니다."
+#~ "음향을 Aegisub에 불러오기 전에 PCM WAV 파일로 디코딩하면 음향이 디코딩될 때까지 기다릴 필요 없이 바로 사용할 수 있습니다."
 
 #~ msgid "Ignore all"
 #~ msgstr "모두 무시"
@@ -7573,86 +7545,81 @@ msgstr "업데이트 확인 :"
 #~ msgstr "스크립트에서 가져오기..."
 
 #~ msgid "Inserts a line after current"
-#~ msgstr "현재 라인 뒤쪽에 라인 삽입"
+#~ msgstr "현재 뒤에 라인 삽입"
 
 #~ msgid "Inserts a line after current, starting at video time"
-#~ msgstr "현재 비디오 시간 뒤쪽에 라인 삽입"
+#~ msgstr "영상 시간부터 시작하여 현재 뒤에 라인 삽입"
 
 #~ msgid "Inserts a line before current"
-#~ msgstr "현재 라인 앞쪽에 라인 삽입"
+#~ msgstr "현재 앞에 라인 삽입"
 
 #~ msgid "Inserts a line before current, starting at video time"
-#~ msgstr "현재 비디오 시간 앞쪽에 라인 삽입"
+#~ msgstr "영상 시간부터 시작하여 현재 앞에 라인 삽입"
 
 #~ msgid "Intersect with selection"
-#~ msgstr "선택 영역과 교차"
+#~ msgstr "선택 항목과 교차"
 
 #~ msgid "Invalid destination directory."
 #~ msgstr "대상 디렉터리가 잘못되었습니다."
 
 #~ msgid "Invalid fps or length value"
-#~ msgstr "잘못된 재생 속도 또는 길이 값"
+#~ msgstr "잘못된 FPS 또는 길이 값"
 
 #~ msgid ""
-#~ "Invalid resolution: destination resolution cannot be 0 on either "
-#~ "dimension."
-#~ msgstr ""
-#~ "잘못된 해상도: 대상의 해상도는 가로 또는 세로이든지 \"0\"이 될 수 없습니"
-#~ "다."
+#~ "Invalid resolution: destination resolution cannot be 0 on either dimension."
+#~ msgstr "잘못된 해상도 : 대상 해상도는 모두에서 0이 될 수 없습니다."
 
 #~ msgid "Italic"
-#~ msgstr "기울임꼴"
+#~ msgstr "기울이기"
 
 #~ msgid "Italics"
 #~ msgstr "굵게"
 
 #~ msgid "Join"
-#~ msgstr "연결"
+#~ msgstr "합치기"
 
 #~ msgid "Join selected syllables"
-#~ msgstr "선택된 음절들 연결"
+#~ msgstr "선택한 음절 합치기"
 
 #~ msgid "Joins selected lines in a single one, as karaoke"
-#~ msgstr "가라오케와 선택된 라인을 하나로 연결"
+#~ msgstr "선택한 대사를 가라오케처럼 하나의 대사로 합치기"
 
 #~ msgid "Joins selected lines in a single one, concatenating text together"
-#~ msgstr "선택된 라인및 텍스트를 하나로 연결시키다."
+#~ msgstr "선택한 라인을 하나의 라인으로 결합하여 텍스트를 서로 합치기"
 
 #~ msgid ""
-#~ "Joins selected lines in a single one, keeping text of first and "
-#~ "discarding remaining"
-#~ msgstr ""
-#~ "선택된 라인를 하나로 연결후 남아 있는 작업을 취소하고 우선 텍스트를 보존"
+#~ "Joins selected lines in a single one, keeping text of first and discarding "
+#~ "remaining"
+#~ msgstr "선택한 라인을 하나의 라인로 결합하여 첫 번째 라인의 텍스트는 유지하고 나머지 라인은 버림"
 
 #~ msgid ""
 #~ "Joins selected lines in a single one, making each line into a karaoke "
 #~ "syllable"
-#~ msgstr ""
-#~ "선택된 라인을 하나의 라인으로 연결, 각각의 라인에 가라오케 음절 만들다."
+#~ msgstr "선택한 라인을 하나의 라인으로 결합하여 각 라인을 가라오케 음절로 만들기"
 
 #~ msgid "Jump To..."
-#~ msgstr "이동하기"
+#~ msgstr "이동하기..."
 
 #~ msgid "Jump video to end"
-#~ msgstr "비디오 종료로 이동"
+#~ msgstr "영상을 마지막으로 이동"
 
 #~ msgid "Jump video to start"
-#~ msgstr "비디오 시작으로 이동"
+#~ msgstr "영상을 시작으로 이동"
 
 #~ msgid "Jump video to time/frame"
-#~ msgstr "비디오의 시간/프레임 이동"
+#~ msgstr "영상을 시간/프레임으로 이동"
 
 #~ msgid "Jumps the video to the end frame of current subtitle"
-#~ msgstr "비디오 현재 자막의 종료 프레임으로 이동"
+#~ msgstr "영상을 현재 자막의 마지막 프레임으로 이동"
 
 #~ msgid "Jumps the video to the start frame of current subtitle"
-#~ msgstr "비디오 현재 자막의 시작 프레임 이동"
+#~ msgstr "영상을 현재 자막의 시작 프레임으로 이동"
 
 #~ msgid "Kanji Timer..."
-#~ msgstr "Kanji 타이머"
+#~ msgstr "한자 타이머..."
 
 #~ msgid "Kanji timer"
-#~ msgstr "Kanji 타이머"
+#~ msgstr "한자 타이머"
 
 #~ msgid "Karaoke"
 #~ msgstr "가라오케"
@@ -7661,97 +7628,97 @@ msgstr "업데이트 확인 :"
 #~ msgstr "키"
 
 #~ msgid "Launches ai-chan's \"ASSDraw3\" tool for vector drawing."
-#~ msgstr "벡터 드로잉 툴  \"ASSDraw3\"은 ai-chan's 님 만들었습니다."
+#~ msgstr "벡터 드로잉을 위한 아이짱의 \\\"ASS드로우3\\\" 도구를 출시"
 
 #~ msgid "Leave video on original aspect ratio"
-#~ msgstr "원본의 화면비율 유지"
+#~ msgstr "영상을 원본 종횡비로 유지"
 
 #~ msgid "Left Margin (0 = default)"
-#~ msgstr "왼쪽 여백(기본값 0 )"
+#~ msgstr "왼쪽 여백(0=기본값)"
 
 #~ msgid "Limits for levels and recent files"
-#~ msgstr "최근 사용한 파일의 최대 이력"
+#~ msgstr "레벨 및 최근 열람 파일에 대한 제한"
 
 #~ msgid "Line in frame background"
-#~ msgstr "프레임 라인 배경색"
+#~ msgstr "프레임 배경의 라인"
 
 #~ msgid "Link"
 #~ msgstr "연결"
 
 #~ msgid "Link commiting of times"
-#~ msgstr "시작/종료 시간을 연결하다"
+#~ msgstr "시간 연결 적용"
 
 #~ msgid "Lo&g Window..."
-#~ msgstr "로그창(&G)"
+#~ msgstr "로그 창(&G)..."
 
 #~ msgid "Load audio"
-#~ msgstr "오디오 로드"
+#~ msgstr "음향 불러오기"
 
 #~ msgid "Load keyframes"
-#~ msgstr "키 프레임 로드"
+#~ msgstr "키프레임 불러오기"
 
 #~ msgid "Lock scroll on Cursor"
-#~ msgstr "커서 화면 이동 고정"
+#~ msgstr "커서 스크롤 잠금"
 
 #~ msgid "Lowest"
 #~ msgstr "가장 낮음 "
 
 #~ msgid "Make Aegisub default editor for subtitles?"
-#~ msgstr "Aegisub을 기본 자막 에디터로 설정하기"
+#~ msgstr "Aegisub를 자막 기본 편집기로 설정하시겠습니까?"
 
 #~ msgid "Manual by:"
-#~ msgstr "매뉴얼:"
+#~ msgstr "매뉴얼 제작 :"
 
 #~ msgid "Margin Bottom"
-#~ msgstr "아래쪽 여백"
+#~ msgstr "하단 여백"
 
 #~ msgid "Margin Top"
-#~ msgstr "위쪽 여백"
+#~ msgstr "상단 여백"
 
 #~ msgid "MarginL change"
-#~ msgstr "왼쪽 여백 바꾸기"
+#~ msgstr "왼쪽 여백 변경"
 
 #~ msgid "MarginR change"
-#~ msgstr "오른쪽 여백 바꾸기"
+#~ msgstr "오른쪽 여백 변경"
 
 #~ msgid "MarginV change"
-#~ msgstr "수직 여백 바꾸기"
+#~ msgstr "세로 여백 변경"
 
 #~ msgid "Match case"
-#~ msgstr "대/소문자 구분"
+#~ msgstr "일치 사례"
 
 #~ msgid "Matches"
 #~ msgstr "일치"
 
 #~ msgid "Maximum recent audio files"
-#~ msgstr "최근 사용한 오디오 파일에 최대 이력"
+#~ msgstr "가장 최근 열어본 음향 파일"
 
 #~ msgid "Maximum recent find strings"
-#~ msgstr "최근 찾은 문자열에 최대 이력"
+#~ msgstr "가장 최근 찾아본 문자열"
 
 #~ msgid "Maximum recent keyframe files"
-#~ msgstr "최근 사용한 키 프레임에 최대 이력"
+#~ msgstr "가장 최근 열어본 키프레임 파일"
 
 #~ msgid "Maximum recent replace strings"
-#~ msgstr "최근 바꾼 문자열에 최대 이력"
+#~ msgstr "가장 최근 바꾸기한 문자열"
 
 #~ msgid "Maximum recent subtitle files"
-#~ msgstr "최근 사용한 자막 파일에 최대 이력"
+#~ msgstr "가장 최근 열어본 자막 파일"
 
 #~ msgid "Maximum recent timecode files"
-#~ msgstr "최근 사용한 타임코드에 최대 이력"
+#~ msgstr "가장 최근 열어본 타임코드 파일"
 
 #~ msgid "Maximum recent video files"
-#~ msgstr "최근 사용한 비디오 파일에 최대 이력"
+#~ msgstr "가장 최근 열어본 영상 파일"
 
 #~ msgid "Maximum undo levels"
-#~ msgstr "실행 취소 최대 갯수"
+#~ msgstr "최대 실행 취소 레벨"
 
 #~ msgid "Miscellanea"
 #~ msgstr "기타"
 
 #~ msgid "Modified Background"
-#~ msgstr "수정된 배경색"
+#~ msgstr "수정된 배경"
 
 #~ msgid "Move down"
 #~ msgstr "아래로 이동"
@@ -7760,21 +7727,18 @@ msgstr "업데이트 확인 :"
 #~ msgstr "위로 이동"
 
 #~ msgid ""
-#~ "Much like anything loaded via DirectShow, certain files may have a "
-#~ "strange structure (such as h.264 into AVI or XviD will null frames) which "
-#~ "may cause unreliable seeking (that is, video frames might be off by one "
-#~ "frame). This is not an Aegisub bug - you may consider reencoding those "
-#~ "videos before working with them."
+#~ "Much like anything loaded via DirectShow, certain files may have a strange "
+#~ "structure (such as h.264 into AVI or XviD will null frames) which may cause "
+#~ "unreliable seeking (that is, video frames might be off by one frame). This "
+#~ "is not an Aegisub bug - you may consider reencoding those videos before "
+#~ "working with them."
 #~ msgstr ""
-#~ "DirectShow 통해서 많이 불러오다. 확실히 파일이 불확실한 탐색이 원인이 되어"
-#~ "서 이상한 구조 ( 예컨데 H.264에 AVI 또는 XviD은 빈 프레임을 요구한다.) 가"
-#~ "지게 될것이다.  다시 말하자면 하나의 프레임에 의해서 비디오 프레임이 중단"
-#~ "될지도 모른다.이것은 Aegisub 프로그램 버그가 아닙니다 - 비디오 파일을 작업"
-#~ "하기 전에 다시 인코딩하는것을 생각하는것도 좋을것 같습니다."
+#~ "DirectShow를 통해 불러온 모든 파일과 마찬가지로 특정 파일의 구조가 이상하여(예 : h.264를 AVI 또는 XviD로 변환하면"
+#~ " 프레임이 널링됩니다) 검색이 불안정할 수 있습니다(즉, 영상 프레임이 한 프레임씩 벗어날 수 있습니다). 이는 Aegisub 버그가 "
+#~ "아니므로 해당 영상으로 작업하기 전에 다시 인코딩하는 것을 고려하세요."
 
-#, c-format
 #~ msgid "Multiple %s tracks detected, please choose the one you wish to load:"
-#~ msgstr "다수의 %s 트랙을 찾았습니다. 로드할 파일을 선택하십시오."
+#~ msgstr "여러 개의 %s 트랙이 감지되었습니다. 불러올 파일을 선택 :"
 
 #~ msgid "New version found!\n"
 #~ msgstr "새 버전을 찾았습니다!\n"
@@ -7783,25 +7747,25 @@ msgstr "업데이트 확인 :"
 #~ msgstr "다음 라인/음절 (%KEY%/%KEY%)"
 
 #~ msgid "No new version has been found.\n"
-#~ msgstr "새 버전을 찾을 수가 없습니다.\n"
+#~ msgstr "새 버전을 찾지 못했습니다.\n"
 
 #~ msgid "No subtitle providers available. Cannot preview subs."
-#~ msgstr "이용 가능한 자막이 없어 자막 미리 보기할 수 없습니다."
+#~ msgstr "자막 공급자가 없습니다. 자막을 미리 볼 수 없습니다."
 
 #~ msgid "No timecodes to average"
-#~ msgstr "타임코드의 평균이 없음"
+#~ msgstr "평균화할 타임코드 없음"
 
 #~ msgid "None"
 #~ msgstr "없음"
 
 #~ msgid "Not enough parameters for Aegisub::text_extents()"
-#~ msgstr "Aegisub에 매개변수가 부족합니다::text_extents()"
+#~ msgstr "Aegisub::text_extents()에 대한 매개변수가 충분하지 않음"
 
 #~ msgid "Not found.\n"
-#~ msgstr "검색할 수 없음.\n"
+#~ msgstr "찾을 수 없습니다.\n"
 
 #~ msgid "OK.\n"
-#~ msgstr "확인.\n"
+#~ msgstr "OK.\n"
 
 #~ msgid "Opaque box"
 #~ msgstr "불투명 상자"
@@ -7810,46 +7774,46 @@ msgstr "업데이트 확인 :"
 #~ msgstr "첨부 파일 목록 열기"
 
 #~ msgid "Open Automation manager"
-#~ msgstr "자동화 매니저 열기"
+#~ msgstr "자동화 관리자 열기"
 
 #~ msgid "Open Fonts Collector"
-#~ msgstr "글꼴 셀렉터 열기"
+#~ msgstr "글꼴 수집기 열기"
 
 #~ msgid "Open Kanji Timer dialog"
-#~ msgstr "Kanji 타이머 dialog 열기"
+#~ msgstr "한자 타이머 대화 상자 열기"
 
 #~ msgid "Open Kanji timer"
-#~ msgstr "Kanji timer 열기"
+#~ msgstr "한자 타이머 열기"
 
 #~ msgid "Open Properties"
 #~ msgstr "속성 열기"
 
 #~ msgid "Open Shift Times Dialogue"
-#~ msgstr "Times Dialogue 이동 열기"
+#~ msgstr "시프트 타임 대화 상자 열기"
 
 #~ msgid "Open Spell checker"
 #~ msgstr "맞춤법 검사기 열기"
 
 #~ msgid "Open Styles Manager"
-#~ msgstr "스타일 메니저 열기 "
+#~ msgstr "스타일 관리자 열기"
 
 #~ msgid "Open Styling Assistant"
 #~ msgstr "스타일 도우미 열기"
 
 #~ msgid "Open Timing Post-processor dialog"
-#~ msgstr "타이밍 포스트-프로세서 대화 상자 열기"
+#~ msgstr "타이밍 포스트 프로세서 대화 상자 열기"
 
 #~ msgid "Open Translation Assistant"
 #~ msgstr "번역 도우미 열기"
 
 #~ msgid "Open audio file"
-#~ msgstr "오디오 파일 열기"
+#~ msgstr "음향 파일 열기"
 
 #~ msgid "Open log window"
-#~ msgstr "로그창 열기"
+#~ msgstr "로그 창 열기"
 
 #~ msgid "Open styles manager"
-#~ msgstr "스타일 매니저 열기"
+#~ msgstr "스타일 관리자 열기"
 
 #~ msgid "Open the attachment list"
 #~ msgstr "첨부 파일 목록 열기"
@@ -7858,126 +7822,123 @@ msgstr "업데이트 확인 :"
 #~ msgstr "타임코드 파일 열기"
 
 #~ msgid "Opens a VFR timecodes v1 or v2 file"
-#~ msgstr "VFR 타임코드 버전 1 또는 버전 2 파일 열기"
+#~ msgstr "VFR 타임코드 v1 또는 v2 파일 열기"
 
 #~ msgid "Opens a keyframe list file"
-#~ msgstr "키 프레임 목록 파일 열기"
+#~ msgstr "키프레임 목록 파일 열기"
 
 #~ msgid "Opens a subtitles file"
 #~ msgstr "자막 파일 열기"
 
 #~ msgid "Opens a subtitles file with a specific charset"
-#~ msgstr "지정된 문자로 자막 파일 열기"
+#~ msgstr "특정 문자 집합으로 자막 파일 열기"
 
 #~ msgid "Opens a video clip with solid color"
-#~ msgstr "흑백 비디오 클립 열기"
+#~ msgstr "흑백 영상 클립 열기"
 
 #~ msgid "Opens a video file"
-#~ msgstr "비디오 파일 열기"
+#~ msgstr "영상 파일 열기"
 
 #~ msgid "Opens an audio file"
-#~ msgstr "오디오 파일 열기"
+#~ msgstr "음향 파일 열기"
 
 #~ msgid "Opens the audio from the current video file"
-#~ msgstr "현재 비디오 파일에서 오디오 파일 열기"
+#~ msgstr "현재 영상 파일에서 음향 열기"
 
 #~ msgid "Outline color"
-#~ msgstr "외곽선색"
+#~ msgstr "외곽선 색"
 
 #~ msgid "Override Aspect Ratio"
-#~ msgstr "화면 비율"
+#~ msgstr "종횡비 재정의"
 
 #~ msgid "Overwrite-Insertion in time boxes"
-#~ msgstr "시간 박스안에 삽입해서 덮어쓰기"
+#~ msgstr "시간 상자에 삽입 덮어쓰기"
 
 #~ msgid "Paste"
 #~ msgstr "붙여넣기"
 
 #~ msgid "Paste Over"
-#~ msgstr "덮어쓰기"
+#~ msgstr "위에 붙여넣기"
 
 #~ msgid "Paste lines from clipboard"
-#~ msgstr "클립보드에서 라인 불여넣기"
+#~ msgstr "클립보드에서 라인 붙여넣기"
 
 #~ msgid "Path to dictionary files:"
-#~ msgstr "사전 파일 경로:"
+#~ msgstr "사전 파일 경로 :"
 
 #~ msgid "Perl script"
 #~ msgstr "펄 스크립트"
 
 #~ msgid "Play 500 ms after selection (%KEY%)"
-#~ msgstr "선택영역 0.5초후 재생 (%KEY%)"
+#~ msgstr "선택 영역 0.5초 후 재생(%KEY%)"
 
 #~ msgid "Play 500 ms before selection (%KEY%)"
-#~ msgstr "선택영역 0.5초전 재생 (%KEY%)"
+#~ msgstr "선택 영역 0.5초 전 재생(%KEY%)"
 
 #~ msgid "Play Audio"
-#~ msgstr "오디오 재생"
+#~ msgstr "음향 재생"
 
 #~ msgid "Play Video"
-#~ msgstr "비디오 재생"
+#~ msgstr "영상 재생"
 
 #~ msgid "Play current line (%KEY%)"
-#~ msgstr "현재 라인 재생 (%KEY%)"
+#~ msgstr "현재 라인 재생(%KEY%)"
 
 #~ msgid "Play first 500ms of selection (%KEY%)"
-#~ msgstr "선택영역에 처음 5초간 재생 (%KEY%)"
+#~ msgstr "선택 영역 처음 5초간 재생(%KEY%)"
 
 #~ msgid "Play from selection start to end of file (%KEY%)"
-#~ msgstr "선택 파일 재생 (%KEY%)"
+#~ msgstr "선택 영역 시작부터 파일 끝까지 재생(%KEY%)"
 
 #~ msgid "Play last 500ms of selection (%KEY%)"
-#~ msgstr "선택 영역에 마지막 5초간 재생 (%KEY%)"
+#~ msgstr "선택 영역 마지막 5초간 재생(%KEY%)"
 
 #~ msgid "Play selection (%KEY%/%KEY%)"
-#~ msgstr "선택 영역 재생 (%KEY%/%KEY%)"
+#~ msgstr "선택 영역 재생(%KEY%/%KEY%)"
 
 #~ msgid "Please go to the following URL to download it: %s\n"
-#~ msgstr "다음 URL으로 이동후에 새버전을 다운로드 하세요: %s\n"
+#~ msgstr "내려받으려면 다음 URL로 이동 : %s\n"
 
 #~ msgid ""
 #~ "Please select the formats you want to\n"
 #~ "associate with Aegisub:"
-#~ msgstr "Aegisub 프로그램에 연결할 형식을 선택:"
+#~ msgstr "Aegisub와 연결할 형식을 선택 :"
 
 #~ msgid "Please wait, caching fonts..."
-#~ msgstr "글씨체 캐싱중..."
+#~ msgstr "글꼴을 캐싱하는 동안 잠시만 기다려주세요..."
 
 #~ msgid "Possible error parsing source line"
-#~ msgstr "원본 라인 분석중 사소한 오류 발생"
+#~ msgstr "소스 라인 구문 분석 오류 발생"
 
 #~ msgid "Press Key"
-#~ msgstr "키 누름"
+#~ msgstr "키 누르기"
 
-#, c-format
 #~ msgid "Press key to bind to \"%s\" or Esc to cancel."
-#~ msgstr ""
-#~ "키를 눌러 \"%s\"을(를) 지정할 수 있습니다.\n"
-#~ "취소할려면 ESC 키를 누르십시오."
+#~ msgstr "키를 눌러 \"%s\"에 할당하거나 Esc 키를 눌러 취소합니다."
 
 #~ msgid "Previous line or syllable (%KEY%/%KEY%)"
-#~ msgstr "이전 라인/음절 (%KEY%/%KEY%)"
+#~ msgstr "이전 라인 또는 음절(%KEY%/%KEY%)"
 
 #~ msgid "Primary color"
-#~ msgstr "기본색"
+#~ msgstr "기본 색"
 
 #~ msgid "Programmers:"
-#~ msgstr "프로그래머:"
+#~ msgstr "프로그래머 :"
 
 #~ msgid "Reading into RAM"
-#~ msgstr "다음 램에서 읽는중"
+#~ msgstr "RAM에서 읽기"
 
 #~ msgid "Reading keyframe and timecode data from Matroska file."
-#~ msgstr "Matroska 파일에서 키 프레임과 타임코드 데이터 읽어오는중"
+#~ msgstr "Matroska 파일에서 키프레임 및 타임코드 데이터를 읽어옵니다."
 
 #~ msgid "Reading keyframes from video"
-#~ msgstr "비디오에서 키프레임 읽어오는중"
+#~ msgstr "영상에서 키프레임 읽기"
 
 #~ msgid "Realtime"
 #~ msgstr "실시간"
 
 #~ msgid "Recombine subtitles when they have been split and merged"
-#~ msgstr "분활되고 합쳐진 자막을 재결합"
+#~ msgstr "자막이 분할 및 병합된 경우 자막 재결합하기"
 
 #~ msgid "Redo"
 #~ msgstr "다시 실행"
@@ -7988,17 +7949,15 @@ msgstr "업데이트 확인 :"
 #~ msgid "Regular Expression match"
 #~ msgstr "정규식 일치"
 
-#, c-format
 #~ msgid "Reloading %s because the file on disk (%s) changed."
-#~ msgstr "디스크에 파일(%s)이 변경되어 %s 리로딩중입니다."
+#~ msgstr "디스크의 파일(%s)이(가) 변경되었으므로 %s을(를) 다시 불러오는 중입니다."
 
 #~ msgid ""
-#~ "Removes all but the absolutely required fields from the Script Info "
-#~ "section. You might want to run this on files that you plan to distribute "
-#~ "in original form."
+#~ "Removes all but the absolutely required fields from the Script Info section."
+#~ " You might want to run this on files that you plan to distribute in original"
+#~ " form."
 #~ msgstr ""
-#~ "스크립트 정보 섹션에서 필수적으로 요구되는 필드를 제외하고 모두 제거하세"
-#~ "요. 이 스크립트를 배포하다."
+#~ "스크립트 정보 섹션에서 필수 필드를 제외한 모든 필드를 제거합니다. 원본 형식으로 배포하려는 파일에서 이 옵션을 실행하는 것이 좋습니다."
 
 #~ msgid "Replace All"
 #~ msgstr "모두 바꾸기"
@@ -8010,35 +7969,34 @@ msgstr "업데이트 확인 :"
 #~ msgstr "다음 바꾸기"
 
 #~ msgid "Replace override tags with: "
-#~ msgstr "태그를 덮어쓰기 해서 바꾸기:"
+#~ msgstr "재정의 태그를 다음과 같이 변경 :"
 
 #~ msgid "Replace timecodes?"
-#~ msgstr "타임코드를 바꿀까요?"
+#~ msgstr "타임코드를 교체하시겠습니까?"
 
 #~ msgid "Resample"
-#~ msgstr "다시설정"
+#~ msgstr "재표본화"
 
 #~ msgid "Resample Resolution..."
-#~ msgstr "해상도 다시 설정...."
+#~ msgstr "해상도 재표본화..."
 
 #~ msgid "Resample Script Resolution"
-#~ msgstr "스크립트 해상도 다시 설정"
+#~ msgstr "스크립트 해상도 재표본화"
 
 #~ msgid "Resample resolution"
-#~ msgstr "해상도 변경"
+#~ msgstr "해상도 재표본화"
 
 #~ msgid "Resource files distributed with Aegisub"
-#~ msgstr "리소스 파일이 보내졌습니다."
+#~ msgstr "Aegisub와 함께 배포하는 리소스 파일"
 
 #~ msgid "Restart Aegisub"
 #~ msgstr "Aegisub 다시 시작"
 
 #~ msgid "Restore Defaults"
-#~ msgstr "기본 설정 복구"
+#~ msgstr "기본값 복원"
 
-#, c-format
 #~ msgid "Resulting duration: %d:%02d:%02d.%03d"
-#~ msgstr "총 재생 시간: %d시간%02d분%02d.%03d초"
+#~ msgstr "총 재생 시간 : %d시간 %02d분 %02d.%03d초"
 
 #~ msgid "Reverse"
 #~ msgstr "역방향"
@@ -8047,29 +8005,27 @@ msgstr "업데이트 확인 :"
 #~ msgstr "역변환"
 
 #~ msgid "Right Margin (0 = default)"
-#~ msgstr "오른쪽 여백(기본값 0 )"
+#~ msgstr "오른쪽 여백(0=기본값)"
 
 #~ msgid ""
 #~ "Runs a post-processor for timing to deal with lead-ins, lead-outs, scene "
 #~ "timing and etc"
-#~ msgstr ""
-#~ "리드인,리드아웃, 장면 시간 그리고 기타 시간을 나누어서  post-processor 실"
-#~ "행"
+#~ msgstr "리드인, 리드아웃, 씬 타이밍 등을 처리하기 위해 타이밍을 위한 포스트 프로세서를 실행"
 
 #~ msgid "SVN hosting by:"
-#~ msgstr "자유 소프트웨어 버전 관리 시스템( Subversion , SVN ) 사이트:"
+#~ msgstr "SVN 호스팅 제공 :"
 
 #~ msgid "Save Subtitles Alt"
-#~ msgstr "자막 저장"
+#~ msgstr "자막 대체 저장"
 
 #~ msgid "Save before continuing?"
-#~ msgstr "시작하기전에 저장하겠습니까?"
+#~ msgstr "계속하기 전에 저장하시겠습니까?"
 
 #~ msgid "Save config.dat locally"
-#~ msgstr "config.dat에 설정 정보 저장"
+#~ msgstr "config.dat를 로컬에 저장"
 
 #~ msgid "Save subtitles"
-#~ msgstr "자막저장"
+#~ msgstr "자막 저장"
 
 #~ msgid "Save timecodes file"
 #~ msgstr "타임코드 파일 저장"
@@ -8078,40 +8034,40 @@ msgstr "업데이트 확인 :"
 #~ msgstr "VFR 타임 코드 v2 파일 저장"
 
 #~ msgid "Saves a copy of subtitles with processing applied to it"
-#~ msgstr "자막의 변경 내용 적용해서 자막의 복사본으로 저장"
+#~ msgstr "처리가 적용된 자막 사본 저장"
 
 #~ msgid "Saves subtitles"
-#~ msgstr "자막을 저장하다"
+#~ msgstr "자막 저장"
 
 #~ msgid "Saves subtitles with another name"
 #~ msgstr "다른 이름으로 자막 저장"
 
 #~ msgid "Saves the current keyframe list"
-#~ msgstr "현재 키 프레임 목록 저장"
+#~ msgstr "현재 키프레임 목록 저장"
 
 #~ msgid "Saving changes"
-#~ msgstr "변경 내용 저장중"
+#~ msgstr "변경 사항 저장"
 
 #~ msgid "Scanning file for fonts..."
-#~ msgstr "자막내 글꼴 검색중..."
+#~ msgstr "파일에서 글꼴 검색 중..."
 
 #~ msgid "Script completed"
 #~ msgstr "스크립트 완료"
 
 #~ msgid "Scripting engines installed:\n"
-#~ msgstr "스크립팅 엔진 설치:\n"
+#~ msgstr "스크립팅 엔진 설치 :\n"
 
 #~ msgid "Search and &Replace..."
-#~ msgstr "검색 및 바꾸기(&R)"
+#~ msgstr "검색 및 바꾸기(&R)..."
 
 #~ msgid "Secondary color"
-#~ msgstr "보조색"
+#~ msgstr "보조 색"
 
 #~ msgid "Seconds boundary"
-#~ msgstr "시간 경계선"
+#~ msgstr "초 단위 경계"
 
 #~ msgid "Seek bar"
-#~ msgstr "탐색바"
+#~ msgstr "탐색 막대"
 
 #~ msgid "Select Lines..."
 #~ msgstr "라인 선택..."
@@ -8123,44 +8079,43 @@ msgstr "업데이트 확인 :"
 #~ msgstr "선택 안 함"
 
 #~ msgid "Select source text first."
-#~ msgstr "원본 첫 라인 선택합니다. "
+#~ msgstr "먼저 원본 텍스트를 선택합니다."
 
 #~ msgid "Select visible"
-#~ msgstr "시각효과을 설정하다"
+#~ msgstr "표시 선택"
 
 #~ msgid "Selected rows"
 #~ msgstr "선택된 행"
 
 #~ msgid "Selection background - modified"
-#~ msgstr "선택 배경색 - 수정됨"
+#~ msgstr "선택 배경 - 수정됨"
 
 #~ msgid "Selection onward"
 #~ msgstr "선택 영역 이후"
 
-#, c-format
 #~ msgid "Selection was set to %u lines"
-#~ msgstr "선택 영역에 %u 라인를 설정"
+#~ msgstr "선택 영역에 %u 라인을 설정"
 
 #~ msgid "Selects all lines that are currently visible on video frame"
-#~ msgstr "비디오 프레임에 현재 시각효과를 선택"
+#~ msgstr "현재 영상 프레임에 표시되는 모든 라인을 선택"
 
 #~ msgid "Selects lines based on defined criteria"
-#~ msgstr "기본 지정된 라인 선택"
+#~ msgstr "정의된 기준에 따라 라인 선택"
 
 #~ msgid "Set End to Video"
-#~ msgstr "[비디오] 종료 설정"
+#~ msgstr "영상 종료 설정"
 
 #~ msgid "Set Hotkey..."
-#~ msgstr "바로 가기 키 설정..."
+#~ msgstr "단축키 설정..."
 
 #~ msgid "Set Start to Video"
-#~ msgstr "[비디오] 시작 설정"
+#~ msgstr "영상 시작 설정"
 
 #~ msgid "Set Zoom"
-#~ msgstr "화면 크기"
+#~ msgstr "확대/축소 설정"
 
 #~ msgid "Set opacity, from 0 (opaque) to 255 (transparent)"
-#~ msgstr "불투명도 설정, 0 ( 불투명 )에서 ~ 255 ( 투명 )까지"
+#~ msgstr "0(불투명)에서 255(투명)까지 불투명도 설정"
 
 #~ msgid "Set selection"
 #~ msgstr "선택 영역 설정"
@@ -8170,34 +8125,32 @@ msgstr "업데이트 확인 :"
 #~ "extend start time of the second line; if totally to right, it will extend "
 #~ "the end time of the first line."
 #~ msgstr ""
-#~ "서로 접한 라인들을 설정하는 방법 설정하다. 모두 왼쪽으로 설정하면, 첫번째 "
-#~ "라인이 두번째 라인의 시작 시간까지 늘어나다;\n"
-#~ "모두 오른쪽으로 설정하면 두번째 라인이 첫번째 라인의 끝 시간까지 늘어납니"
-#~ "다."
+#~ "라인의 인접을 설정하는 방법을 설정합니다. 완전히 왼쪽으로 설정하면 2번째 라인의 시작 시간이 연장되고, 완전히 오른쪽으로 설정하면 "
+#~ "1번째 라인의 종료 시간이 연장됩니다."
 
 #~ msgid "Shadow color"
-#~ msgstr "그림자색"
+#~ msgstr "그림자 색"
 
 #~ msgid "Shift by Current Time"
-#~ msgstr "[비디오] 현재 시간으로 이동"
+#~ msgstr "현재 시간으로 이동"
 
 #~ msgid "Shift selected subtitles so first selected starts at this frame"
-#~ msgstr "먼저 이 프레임의 시작을 선택하고 선택된 자막을 이동"
+#~ msgstr "선택한 자막을 이동하여 처음 선택한 자막이 이 프레임에서 시작되도록 함"
 
 #~ msgid "Shift selection so first selected line starts at current frame"
-#~ msgstr "현재 프레임에 우선 선택된 라인의 시작을 선택영역으로 이동"
+#~ msgstr "1번째 선택한 라인이 현재 프레임에서 시작되도록 선택 이동"
 
 #~ msgid "Shift subtitles to frame"
-#~ msgstr "자막 프레임 이동"
+#~ msgstr "프레임으로 자막 이동"
 
 #~ msgid "Show Splash Screen"
 #~ msgstr "시작 화면 표시"
 
 #~ msgid "Show Tip of the Day"
-#~ msgstr "오늘의 조언 표시"
+#~ msgstr "오늘의 팁 보기"
 
 #~ msgid "Shows video details"
-#~ msgstr "비디오 상세 정보 표시"
+#~ msgstr "영상 상세 정보 표시"
 
 #~ msgid "Skip Dest Line"
 #~ msgstr "대상 라인 건너 뛰기"
@@ -8206,31 +8159,31 @@ msgstr "업데이트 확인 :"
 #~ msgstr "원본 라인 건너 뛰기"
 
 #~ msgid "Snap end to video"
-#~ msgstr "비디오 종료 맞추기"
+#~ msgstr "영상 끝부분 포착"
 
 #~ msgid "Snap selected subtitles so they match current scene start/end"
-#~ msgstr "현재 장면의 시작/끝에 알맞게 선택된 자막을 맞추다. "
+#~ msgstr "선택한 자막을 현재 장면 시작/끝과 일치하도록 포착"
 
 #~ msgid "Snap start to video"
-#~ msgstr "비디오 시작 맞추기"
+#~ msgstr "영상 시작 포착"
 
 #~ msgid "Snap subtitles to scene"
-#~ msgstr "장면에 자막 맞추기"
+#~ msgstr "장면에 자막 포착"
 
 #~ msgid "Snap to adjacent lines"
-#~ msgstr "인접한 라인들 맞춤"
+#~ msgstr "인접 라인에 포착"
 
 #~ msgid "Snap to keyframes"
-#~ msgstr "키 프레임 맞춤"
+#~ msgstr "키프레임에 포착"
 
 #~ msgid "Sort by Time"
-#~ msgstr "시간 정렬"
+#~ msgstr "시간 기준 정렬"
 
 #~ msgid "Source Style"
 #~ msgstr "원본 스타일"
 
 #~ msgid "Spe&ll Checker..."
-#~ msgstr "맞춤법 검사기(&L)"
+#~ msgstr "맞춤법 검사기(&L)..."
 
 #~ msgid "Spectrum cache memory max (MB)"
 #~ msgstr "스펙트럼 최대 캐쉬 메모리(MB)"
@@ -8260,10 +8213,10 @@ msgstr "업데이트 확인 :"
 #~ msgstr "시작!"
 
 #~ msgid "Startup"
-#~ msgstr "Aegisub 시작시 작동 설정"
+#~ msgstr "시작"
 
 #~ msgid "Stop (%KEY%)"
-#~ msgstr "정지 (%KEY%)"
+#~ msgstr "중지(%KEY%)"
 
 #~ msgid "Strikeout"
 #~ msgstr "취소선"
@@ -8274,33 +8227,31 @@ msgstr "업데이트 확인 :"
 #~ msgid ""
 #~ "Styles can be stored in different storages, so that you can keep your "
 #~ "projects organized."
-#~ msgstr ""
-#~ "계획된 프로젝트를 보존하기 위해서 스타일을 다른 저장 공간에 저장할 수 있습"
-#~ "니다."
+#~ msgstr "스타일을 다양한 저장 장치에 저장할 수 있으므로 프로젝트를 체계적으로 관리할 수 있습니다."
 
 #~ msgid "Styling Assistant Accept"
-#~ msgstr "[스타일 도우미] 적용"
+#~ msgstr "스타일 도우미 동의"
 
 #~ msgid "Styling Assistant Next"
-#~ msgstr "[스타일 도우미] 다음 "
+#~ msgstr "스타일 도우미 다음"
 
 #~ msgid "Styling Assistant Play Audio"
-#~ msgstr "[스타일 도우미] 오디오 재생"
+#~ msgstr "스타일 도우미 음향 재생"
 
 #~ msgid "Styling Assistant Play Video"
-#~ msgstr "[스타일 도우미] 비디오 재생"
+#~ msgstr "스타일 도우미 영상 재생"
 
 #~ msgid "Styling Assistant Prev"
-#~ msgstr "[스타일 도우미] 이전"
+#~ msgstr "스타일 도우미 이전"
 
 #~ msgid "Styling Assistant Preview"
-#~ msgstr "[스타일 도우미]미리 보기"
+#~ msgstr "스타일 도우미 미리 보기"
 
 #~ msgid "Styling assistant"
 #~ msgstr "스타일 도우미"
 
 #~ msgid "Subtitles edit box"
-#~ msgstr "자막 편집 박스"
+#~ msgstr "자막 편집 상자"
 
 #~ msgid "Subtitles grid"
 #~ msgstr "자막 그리드"
@@ -8309,181 +8260,155 @@ msgstr "업데이트 확인 :"
 #~ msgstr "선택 영역에서 빼기"
 
 #~ msgid "Swaps the two selected lines"
-#~ msgstr "두개의 선택된 라인을 교환"
+#~ msgstr "선택한 두 라인을 서로 바꾸기"
 
 #~ msgid "Syllable boundary"
-#~ msgstr "음절 경계선"
+#~ msgstr "음절 경계"
 
 #~ msgid "Syllable text"
 #~ msgstr "음절 텍스트"
 
 #~ msgid "Symmetrical"
-#~ msgstr "상하/좌우 대칭 설정"
+#~ msgstr "대칭"
 
 #~ msgid "Syntax highlighter - "
-#~ msgstr "자막 태그 하이라이터  - "
+#~ msgstr "구문 하이라이터 -"
 
 #~ msgid ""
 #~ "The fonts collector is one of the most useful features, which resumes the "
 #~ "boring task of hunting down fonts into a matter of a few clicks."
-#~ msgstr ""
-#~ "글꼴 셀렉터의 가장 유용한 기능은 대략 몇번 클릭으로 글꼴 찾는 지루한 작업"
-#~ "을 반복하는걸 해결습니다."
+#~ msgstr "글꼴 수집기는 글꼴을 찾아 헤매는 지루한 작업을 몇 번의 클릭만으로 끝낼 수 있는 매우 유용한 기능 중 하나입니다."
 
-#, c-format
 #~ msgid ""
-#~ "The hotkey %s is already mapped to %s. If you proceed, that hotkey will "
-#~ "be cleared. Proceed?"
-#~ msgstr ""
-#~ "바로 가기 키 \"%s\"은(는) 이미 \"%s\"에 연결되어 있습니다.\n"
-#~ "\n"
-#~ "진행하면 기존에 연결된 바로 가기 키는 지워집니다.진행하시겠습니까?"
+#~ "The hotkey %s is already mapped to %s. If you proceed, that hotkey will be "
+#~ "cleared. Proceed?"
+#~ msgstr "단축키 %s가 이미 %s에 매핑되어 있습니다. 계속하면 해당 단축키가 지워집니다. 계속하시겠습니까?"
 
 #~ msgid ""
 #~ "The source line contains text before the first karaoke block.\n"
 #~ "Do you want to carry it over to the destination?\n"
 #~ "It will be ignored otherwise."
 #~ msgstr ""
-#~ "원본 라인은 첫번째 카라오케 블록 이전에 텍스트를 포함있습니다.\n"
-#~ "텍스트를 이동해서 대상에 덮어쓸까요?\n"
-#~ "만약 그렇지 않으면 무시하십시오."
+#~ "소스 라인에는 1번째 가라오케 블록 앞에 텍스트가 포함되어 있습니다.\n"
+#~ "이 텍스트를 목적지로 옮기시겠습니까?\n"
+#~ "그렇지 않으면 무시됩니다."
 
 #~ msgid "The starting point is beyond the length of the audio loaded."
-#~ msgstr "시작점은 로드된 오디오의 길이 넘어에 있다."
+#~ msgstr "시작 지점은 불러온 음향의 길이를 초과합니다."
 
 #~ msgid ""
 #~ "The styling assistant is a practical way to set styles to each line, when "
 #~ "each actor has a different style assigned to it."
-#~ msgstr ""
-#~ "스타일 도우미는 각 라인의 스타일 설정을 실용적인 방법으로 각 작업자가 가지"
-#~ "고 있는 다른 스타일을 배정한다."
+#~ msgstr "스타일링 도우미는 작업자마다 다른 스타일이 할당되어 있을 때, 각 대사에 스타일을 설정하는 실용적인 방법입니다."
 
 #~ msgid "There is no audio to save."
-#~ msgstr "저장할 오디오가 없다."
+#~ msgstr "저장할 음향이 없습니다."
 
 #~ msgid ""
 #~ "There is no reason to use the SSA format (as opposed to ASS). ASS is very "
-#~ "similar, but adds some important functionality. Most importantly, "
-#~ "however, is that only ASS supports certain override tags (such as \\pos "
-#~ "and \\t). Those only work on SSA files because VSFilter/Textsub is "
-#~ "merciful."
+#~ "similar, but adds some important functionality. Most importantly, however, "
+#~ "is that only ASS supports certain override tags (such as \\pos and \\t). "
+#~ "Those only work on SSA files because VSFilter/Textsub is merciful."
 #~ msgstr ""
-#~ "SSA 형식을 사용할 이유가 없습니다.(ASS형식과 대조적으로).ASS 형식은 SSA 형"
-#~ "식과 아주 비슷하지만 , 다소의 중요한 기능이 추가 되었습니다.대부분 중요하"
-#~ "지만 그렇지만 확실히 덮어쓰기 태그는 ASS 형식만 지원한다.VS필터/Textsub 지"
-#~ "원으로 덮어쓰기 태그는 SSA형식의 파일에서만 작동한다."
+#~ "ASS가 아닌 SSA 형식을 사용할 이유가 없습니다. ASS는 매우 유사하지만 몇 가지 중요한 기능이 추가됩니다. 그러나 가장 중요한 "
+#~ "것은 ASS만 특정 재정의 태그(예 : \\\\pos 및 \\\\t)를 지원한다는 것입니다. 이러한 태그는 "
+#~ "VSFilter/Textsub가 자비롭기 때문에 SSA 파일에서만 작동합니다."
 
 #~ msgid "This build of Aegisub uses the following C/C++ libraries:\n"
-#~ msgstr "Aegisub는  C/C++  libraries를 사용해서 만들었습니다:\n"
+#~ msgstr "Aegisub 빌드에는 다음 C/C++ 라이브러리가 쓰임 :\n"
 
 #~ msgid "Thread priority"
 #~ msgstr "스레드 우선 순위"
 
 #~ msgid ""
-#~ "Threshold for 'after end' distance, that is, how many frames a subtitle "
-#~ "must end after a keyframe to snap to it."
-#~ msgstr ""
-#~ "'종료 이후'거리에 스레쉬홀드가 있으면 몇개의 자막 프레임들을 종료 이후 키 "
-#~ "프레임에 맞춰야 한다."
+#~ "Threshold for 'after end' distance, that is, how many frames a subtitle must"
+#~ " end after a keyframe to snap to it."
+#~ msgstr "'종료 후' 거리에 대한 임계값, 즉 자막이 키프레임 이후에 종료되어야 자막이 포착되는 프레임 수입니다."
 
 #~ msgid ""
 #~ "Threshold for 'after start' distance, that is, how many frames a subtitle "
 #~ "must start after a keyframe to snap to it."
-#~ msgstr ""
-#~ "'시작 이후' 거리에 스레시홀드간격에 있으면 몇개의 자막 프레임을 시작 이후 "
-#~ "키 프레임에 맞춰야 한다."
+#~ msgstr "'시작 후' 거리에 대한 임계값, 즉 자막이 키프레임 이후에 시작되어야 자막이 포착되는 프레임 수입니다."
 
 #~ msgid ""
 #~ "Threshold for 'before end' distance, that is, how many frames a subtitle "
 #~ "must end before a keyframe to snap to it."
-#~ msgstr ""
-#~ "'종료 앞에' 거리에 스레시홀드가 있으면 몇개의 자막 프레임들을 종료 앞에 "
-#~ "키 프레임에 맞춰야 한다."
+#~ msgstr "'종료 전' 거리의 임계값, 즉 자막이 키프레임에 포착되기 전에 자막이 종료되어야 하는 프레임 수입니다."
 
 #~ msgid ""
-#~ "Threshold for 'before start' distance, that is, how many frames a "
-#~ "subtitle must start before a keyframe to snap to it."
-#~ msgstr ""
-#~ "'시작 앞에' 거리에 스레시홀드 있으면  몇개의 자막 프레임들을 시작 앞에 키 "
-#~ "프레임으로 맞춰야 한다."
+#~ "Threshold for 'before start' distance, that is, how many frames a subtitle "
+#~ "must start before a keyframe to snap to it."
+#~ msgstr "'시작 전' 거리에 대한 임계값, 즉 자막이 키프레임에 포착되기 전에 시작해야 하는 프레임 수입니다."
 
 #~ msgid "Threshold:"
-#~ msgstr "스레시홀드:"
+#~ msgstr "스레시홀드 :"
 
 #~ msgid "Time"
 #~ msgstr "시간"
 
 #~ msgid "Timing Post-Processor..."
-#~ msgstr "타이밍 포스트-프로세서"
+#~ msgstr "타이밍 포스트 프로세서..."
 
 #~ msgid "Toggle realtime display of changes."
-#~ msgstr "변경 내용의 실시간 표시 토글"
+#~ msgstr "변경 사항의 실시간 표시를 적용/해제합니다."
 
-#, c-format
 #~ msgid ""
 #~ "Total scripts loaded: %d\n"
 #~ "Global scripts loaded: %d\n"
 #~ "Local scripts loaded: %d\n"
 #~ "\n"
 #~ msgstr ""
-#~ "전체 스크립트 불러오기: %d\n"
-#~ "Global 스크립트 불러오기: %d\n"
-#~ "Local 스크립트 불러오기: %d\n"
+#~ "불러온 총 스크립트 : %d\n"
+#~ "불러온 전역 스크립트 : %d\n"
+#~ "불러온 로컬 스크립트 : %d\n"
 #~ "\n"
 
 #~ msgid "Trace: "
-#~ msgstr "추적: "
+#~ msgstr "추적 : "
 
 #~ msgid ""
-#~ "Transform subtitles times, including those in override tags, from input "
-#~ "to output. This is most useful to convert CFR to VFR for hardsubbing. You "
+#~ "Transform subtitles times, including those in override tags, from input to "
+#~ "output. This is most useful to convert CFR to VFR for hardsubbing. You "
 #~ "usually DO NOT want to check this filter for softsubbing."
 #~ msgstr ""
-#~ "자막 시간 변경은 덮어쓰기 태그 및 입력에서 출력까지 포합니다. CFR에서 VFR "
-#~ "변경하는 하드서핑에서 자주 이용합니다. 보통 소프트서핑 필터를 체크 하지 않"
-#~ "습니다."
+#~ "오버라이드 태그의 자막을 포함하여 자막 시간을 입력에서 출력으로 변환합니다. 이 기능은 하드서빙을 위해 CFR을 VFR로 변환할 때 가장"
+#~ " 유용합니다. 일반적으로 소프트서빙에 대해서는 이 필터를 선택하지 않는 것이 좋습니다."
 
 #~ msgid "Translation Assistant Accept"
-#~ msgstr "[번역 도우미] 적용"
+#~ msgstr "번역 도우미 동의"
 
 #~ msgid "Translation Assistant Insert Original"
-#~ msgstr "[번역 도우미] 원본 삽입"
+#~ msgstr "번역 도우미 원본 삽입"
 
 #~ msgid "Translation Assistant Next"
-#~ msgstr "[번역 도우미] 다음"
+#~ msgstr "번역 도우미 다음"
 
 #~ msgid "Translation Assistant Play Audio"
-#~ msgstr "[번역 도우미]  오디오 재생"
+#~ msgstr "번역 도우미 음향 재생"
 
 #~ msgid "Translation Assistant Play Video"
-#~ msgstr "[번역 도우미] 비디오 재생"
+#~ msgstr "번역 도우미 영상 재생"
 
 #~ msgid "Translation Assistant Prev"
-#~ msgstr "[번역 도우미] 이전"
+#~ msgstr "번역 도우미 이전"
 
 #~ msgid "Translation Assistant Preview"
-#~ msgstr "[번역 도우미] 미리보기"
+#~ msgstr "번역 도우미 미리 보기"
 
 #~ msgid ""
 #~ "Tried to register PerlConsole, but support for it was disabled in this "
 #~ "version."
-#~ msgstr ""
-#~ "PerlConsole에 등록을 시도하다, 하지만 이 버전에서는 PerlConsole 등록 지원"
-#~ "를 사용하지 않습니다."
+#~ msgstr "PerlConsole을 등록하려고 했지만 이 버전에서는 해당 기능이 지원되지 않습니다."
 
 #~ msgid ""
-#~ "Try the spectrum mode for the audio display, it can make it much easier "
-#~ "to spot where the important points in the audio are."
-#~ msgstr ""
-#~ "오디오 표시에 스펙트럼 모드를 시도하다, 스펙트럼 모드는 오디오에 중요한 포"
-#~ "인트를 매우 쉽게 만들 수 있다."
+#~ "Try the spectrum mode for the audio display, it can make it much easier to "
+#~ "spot where the important points in the audio are."
+#~ msgstr "음향 표시의 스펙트럼 모드를 사용하면 음향에서 중요한 지점을 훨씬 쉽게 찾을 수 있습니다."
 
 #~ msgid ""
-#~ "Unable to add the automation include path(s) to @INC: the script's code "
-#~ "may not compile or execute properly."
-#~ msgstr ""
-#~ "@INC 경로를 포함하고 있는 자동화 스크립트를 추가할 수 없습니다: 이 스크립"
-#~ "트 코드는 컴파일 되지 않았거나 실행할 수 없습니다."
+#~ "Unable to add the automation include path(s) to @INC: the script's code may "
+#~ "not compile or execute properly."
+#~ msgstr "자동화 포함 경로를 다음에 추가할 수 없음 @INC : 스크립트 코드가 제대로 컴파일되거나 실행되지 않을 수 있습니다."
 
 #~ msgid "Underline"
 #~ msgstr "밑줄"
@@ -8501,148 +8426,138 @@ msgstr "업데이트 확인 :"
 #~ msgstr "연결 해제"
 
 #~ msgid "Unload timecodes?"
-#~ msgstr "타임코드 파일을 언로드 하시겠습니까?"
+#~ msgstr "타임코드를 불러오기 해제 하시겠습니까?"
 
 #~ msgid "Update Video (slow)"
-#~ msgstr "업데이트 비디오(느림)"
+#~ msgstr "영상 업데이트(느림)"
 
 #~ msgid ""
-#~ "Use keyboard shortcuts! They make your life easier, for example, "
-#~ "Ctrl+Enter updates changes on current line without going to next. Check "
-#~ "the manual for a complete list."
+#~ "Use keyboard shortcuts! They make your life easier, for example, Ctrl+Enter "
+#~ "updates changes on current line without going to next. Check the manual for "
+#~ "a complete list."
 #~ msgstr ""
-#~ "바로 가기 키를 사용하면 여러분의 작업을 쉬게 만들 수 있습니다. 예를 들어 "
-#~ "Ctrl+Enter 키는 현재 라인의 변경 내용을 업데이트하고 없으면 다음 라인으로 "
-#~ "이동합니다. 모든 목록에 매뉴얼 클릭하세요."
+#~ "키보드 단축키를 사용하세요! 예를 들어, 다음 줄로 넘어가지 않고 현재 줄의 변경 내용을 업데이트하는 Ctrl+Enter 키를 사용하면 "
+#~ "작업이 더 쉬워집니다. 전체 목록은 매뉴얼에서 확인하세요."
 
 #~ msgid "Use regular expressions"
 #~ msgstr "정규식 사용"
 
 #~ msgid "Uses karaoke timing to split line into multiple smaller lines"
-#~ msgstr "가라오케 타이밍을 사용해서 여러개의 간단한 라인으로 분할"
+#~ msgstr "노래방 타이밍을 사용하여 라인을 여러 개의 작은 라인으로 나누기"
 
 #~ msgid "Variable"
-#~ msgstr "가변"
+#~ msgstr "변수"
 
 #~ msgid "Vertical Margin (0 = default)"
-#~ msgstr "수직 여백(기본값 0 )"
+#~ msgstr "세로 여백(0=기본값)"
 
 #~ msgid "Video Jump"
-#~ msgstr "[비디오] 이동"
+#~ msgstr "영상 이동"
 
 #~ msgid "Video global focus seek"
-#~ msgstr "[비디오] 글로벌 포커스 탐색"
+#~ msgstr "영상 전역 포커스 검색"
 
 #~ msgid "Video global next frame"
-#~ msgstr "[비디오] 글로벌 다음 프레임"
+#~ msgstr "영상 전역 다음 프레임"
 
 #~ msgid "Video global play"
-#~ msgstr "[비디오] 전체 재생"
+#~ msgstr "영상 전역 재생"
 
 #~ msgid "Video global prev frame"
-#~ msgstr "[비디오] 글로벌 이전 프레임"
+#~ msgstr "영상 전역 이전 프레임"
 
 #~ msgid "Video global zoom in"
-#~ msgstr "[비디오] 글로벌 화면 확대"
+#~ msgstr "영상 전역 확대"
 
 #~ msgid "Video global zoom out"
-#~ msgstr "[비디오] 글로벌 화면 축소"
+#~ msgstr "영상 전역 축소"
 
 #~ msgid "Visit Aegisub's forums"
-#~ msgstr "Aegisub 포럼 사이트로 이동"
+#~ msgstr "Aegisub 포럼 방문"
 
 #~ msgid ""
 #~ "WARNING: Changing these settings might result in bugs,\n"
 #~ "crashes, glitches and/or movax.\n"
 #~ "Don't touch these unless you know what you're doing."
 #~ msgstr ""
-#~ "경고!:\n"
-#~ "오류, 충돌(고장), 사소한 결함 그리고 movax 등의 결과로 설정들이 변경될지"
-#~ "도 모릅니다.\n"
-#~ "사용자가 무엇을 하고 있는지 알기전까지는 건드리지 마세요 !!!"
+#~ "경고: 이러한 설정을 변경하면 버그,\n"
+#~ "충돌, 결함 및/또는 이동이 발생할 수 있습니다.\n"
+#~ "잘 모른다면 이 설정을 건드리지 마세요."
 
 #~ msgid "Warning"
 #~ msgstr "경고"
 
 #~ msgid "Warning: "
-#~ msgstr "경고: "
+#~ msgstr "경고 : "
 
 #~ msgid "Waveform - inactive"
-#~ msgstr "웨이브폼 - 비활성"
+#~ msgstr "파형 - 비활성"
 
 #~ msgid "Waveform - modified"
-#~ msgstr "웨이브폼 - 수정됨"
+#~ msgstr "파형 - 수정됨"
 
 #~ msgid "Waveform - selection"
-#~ msgstr "웨이브폼 - 선택영역"
+#~ msgstr "파형 - 선택 영역"
 
 #~ msgid ""
 #~ "When you are done with your subtitles and ready to distribute them, "
 #~ "remember: say no to MP4, OGM or AVI. Matroska is your friend."
 #~ msgstr ""
-#~ "자막이 완료가 되어 배포할 준비가 되었을때 기억하세요: MP4 나 OGM 또는 AVI "
-#~ "아니고  Matroska(MKV) 입니다."
+#~ "자막 작업을 완료하고 배포할 준비가 되면 다음 사항 참조 : MP4, OGM 또는 AVI는 거절하세요. Mastroska가 최고 입니다."
 
 #~ msgid "Writing file"
-#~ msgstr "파일 기록중"
+#~ msgstr "파일 작성"
 
 #~ msgid ""
-#~ "You already have timecodes loaded. Replace them with the timecodes from "
-#~ "the Matroska file?"
+#~ "You already have timecodes loaded. Replace them with the timecodes from the "
+#~ "Matroska file?"
 #~ msgstr ""
-#~ "로드된 타임코드를 이미 가지고 있습니다. Matroska 파일의 타임코드와 이미 로"
-#~ "드된 타임코드를 바꾸시겠습니까?"
+#~ "이미 타임코드가 불러와져 있습니다. Matroska 파일의 타임코드로 바꾸시겠습니까?"
 
 #~ msgid ""
 #~ "You already have timecodes loaded. Would you like to replace them with "
 #~ "timecodes from the video file?"
 #~ msgstr ""
-#~ "타임코드가 이미 로드 되었습니다.비디오 파일에서 타임코드를 바꾸시겠습니"
-#~ "까 ?"
+#~ "타임코드가 이미 로드 되었습니다.비디오 파일에서 타임코드를 바꾸시겠습니까?"
 
 #~ msgid ""
 #~ "You can easily translate subtitle files using the translation assistant."
-#~ msgstr "번역 도우미를 사용해서 자막 파일 쉽게 번역할 수 있습니다."
+#~ msgstr ""
+#~ "번역 도우미를 사용하여 자막 파일을 쉽게 번역할 수 있습니다."
 
 #~ msgid ""
-#~ "You have chosen to use the \"Comic Sans\" font. As the programmer and a "
-#~ "typesetter,\n"
-#~ "I must urge you to reconsider. Comic Sans is the most abused font in the "
-#~ "history\n"
-#~ "of computing, so please avoid using it unless it's REALLY suitable. "
-#~ "Thanks."
+#~ "You have chosen to use the \"Comic Sans\" font. As the programmer and a typesetter,\n"
+#~ "I must urge you to reconsider. Comic Sans is the most abused font in the history\n"
+#~ "of computing, so please avoid using it unless it's REALLY suitable. Thanks."
 #~ msgstr ""
-#~ "\"Comic Sans\" 글꼴 사용을 선택하는걸,전문가처럼 성급하게 고려해서는 안됩"
-#~ "니다.\n"
-#~ "Comic Sans는 컴퓨터에서 너무 많이 사용되고 글꼴입니다, 정말로 알맞지 않은 "
-#~ "이상은 사용하지 말아주세요.\n"
+#~ "\"Comic Sans\" 글꼴을 선택하셨습니다. 프로그래머이자 자막러\n"
+#~ "로서 다시 한 번 재고해 주시기 바랍니다. Comic Sans는 컴퓨터 역사상 \n"
+#~ "가장 많이 남용된 글꼴이므로 딱맞는 경우가 아니라면 사용하지 마세요. \n"
 #~ "감사합니다."
 
 #~ msgid "You have timecodes loaded currently. Would you like to unload them?"
-#~ msgstr ""
-#~ "현재 로드된 타임코드를 가지고 있습니다. 타임코드 파일을 언로드 하시겠습니"
-#~ "까?"
+#~ msgstr "현재 타임코드가 불러와져 있습니다. 불러오기 해제 하시겠습니까?"
 
 #~ msgid "Zip Archives (*.zip)|*.zip"
-#~ msgstr "Zip 압축 파일 (*.zip)|*.zip"
+#~ msgstr "Zip 압축 파일(*.zip)|*.zip"
 
 #~ msgid "Zoom 100%"
-#~ msgstr "[비디오] 100% 표시"
+#~ msgstr "확대/축소 100%"
 
 #~ msgid "Zoom 200%"
-#~ msgstr "[비디오] 200% 표시"
+#~ msgstr "확대/축소 200%"
 
 #~ msgid "Zoom 50%"
-#~ msgstr "[비디오] 50% 표시"
+#~ msgstr "확대/축소 50%"
 
 #~ msgid "Zoom in"
-#~ msgstr "화면 확대"
+#~ msgstr "확대"
 
 #~ msgid "Zoom out"
-#~ msgstr "화면 축소"
+#~ msgstr "축소"
 
 #~ msgid "audio"
-#~ msgstr "오디오"
+#~ msgstr "음향"
 
 #~ msgid "delete"
 #~ msgstr "삭제"
@@ -8654,31 +8569,31 @@ msgstr "업데이트 확인 :"
 #~ msgstr "글꼴 첨부"
 
 #~ msgid "hide tags."
-#~ msgstr "태크 숨기기."
+#~ msgstr "태그를 숨깁니다."
 
 #~ msgid "load"
-#~ msgstr "로드"
+#~ msgstr "불러오기"
 
 #~ msgid "original"
 #~ msgstr "원본"
 
 #~ msgid "replace with"
-#~ msgstr "바꿀 내용"
+#~ msgstr "대체"
 
 #~ msgid "seconds."
-#~ msgstr "초."
+#~ msgstr "초입니다."
 
 #~ msgid "show full tags."
-#~ msgstr "모든 태그 표시."
+#~ msgstr "전체 태그를 표시합니다."
 
 #~ msgid "simplify tags."
-#~ msgstr "간단한 태크."
+#~ msgstr "태그를 간소화합니다."
 
 #~ msgid "style changes"
 #~ msgstr "스타일 바꾸기"
 
 #~ msgid "unsaved, "
-#~ msgstr "저장 안 함"
+#~ msgstr "저장 안 함, "
 
 #~ msgid "video"
-#~ msgstr "비디오"
+#~ msgstr "영상"
