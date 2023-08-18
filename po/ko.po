@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: kaegisub\n"
+"Project-Id-Version: Aegisub\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-30 03:10+0200\n"
 "PO-Revision-Date: 2023-08-15 07:15\n"
-"Last-Translator: FreeTime\n"
-"Language-Team: Korean\n"
+"Last-Translator: Hack茶ん\n"
+"Language-Team: TNC\n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 
@@ -178,7 +178,7 @@ msgstr "맥"
 
 #: ../src/ass_style.cpp:199
 msgid "Shift_JIS"
-msgstr "Shift_JIS"
+msgstr "일본어 (Shift_JIS)"
 
 #: ../src/ass_style.cpp:200
 msgid "Hangeul"
@@ -186,15 +186,15 @@ msgstr "한글"
 
 #: ../src/ass_style.cpp:201
 msgid "Johab"
-msgstr "조합(한글)"
+msgstr "한글 (조합)"
 
 #: ../src/ass_style.cpp:202
 msgid "GB2312"
-msgstr "GB2312"
+msgstr "중국어 간체 (GB2312)"
 
 #: ../src/ass_style.cpp:203
 msgid "Chinese BIG5"
-msgstr "중어 BIG5"
+msgstr "중국어 번체 (BIG5)"
 
 #: ../src/ass_style.cpp:204
 msgid "Greek"
@@ -2439,7 +2439,7 @@ msgstr "영상 위에 있는 마우스의 현재 좌표를 클립보드에 복�
 
 #: ../src/command/video.cpp:222 ../src/command/video.cpp:223
 msgid "Cycle active subtitles provider"
-msgstr "활성 자막 공급처 순환"
+msgstr "활성 자막 렌더러 순환"
 
 #: ../src/command/video.cpp:224
 msgid "Cycle through the available subtitles providers"
@@ -2448,15 +2448,15 @@ msgstr "사용 가능한 자막 제공처를 순환하며 살펴보기"
 #: ../src/command/video.cpp:235 ../src/command/video.cpp:252
 #, c-format
 msgid "Subtitles provider set to %s"
-msgstr "자막 공급처를 %s로 설정"
+msgstr "자막 렌더러를 %s로 설정"
 
 #: ../src/command/video.cpp:241 ../src/command/video.cpp:242
 msgid "Reload active subtitles provider"
-msgstr "활성 자막 공급처 다시 불러오기"
+msgstr "활성 자막 렌더러 다시 불러오기"
 
 #: ../src/command/video.cpp:243
 msgid "Reloads the current subtitles provider"
-msgstr "현재 자막 공급처 다시 불러오기"
+msgstr "현재 자막 렌더러 다시 불러오기"
 
 #: ../src/command/video.cpp:259
 msgid "&Detach Video"
@@ -5938,7 +5938,7 @@ msgstr "고급"
 
 #: ../src/preferences.cpp:366
 msgid "Changing these settings might result in bugs and/or crashes.  Do not touch these unless you know what you're doing."
-msgstr "이 설정을 변경하면 버그나 충돌이 발생할 수 있습니다.  사용법을 충분히 모르는 경우, 이 설정을 건드리지 마세요."
+msgstr "이 설정을 변경하면 버그나 충돌이 발생할 수 있습니다.  사용법을 잘 모르는 경우, 이 설정을 건드리지 마세요."
 
 #: ../src/preferences.cpp:379 ../src/preferences.cpp:455
 msgid "Expert"
@@ -5946,7 +5946,7 @@ msgstr "전문"
 
 #: ../src/preferences.cpp:382
 msgid "Audio provider"
-msgstr "음향 공급자"
+msgstr "음향 렌더러"
 
 #: ../src/preferences.cpp:385
 msgid "Audio player"
@@ -6054,7 +6054,7 @@ msgstr "스테레오로 다운믹스"
 
 #: ../src/preferences.cpp:427
 msgid "Max BS cache size (MB)"
-msgstr "최대 BS 캐시 크기(MB)"
+msgstr "최대 BestSource 캐시 크기(MB)"
 
 #: ../src/preferences.cpp:428
 msgid "Use Aegisub's Cache"
@@ -6078,11 +6078,11 @@ msgstr "버퍼 길이"
 
 #: ../src/preferences.cpp:458
 msgid "Video provider"
-msgstr "영상 공급자"
+msgstr "영상 렌더러"
 
 #: ../src/preferences.cpp:461
 msgid "Subtitles provider"
-msgstr "자막 공급자"
+msgstr "자막 렌더러"
 
 #: ../src/preferences.cpp:466
 msgid "Avisynth memory limit"
@@ -6231,14 +6231,14 @@ msgstr "음향 파일 찾기 실패 : "
 #: ../src/project.cpp:263
 msgid "None of the available audio providers recognised the selected file as containing audio data.\n\n"
 "The following providers were tried:\n"
-msgstr "사용 가능한 음향 공급자 어느 곳도 선택한 파일에 음향 데이터가 포함된 것으로 인식하지 못했습니다.\n\n"
-"다음 공급자를 사용 :\n"
+msgstr "사용 가능한 음향 렌더러 어느 곳도 선택한 파일에 음향 데이터가 포함된 것으로 인식하지 못했습니다.\n\n"
+"다음 렌더러를 사용 :\n"
 
 #: ../src/project.cpp:266
 msgid "None of the available audio providers have a codec available to handle the selected file.\n\n"
 "The following providers were tried:\n"
-msgstr "사용 가능한 음향 공급자 중 선택한 파일을 처리할 수 있는 코덱이 없습니다.\n\n"
-"다음 공급자를 사용 :\n"
+msgstr "사용 가능한 음향 렌더러 중 선택한 파일을 처리할 수 있는 코덱이 없습니다.\n\n"
+"다음 렌더러를 사용 :\n"
 
 #: ../src/resolution_resampler.cpp:289
 msgid "resolution resampling"
@@ -6710,6 +6710,72 @@ msgstr "그러면 컴퓨터에 Aegisub {#BUILD_GIT_VERSION_STRING}이 설치됩�
 #: packages/win_installer/fragment_strings.iss:1
 msgid "Update Checker:"
 msgstr "업데이트 확인 :"
+
+msgid "OK"
+msgstr "확인"
+
+msgid "&Apply"
+msgstr "적용(&A)"
+
+msgid "Reset video pan"
+msgstr "영상 팬 재설정"
+
+msgid "Apply karaoke template with modified script"
+msgstr "수정된 스크립트로 가라오케 템플릿 적용"
+
+msgid "Apply karaoke template with modified script (no furigana)"
+msgstr "수정된 스크립트로 가라오케 템플릿 적용(후리가나 없음)"
+
+msgid "Install Script"
+msgstr "스크립트 설치"
+
+msgid "Macro Configuration"
+msgstr "매크로 설정"
+
+msgid "Uninstall Script"
+msgstr "스크립트 제거"
+
+msgid "Update Script"
+msgstr "스크립트 업데이트"
+
+msgid "Select overlaps"
+msgstr "중복 선택"
+
+msgid "Use styled edit box"
+msgstr "스타일 편집 상자 사용"
+
+msgid "Smooth scrolling"
+msgstr "부드러운 스크롤"
+
+msgid "Visual Tools"
+msgstr "시각 도구"
+
+msgid "Shape handle size"
+msgstr "셰이프 핸들 크기"
+
+msgid "Drawings"
+msgstr "그리기"
+
+msgid "Downmix to 16bit mono audio"
+msgstr "16비트 단일 음향으로 다운믹스"
+
+msgid "Set to Default"
+msgstr "기본값으로 설정"
+
+msgid "Experiments"
+msgstr "실험"
+
+msgid "Video Panning"
+msgstr "영상 이동"
+
+msgid "Dark Theme"
+msgstr "다크 테마"
+
+msgid "Libass only features"
+msgstr "Libass 전용 기능"
+
+msgid "Unicode 6.3+ bracket matching"
+msgstr "유니코드 6.3+ 브라켓 매칭"
 
 #~ msgid ""
 #~ "\n"
@@ -7739,7 +7805,7 @@ msgstr "업데이트 확인 :"
 #~ msgstr "새 버전을 찾지 못했습니다.\n"
 
 #~ msgid "No subtitle providers available. Cannot preview subs."
-#~ msgstr "자막 공급자가 없습니다. 자막을 미리 볼 수 없습니다."
+#~ msgstr "자막 렌더러가 없습니다. 자막을 미리 볼 수 없습니다."
 
 #~ msgid "No timecodes to average"
 #~ msgstr "평균화할 타임코드 없음"
