@@ -3277,11 +3277,11 @@ msgstr "색조 :"
 
 #: ../src/dialog_colorpicker.cpp:631
 msgid "Lum.:"
-msgstr "Lum. :"
+msgstr "명도 :"
 
 #: ../src/dialog_colorpicker.cpp:631 ../src/dialog_colorpicker.cpp:634
 msgid "Sat.:"
-msgstr "Sat. :"
+msgstr "채도 :"
 
 #: ../src/dialog_colorpicker.cpp:634
 msgid "Value:"
@@ -3808,7 +3808,7 @@ msgstr "업데이트 :"
 
 #: ../src/dialog_properties.cpp:113
 msgid "Update details:"
-msgstr "업데이트 세부 사항 :"
+msgstr "업데이트 상세 내역 :"
 
 #: ../src/dialog_properties.cpp:122 ../src/dialog_resample.cpp:141
 #: ../src/export_framerate.cpp:70
@@ -5251,7 +5251,7 @@ msgstr "CPS"
 
 #: ../src/grid_column.cpp:343
 msgid "Characters Per Second"
-msgstr "문자/초"
+msgstr "초당 문자수"
 
 #: ../src/hotkey.cpp:269
 msgid "Invalid command name for hotkey"
@@ -5938,7 +5938,7 @@ msgstr "고급"
 
 #: ../src/preferences.cpp:366
 msgid "Changing these settings might result in bugs and/or crashes.  Do not touch these unless you know what you're doing."
-msgstr "이 설정을 변경하면 버그나 충돌이 발생할 수 있습니다.  사용법을 잘 모르는 경우, 이 설정을 건드리지 마세요."
+msgstr "이 설정을 변경하면 버그나 충돌이 발생할 수 있습니다.  사용법을 잘 모르면 이 설정을 건드리지 마세요."
 
 #: ../src/preferences.cpp:379 ../src/preferences.cpp:455
 msgid "Expert"
@@ -6725,6 +6725,45 @@ msgstr "수정된 스크립트로 가라오케 템플릿 적용"
 
 msgid "Apply karaoke template with modified script (no furigana)"
 msgstr "수정된 스크립트로 가라오케 템플릿 적용(후리가나 없음)"
+
+msgid "Karaoke Templater mod"
+msgstr "가라오케 탬플렛 모드"
+
+msgid "Make text fullwidth"
+msgstr "텍스트 전폭 만들기"
+
+msgid "Shows how to use the unicode include to iterate over characters and a lookup table to convert those characters to something else."
+msgstr "유니코드 포함을 사용하여 문자를 반복하고 조회 테이블을 사용하여 해당 문자를 다른 문자로 변환하는 방법을 보여 줍니다."
+
+msgid "DependencyControl"
+msgstr "종속 제어"
+
+msgid "DependencyControl Toolbox"
+msgstr "종속 제어 도구 상자"
+
+msgid "Provides DependencyControl maintenance and configuration tools."
+msgstr "종속 제어 유지 관리 및 구성 도구를 제공합니다."
+
+msgid "Scanning %d available feeds..."
+msgstr "사용 가능한 %d 피드 검색 중..."
+
+msgid "Uninstalling %s '%s'..."
+msgstr "'%s' 제거 중..."
+
+msgid "%s '%s' was removed sucessfully. Reload your automation scripts or restart Aegisub for the changes to take effect."
+msgstr "'%s'를 성공적으로 제거했습니다. 변경 사항을 적용하려면 자동화 스크립트를 다시 로드하거나 Aegisub를 다시 시작하세요."
+
+msgid "%s Some script files are still in use and will be deleted during the next restart/reload:\n%s"
+msgstr "일부 스크립트 파일이 아직 사용 중이며 다음에 다시 시작/다시 로드하는 동안 삭제됨 :\n%s"
+
+msgid "Error: %s"
+msgstr "오류 : %s"
+
+msgid "Lets you sort your automation macros into submenus. Use / to denote submenu levels."
+msgstr "자동화 매크로를 하위 메뉴로 정렬할 수 있습니다. 를 사용하여 하위 메뉴 수준을 나타냅니다."
+
+msgid "When set the updater will use this feed exclusively to update the script in question."
+msgstr "설정하면 업데이터가 이 피드만 사용하여 해당 스크립트를 업데이트합니다."
 
 msgid "Install Script"
 msgstr "스크립트 설치"
@@ -8535,9 +8574,9 @@ msgstr "유니코드 6.3+ 브라켓 매칭"
 #~ "crashes, glitches and/or movax.\n"
 #~ "Don't touch these unless you know what you're doing."
 #~ msgstr ""
-#~ "경고: 이러한 설정을 변경하면 버그,\n"
+#~ "경고 : 이러한 설정을 변경하면 버그,\n"
 #~ "충돌, 결함 및/또는 이동이 발생할 수 있습니다.\n"
-#~ "잘 모른다면 이 설정을 건드리지 마세요."
+#~ "잘 모르면 이 설정을 건드리지 마세요."
 
 #~ msgid "Warning"
 #~ msgstr "경고"
