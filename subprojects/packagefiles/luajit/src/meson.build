@@ -85,6 +85,11 @@ hdrgen = [
 ]
 
 genheaders = []
+genheaders += custom_target('luajit_h',
+                            input: 'luajit_rolling.h',
+                            output: 'luajit.h',
+                            command: ['cp', '@INPUT@', '@OUTPUT@'])
+
 foreach h: hdrgen
     genheaders += custom_target(h,
                                 command: [buildvm, '-m', h, '-o', '@OUTPUT@', ljlib_src],
