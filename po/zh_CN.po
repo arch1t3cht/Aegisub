@@ -6,192 +6,16 @@ msgstr ""
 "Project-Id-Version: Aegisub 3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-30 03:10+0200\n"
-"PO-Revision-Date: 2018-03-05 02:00+0800\n"
-"Last-Translator: ComputerFan <diannaomi97@gmail.com>\n"
+"PO-Revision-Date: 2023-08-27 18:00+0900\n"
+"Last-Translator: Ming\n"
 "Language-Team: Vmoe Fansub <vmoe@vmoe.info>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: ../automation/autoload/cleantags-autoload.lua:31
-msgid "Clean Tags"
-msgstr "Clean Tags - 整理特效标签"
-
-#: ../automation/autoload/cleantags-autoload.lua:32
-msgid ""
-"Clean subtitle lines by re-arranging ASS tags and override blocks within the "
-"lines"
-msgstr "通过对行内重新排列ASS标签以及覆盖模块，来清理字幕行。"
-
-#: ../automation/autoload/kara-templater.lua:36
-msgid "Karaoke Templater"
-msgstr "卡拉OK模版执行器"
-
-#: ../automation/autoload/kara-templater.lua:37
-msgid ""
-"Macro and export filter to apply karaoke effects using the template language"
-msgstr "宏和导出滤镜通过模版语言来应用卡拉OK特效"
-
-#: ../automation/autoload/kara-templater.lua:860
-msgid "Applies karaoke effects from templates"
-msgstr "通过已有模版套用卡拉OK特效"
-
-#: ../automation/autoload/kara-templater.lua:860
-msgid "Apply karaoke template"
-msgstr "Apply karaoke template - 应用卡拉OK模版"
-
-#: ../automation/autoload/kara-templater.lua:861
-msgid ""
-"Apply karaoke effect templates to the subtitles.\n"
-"\n"
-"See the help file for information on how to use this."
-msgstr ""
-"为字幕应用卡拉OK特效模版。\n"
-"\n"
-"请阅读帮助文件来了解如何使用它。"
-
-#: ../automation/autoload/kara-templater.lua:861
-msgid "Karaoke template"
-msgstr "卡拉OK模板"
-
-#: ../automation/autoload/karaoke-auto-leadin.lua:32
-msgid "Automatic karaoke lead-in"
-msgstr "Automatic karaoke lead-in"
-
-#: ../automation/autoload/karaoke-auto-leadin.lua:33
-msgid "Join up the ends of selected lines and add \\k tags to shift karaoke"
-msgstr "连接两相邻的行，并在行首添加一个长度为相对原开始时间的\\k标签"
-
-#: ../automation/autoload/macro-1-edgeblur.lua:6
-msgid "Add edgeblur"
-msgstr "Add edgeblur - 添加边角模糊"
-
-#: ../automation/autoload/macro-1-edgeblur.lua:7
-msgid "A demo macro showing how to do simple line modification in Automation 4"
-msgstr "此demo展示了如何用 Automation 4 编写一个简单的对行进行修改的脚本"
-
-#: ../automation/autoload/macro-1-edgeblur.lua:21
-msgid "Adds \\be1 tags to all selected lines"
-msgstr "在所选行中添加 \\be1 标签"
-
-#: ../automation/autoload/macro-2-mkfullwitdh.lua:77
-msgid "Make fullwidth"
-msgstr "Make fullwidth - 转换为全角字符"
-
-#: ../automation/autoload/macro-2-mkfullwitdh.lua:80
-msgid "Convert Latin letters to SJIS fullwidth letters"
-msgstr "转换拉丁字母为SJIS全角字母"
-
-#: ../automation/autoload/strip-tags.lua:17
-msgid "Strip tags"
-msgstr "Strip tags - 删除特效标签"
-
-#: ../automation/autoload/strip-tags.lua:18
-msgid "Remove all override tags from selected lines"
-msgstr "从所选行中移除所有特效标签"
-
-#: ../automation/autoload/strip-tags.lua:28
-msgid "strip tags"
-msgstr "删除特效标签"
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:6
-#: ../packages/desktop/aegisub.desktop.in.in:5
-msgid "Aegisub"
-msgstr "Aegisub"
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:7
-msgid ""
-"A free, cross-platform open source tool for creating and modifying subtitles"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:9
-msgid ""
-"Aegisub is a free, cross-platform open source tool for creating and "
-"modifying subtitles. Aegisub makes it quick and easy to time subtitles to "
-"audio, and features many powerful tools for styling them, including a built-"
-"in real-time video preview."
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:10
-msgid ""
-"Aegisub was originally created as a tool to make typesetting, particularly "
-"in anime fansubs, a less painful experience. At the time of the start of the "
-"project, many other programs that supported the Advanced Substation Alpha "
-"format lacked (and in many cases, still lack; development on several "
-"competing programs have since been dropped for various reasons completely "
-"unrelated to Aegisub) many vital functions, or were too buggy and/or "
-"unreliable to be really useful."
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:11
-msgid ""
-"Since then, Aegisub has grown into a fully fledged, highly customizable "
-"subtitle editor. It features a lot of convenient tools to help you with "
-"timing, typesetting, editing and translating subtitles, as well as a "
-"powerful scripting environment called Automation (originally mostly intended "
-"for creating karaoke effects, Automation can now be used much else, "
-"including creating macros and various other convenient tools)."
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:12
-msgid "Some highlights of Aegisub:"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:14
-msgid "Simple and intuitive yet powerful interface for editing subtitles"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:15
-msgid "Support for many formats and character sets"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:16
-msgid "Powerful video mode"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:17
-msgid "Visual typesetting tools"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:18
-msgid "Intuitive and customizable audio timing mode"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:19
-msgid "Fully scriptable through the Automation module"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:32
-msgid "Typesetting"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:36
-msgid "Audio video"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:40
-msgid "Audio timing"
-msgstr ""
-
-#: ../packages/desktop/aegisub.appdata.xml.in.in:44
-msgid "Aegisub Group"
-msgstr ""
-
-#: ../packages/desktop/aegisub.desktop.in.in:6
-msgid "Subtitle Editor"
-msgstr "字幕编辑器"
-
-#: ../packages/desktop/aegisub.desktop.in.in:7
-msgid "Create and edit subtitles for film and videos."
-msgstr "为电影和视频创建和编辑字幕。"
-
-#: ../packages/desktop/aegisub.desktop.in.in:13
-msgid "subtitles;subtitle;captions;captioning;video;audio;"
-msgstr ""
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: ../src/ass_style.cpp:195
 msgid "ANSI"
@@ -322,7 +146,7 @@ msgstr "索引"
 #: ../src/audio_provider_bestsource.cpp:60
 #: ../src/video_provider_bestsource.cpp:119
 msgid "Creating cache... This can take a while!"
-msgstr ""
+msgstr "创建缓存... 这可能需要一段时间！"
 
 #: ../src/audio_renderer_waveform.cpp:152
 msgid "Maximum"
@@ -335,11 +159,11 @@ msgstr "最大 + 平均"
 #: ../src/audio_timing_dialogue.cpp:512 ../src/audio_timing_dialogue.cpp:518
 #: ../src/command/time.cpp:177
 msgid "timing"
-msgstr "计时"
+msgstr "时间轴"
 
 #: ../src/audio_timing_karaoke.cpp:241
 msgid "karaoke timing"
-msgstr "卡拉OK计时"
+msgstr "卡拉OK时间轴"
 
 #: ../src/auto4_base.cpp:451
 #, c-format
@@ -539,27 +363,27 @@ msgstr "检查是否有可用的新版Aegisub"
 
 #: ../src/command/app.cpp:271 ../src/command/app.cpp:272
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
 #: ../src/command/app.cpp:273
 msgid "Minimize the active window"
-msgstr ""
+msgstr "最小化活动窗口"
 
 #: ../src/command/app.cpp:282 ../src/command/app.cpp:283
 msgid "Zoom"
-msgstr ""
+msgstr "放大/缩小"
 
 #: ../src/command/app.cpp:284
 msgid "Maximize the active window"
-msgstr ""
+msgstr "最大化活动窗口"
 
 #: ../src/command/app.cpp:293 ../src/command/app.cpp:294
 msgid "Bring All to Front"
-msgstr ""
+msgstr "把一切带到前台"
 
 #: ../src/command/app.cpp:295
 msgid "Bring forward all open documents to the front"
-msgstr ""
+msgstr "将所有公开文件提交到前台"
 
 #: ../src/command/audio.cpp:66
 msgid "&Close Audio"
@@ -622,12 +446,15 @@ msgid "Open the audio from the current video file"
 msgstr "从当前视频文件中打开音频"
 
 #: ../src/command/audio.cpp:133 ../src/command/audio.cpp:134
+#, fuzzy
 msgid "Reload Audio"
-msgstr ""
+msgstr "关闭音频"
 
 #: ../src/command/audio.cpp:135
+#, fuzzy
+#| msgid "Close the currently open audio file"
 msgid "Reload the current audio file"
-msgstr ""
+msgstr "关闭当前开启的音频文件"
 
 #: ../src/command/audio.cpp:144
 msgid "&Spectrum Display"
@@ -741,13 +568,13 @@ msgstr "提交所有在波形上对时间的更改"
 
 #: ../src/command/audio.cpp:366 ../src/command/audio.cpp:367
 msgid "Commit and use default timing for next line"
-msgstr "提交并在下一行使用默认的计时"
+msgstr "提交并在下一行使用默认的时间轴"
 
 #: ../src/command/audio.cpp:368
 msgid ""
 "Commit any pending audio timing changes and reset the next line's times to "
 "the default"
-msgstr "提交所以挂起的音频计时更改，并重置下一行的时间为默认"
+msgstr "提交所以挂起的音频时间轴更改，并重置下一行的时间为默认"
 
 #: ../src/command/audio.cpp:381 ../src/command/audio.cpp:382
 msgid "Commit and move to next line"
@@ -1085,7 +912,7 @@ msgstr "重复所选行"
 
 #: ../src/command/edit.cpp:732 ../src/command/edit.cpp:733
 msgid "Split lines after current frame"
-msgstr "以当前帧后分割行"
+msgstr "在当前帧后分割行"
 
 #: ../src/command/edit.cpp:734
 msgid ""
@@ -1096,7 +923,7 @@ msgstr ""
 
 #: ../src/command/edit.cpp:744 ../src/command/edit.cpp:745
 msgid "Split lines before current frame"
-msgstr "以当前帧前分割行"
+msgstr "在当前帧前分割行"
 
 #: ../src/command/edit.cpp:746
 msgid ""
@@ -1197,7 +1024,7 @@ msgstr "分割行（按照卡拉OK）"
 
 #: ../src/command/edit.cpp:1047
 msgid "Use karaoke timing to split line into multiple smaller lines"
-msgstr "使用卡拉OK计时把行分成多个更小的行"
+msgstr "使用卡拉OK时间轴把行分成多个更小的行"
 
 #: ../src/command/edit.cpp:1081
 msgid "splitting"
@@ -1206,7 +1033,7 @@ msgstr "分割"
 #: ../src/command/edit.cpp:1113 ../src/command/edit.cpp:1114
 #: ../src/subs_edit_ctrl.cpp:402
 msgid "Split at cursor (estimate times)"
-msgstr "在光标处分割（概略计时）"
+msgstr "估算时间"
 
 #: ../src/command/edit.cpp:1115
 msgid ""
@@ -1218,7 +1045,7 @@ msgstr ""
 #: ../src/command/edit.cpp:1129 ../src/command/edit.cpp:1130
 #: ../src/subs_edit_ctrl.cpp:401
 msgid "Split at cursor (preserve times)"
-msgstr "在光标处分割 (保留原计时)"
+msgstr "在光标处分割 (保留原时间轴)"
 
 #: ../src/command/edit.cpp:1131
 msgid ""
@@ -1472,7 +1299,7 @@ msgstr "按照样式名称排序所选字幕"
 
 #: ../src/command/grid.cpp:254 ../src/command/grid.cpp:266
 msgid "Te&xt"
-msgstr ""
+msgstr "文本(&X)"
 
 #: ../src/command/grid.cpp:255 ../src/command/grid.cpp:267
 #: ../src/dialog_kara_timing_copy.cpp:475 ../src/dialog_paste_over.cpp:73
@@ -1481,28 +1308,39 @@ msgid "Text"
 msgstr "文本"
 
 #: ../src/command/grid.cpp:256
+#, fuzzy
+#| msgid "Sort all subtitles by their end times"
 msgid "Sort all subtitles by their text, including styling tags"
-msgstr ""
+msgstr "按照结束时间排序所有字幕"
 
 #: ../src/command/grid.cpp:268
+#, fuzzy
+#| msgid "Sort selected subtitles by their end times"
 msgid "Sort selected subtitles by their text, including styling tags"
-msgstr ""
+msgstr "按照结束时间排序所选字幕"
 
 #: ../src/command/grid.cpp:278 ../src/command/grid.cpp:290
+#, fuzzy
 msgid "Stri&pped Text"
-msgstr ""
+msgstr "Strip tags - 删除特效标签(&P)"
 
 #: ../src/command/grid.cpp:279 ../src/command/grid.cpp:291
+#, fuzzy
+#| msgid "Strip tags"
 msgid "Stripped Text"
-msgstr ""
+msgstr "Strip tags - 删除特效标签"
 
 #: ../src/command/grid.cpp:280
+#, fuzzy
+#| msgid "Sort all subtitles by their start times"
 msgid "Sort all subtitles by their stripped text"
-msgstr ""
+msgstr "按照开始时间排序所有字幕"
 
 #: ../src/command/grid.cpp:292
+#, fuzzy
+#| msgid "Sort selected subtitles by their start times"
 msgid "Sort selected subtitles by their stripped text"
-msgstr ""
+msgstr "按照开始时间排序所选字幕"
 
 #: ../src/command/grid.cpp:303 ../src/command/grid.cpp:304
 msgid "Cycle Tag Hiding Mode"
@@ -1595,61 +1433,82 @@ msgstr "互换行"
 
 #: ../src/command/grid.cpp:452 ../src/command/grid.cpp:453
 msgid "Create new Fold"
-msgstr ""
+msgstr "创建新折叠"
 
 #: ../src/command/grid.cpp:454
 msgid "Create a new fold collapsing the selected lines into a group"
-msgstr ""
+msgstr "创建新折叠，将所选线条折叠成一组"
 
 #: ../src/command/grid.cpp:472 ../src/command/grid.cpp:473
+#, fuzzy
+#| msgid "Open Video"
 msgid "Open Folds"
-msgstr ""
+msgstr "打开视频"
 
 #: ../src/command/grid.cpp:474
+#, fuzzy
+#| msgid "Add the lead in time to the selected lines"
 msgid "Expand the folds under the selected lines"
-msgstr ""
+msgstr "为所选行的开始时间提前指定的时间"
 
 #: ../src/command/grid.cpp:488 ../src/command/grid.cpp:489
+#, fuzzy
+#| msgid "Close Audio"
 msgid "Close Folds"
-msgstr ""
+msgstr "关闭音频"
 
 #: ../src/command/grid.cpp:490
+#, fuzzy
+#| msgid "Add the lead out time to the selected lines"
 msgid "Collapse the folds around the selected lines"
-msgstr ""
+msgstr "为所选行的结束时间延后指定的时间"
 
 #: ../src/command/grid.cpp:504 ../src/command/grid.cpp:505
+#, fuzzy
+#| msgid "Clear"
 msgid "Clear Folds"
-msgstr ""
+msgstr "清除"
 
 #: ../src/command/grid.cpp:506
+#, fuzzy
+#| msgid "Add the lead out time to the selected lines"
 msgid "Remove the folds around the selected lines"
-msgstr ""
+msgstr "为所选行的结束时间延后指定的时间"
 
 #: ../src/command/grid.cpp:520 ../src/command/grid.cpp:521
+#, fuzzy
+#| msgid "Toggle Bold"
 msgid "Toggle Folds"
-msgstr ""
+msgstr "加粗"
 
 #: ../src/command/grid.cpp:522
+#, fuzzy
+#| msgid "Add both lead in and out to the selected lines"
 msgid "Open or close the folds around the selected lines"
-msgstr ""
+msgstr "同时开始提前、结束延后所选行"
 
 #: ../src/command/grid.cpp:536 ../src/command/grid.cpp:537
 #: ../src/command/grid.cpp:538
+#, fuzzy
 msgid "Open all Folds"
-msgstr ""
+msgstr "打开所有折页"
 
 #: ../src/command/grid.cpp:547 ../src/command/grid.cpp:548
 #: ../src/command/grid.cpp:549
+#, fuzzy
 msgid "Close all Folds"
-msgstr ""
+msgstr "关闭所有折页"
 
 #: ../src/command/grid.cpp:558 ../src/command/grid.cpp:559
+#, fuzzy
 msgid "Clear all Folds"
-msgstr ""
+msgstr "清除所有折叠"
 
 #: ../src/command/grid.cpp:560
+#, fuzzy
+#| msgid "Remove borders"
 msgid "Remove all Folds"
-msgstr ""
+msgstr "铺满视屏"
 
 #: ../src/command/help.cpp:48
 msgid "&Bug Tracker..."
@@ -2073,11 +1932,11 @@ msgstr "按照时间或帧平移字幕"
 
 #: ../src/command/time.cpp:183
 msgid "Snap &End to Video"
-msgstr "视频抓取为结束时间(&E)"
+msgstr "设置结束时间到视频(&E)"
 
 #: ../src/command/time.cpp:184
 msgid "Snap End to Video"
-msgstr "视频抓取为结束时间"
+msgstr "设置结束时间到视频"
 
 #: ../src/command/time.cpp:185
 msgid "Set end of selected subtitles to current video frame"
@@ -2101,12 +1960,14 @@ msgid "snap to scene"
 msgstr "紧贴镜头"
 
 #: ../src/command/time.cpp:241 ../src/command/time.cpp:242
+#, fuzzy
 msgid "Align subtitle to video"
-msgstr ""
+msgstr "将字幕与视频对齐"
 
 #: ../src/command/time.cpp:243
+#, fuzzy
 msgid "Align subtitle to video by key points"
-msgstr ""
+msgstr "按要点将字幕与视频对齐"
 
 #: ../src/command/time.cpp:252 ../src/command/time.cpp:253
 msgid "Add lead in and out"
@@ -2184,11 +2045,11 @@ msgstr "向后平移当前时间轴的开始时间"
 
 #: ../src/command/time.cpp:356
 msgid "Snap &Start to Video"
-msgstr "视频抓取为开始时间(&S)"
+msgstr "设置开始时间到视频(&S)"
 
 #: ../src/command/time.cpp:357
 msgid "Snap Start to Video"
-msgstr "视频抓取为开始时间"
+msgstr "设置开始时间到视频"
 
 #: ../src/command/time.cpp:358
 msgid "Set start of selected subtitles to current video frame"
@@ -2350,15 +2211,15 @@ msgstr "打开样式管理器"
 
 #: ../src/command/tool.cpp:176
 msgid "&Kanji Timer..."
-msgstr "汉字计时器(&K)…"
+msgstr "汉字K值配对(&K)…"
 
 #: ../src/command/tool.cpp:177
 msgid "Kanji Timer"
-msgstr "汉字计时器"
+msgstr "汉字K值配对"
 
 #: ../src/command/tool.cpp:178
 msgid "Open the Kanji timer copier"
-msgstr "打开汉字计时器"
+msgstr "打开汉字K值配对"
 
 #: ../src/command/tool.cpp:188
 msgid "&Timing Post-Processor..."
@@ -2372,7 +2233,7 @@ msgstr "时间后续处理器"
 msgid ""
 "Post-process the subtitle timing to add lead-ins and lead-outs, snap timing "
 "to scene changes, etc."
-msgstr "运行时间后续处理器来处理时间开始提前、结束延后以及镜头计时等"
+msgstr "运行时间后续处理器来处理时间开始提前、结束延后以及镜头时间轴等"
 
 #: ../src/command/tool.cpp:200
 msgid "&Translation Assistant..."
@@ -2528,12 +2389,16 @@ msgid "Subtitles provider set to %s"
 msgstr "字幕来源设置为 %s"
 
 #: ../src/command/video.cpp:241 ../src/command/video.cpp:242
+#, fuzzy
+#| msgid "Cycle active subtitles provider"
 msgid "Reload active subtitles provider"
-msgstr ""
+msgstr "切换字幕来源"
 
 #: ../src/command/video.cpp:243
+#, fuzzy
+#| msgid "Save the current subtitles"
 msgid "Reloads the current subtitles provider"
-msgstr ""
+msgstr "保存当前字幕文件"
 
 #: ../src/command/video.cpp:259
 msgid "&Detach Video"
@@ -2588,14 +2453,19 @@ msgid ""
 msgstr "将当前显示的画面复制到剪贴板，不带字幕"
 
 #: ../src/command/video.cpp:340 ../src/command/video.cpp:341
+#, fuzzy
+#| msgid "Copy image to Clipboard (no subtitles)"
 msgid "Copy image to Clipboard (only subtitles)"
-msgstr ""
+msgstr "复制图像至剪贴板（不带字幕）"
 
 #: ../src/command/video.cpp:342
+#, fuzzy
+#| msgid ""
+#| "Copy the currently displayed frame to the clipboard, without the subtitles"
 msgid ""
 "Copy the currently displayed subtitles to the clipboard, with transparent "
 "background"
-msgstr ""
+msgstr "将当前显示的画面复制到剪贴板，不带字幕"
 
 #: ../src/command/video.cpp:351 ../src/command/video.cpp:352
 msgid "Next Frame"
@@ -2675,14 +2545,19 @@ msgid ""
 msgstr "保存当前显示帧（不带字幕）为PNG格式到视频所在目录"
 
 #: ../src/command/video.cpp:553 ../src/command/video.cpp:554
+#, fuzzy
+#| msgid "Save PNG snapshot (no subtitles)"
 msgid "Save PNG snapshot (only subtitles)"
-msgstr ""
+msgstr "储存 PNG 截图（不带字幕）"
 
 #: ../src/command/video.cpp:555
+#, fuzzy
+#| msgid ""
+#| "Save the currently displayed frame to a PNG file in the video's directory"
 msgid ""
 "Save the currently displayed subtitles with transparent background to a PNG "
 "file in the video's directory"
-msgstr ""
+msgstr "保存当前显示帧为PNG格式到视频所在目录"
 
 #: ../src/command/video.cpp:565
 msgid "&Jump to..."
@@ -2749,12 +2624,16 @@ msgid "Open a placeholder video clip with solid color"
 msgstr "打开一个纯色的空白视频片段"
 
 #: ../src/command/video.cpp:634 ../src/command/video.cpp:635
+#, fuzzy
+#| msgid "Unload video"
 msgid "Reload Video"
-msgstr ""
+msgstr "关闭视频"
 
 #: ../src/command/video.cpp:636
+#, fuzzy
+#| msgid "Close the currently open video file"
 msgid "Reload the current video file"
-msgstr ""
+msgstr "关闭当前打开的视频文件"
 
 #: ../src/command/video.cpp:646 ../src/command/video.cpp:647
 msgid "Toggle autoscroll of video"
@@ -2765,12 +2644,15 @@ msgid "Toggle automatically seeking video to the start time of selected lines"
 msgstr "自动将视频移至所选字幕的开始时间"
 
 #: ../src/command/video.cpp:662 ../src/command/video.cpp:663
+#, fuzzy
+#| msgid "Close Video"
 msgid "Reset Video Pan"
-msgstr ""
+msgstr "关闭视频"
 
 #: ../src/command/video.cpp:664
+#, fuzzy
 msgid "Reset the video pan to the original value"
-msgstr ""
+msgstr "将视频平移重置为原始值"
 
 #: ../src/command/video.cpp:674 ../src/command/video.cpp:675
 msgid "Play"
@@ -2892,12 +2774,14 @@ msgid "Rotate subtitles on their X and Y axes"
 msgstr "绕X轴和Y轴旋转字幕"
 
 #: ../src/command/vis_tool.cpp:134 ../src/command/vis_tool.cpp:135
+#, fuzzy
 msgid "Apply 3D Perspective"
-msgstr ""
+msgstr "应用 3D 透视"
 
 #: ../src/command/vis_tool.cpp:136
+#, fuzzy
 msgid "Rotate and shear subtitles to make them fit a given quad's perspective"
-msgstr ""
+msgstr "旋转和剪切字幕，使其适合特定四边形的视角"
 
 #: ../src/command/vis_tool.cpp:142 ../src/command/vis_tool.cpp:143
 msgid "Scale"
@@ -2924,65 +2808,85 @@ msgid "Clip subtitles to a vectorial area"
 msgstr "裁剪字幕为一个矢量区域"
 
 #: ../src/command/vis_tool.cpp:167 ../src/command/vis_tool.cpp:168
+#, fuzzy
 msgid "Show Surrounding Plane"
-msgstr ""
+msgstr "显示周围平面"
 
 #: ../src/command/vis_tool.cpp:169
+#, fuzzy
 msgid "Toggles showing a second quad for the ambient 3D plane."
-msgstr ""
+msgstr "切换显示环境 3D 平面的第二个四边形。"
 
 #: ../src/command/vis_tool.cpp:176 ../src/command/vis_tool.cpp:177
+#, fuzzy
 msgid "Lock Outer Quad"
-msgstr ""
+msgstr "锁外四边形"
 
 #: ../src/command/vis_tool.cpp:178
+#, fuzzy
 msgid ""
 "When the surrounding plane is also visible, switches which quad is locked. "
 "If inactive, the inner quad can only be resized without changing the "
 "perspective plane. If active, this holds for the outer quad instead."
 msgstr ""
+"当周围平面也可见时，切换锁定的四边形。如果未激活，则只能在不改变透视平面的情"
+"况下调整内部四边形的大小。如果激活，则外部四边形也会如此。"
 
 #: ../src/command/vis_tool.cpp:188 ../src/command/vis_tool.cpp:189
+#, fuzzy
+#| msgid "Show previous"
 msgid "Show Grid"
-msgstr ""
+msgstr "显示前一个"
 
 #: ../src/command/vis_tool.cpp:190
+#, fuzzy
 msgid "Toggles showing a 3D grid in the visual perspective tool"
-msgstr ""
+msgstr "在视觉透视工具中切换显示 3D 网格"
 
 #: ../src/command/vis_tool.cpp:196 ../src/command/vis_tool.cpp:197
+#, fuzzy
 msgid "\\org Mode: Center"
-msgstr ""
+msgstr "\\org 模式： 中心"
 
 #: ../src/command/vis_tool.cpp:198
+#, fuzzy
 msgid "Puts \\org at the center of the perspective quad"
-msgstr ""
+msgstr "在透视四边形的中心位置放置org"
 
 #: ../src/command/vis_tool.cpp:212 ../src/command/vis_tool.cpp:213
+#, fuzzy
 msgid "\\org Mode: No \\fax"
-msgstr ""
+msgstr "\\org 模式: 无 \\fax"
 
 #: ../src/command/vis_tool.cpp:214
+#, fuzzy
 msgid ""
 "Finds a value for \\org where \\fax can be zero, if possible. Use this mode "
 "if your event contains line breaks."
 msgstr ""
+"查找 \\org 的值，其中 \\fax 可能为零。如果事件包含换行符，请使用此模式。"
 
 #: ../src/command/vis_tool.cpp:228 ../src/command/vis_tool.cpp:229
+#, fuzzy
 msgid "\\org Mode: Keep"
-msgstr ""
+msgstr "\\org 模式： 保持"
 
 #: ../src/command/vis_tool.cpp:230
+#, fuzzy
 msgid "Fixes the position of \\org"
-msgstr ""
+msgstr "固定 \\org 的位置"
 
 #: ../src/command/vis_tool.cpp:243 ../src/command/vis_tool.cpp:244
+#, fuzzy
+#| msgid "Cycle Tag Hiding Mode"
 msgid "Cycle \\org mode"
-msgstr ""
+msgstr "切换标签隐藏模式"
 
 #: ../src/command/vis_tool.cpp:245
+#, fuzzy
+#| msgid "Cycle through tag hiding modes"
 msgid "Cycles through the three \\org modes"
-msgstr ""
+msgstr "切换标签隐藏模式"
 
 #: ../src/command/vis_tool.cpp:277
 msgid "Drag control points"
@@ -3065,67 +2969,80 @@ msgid "Built by %s on %s."
 msgstr "%s 编译于 %s。"
 
 #: ../src/dialog_align.cpp:86
+#, fuzzy
 msgid "Align subtitle to video by key point"
-msgstr ""
+msgstr "按关键点将字幕与视频对齐"
 
 #: ../src/dialog_align.cpp:102 ../src/dialog_align.cpp:103
 #: ../src/dialog_align.cpp:113
 #, c-format
 msgid "%i"
-msgstr ""
+msgstr "%i"
 
 #: ../src/dialog_align.cpp:108
+#, fuzzy
 msgid "The key color to be followed"
-msgstr ""
+msgstr "应遵循的主要颜色"
 
 #: ../src/dialog_align.cpp:110
+#, fuzzy
 msgid "The x coord of the key point"
-msgstr ""
+msgstr "关键点的 x 坐标"
 
 #: ../src/dialog_align.cpp:112
+#, fuzzy
 msgid "The y coord of the key point"
-msgstr ""
+msgstr "关键点的 y 坐标"
 
 #: ../src/dialog_align.cpp:114
+#, fuzzy
 msgid "Max tolerance of the color"
-msgstr ""
+msgstr "颜色的最大公差"
 
 #: ../src/dialog_align.cpp:121
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: ../src/dialog_align.cpp:122
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: ../src/dialog_align.cpp:123
+#, fuzzy
 msgid "Color"
-msgstr ""
+msgstr "颜色："
 
 #: ../src/dialog_align.cpp:124
+#, fuzzy
 msgid "Tolerance"
-msgstr ""
+msgstr "宽容"
 
 #: ../src/dialog_align.cpp:265
+#, fuzzy
 msgid "Bad x or y position or tolerance value!"
-msgstr ""
+msgstr "错误的 x 或 y 位置或公差值！"
 
 #: ../src/dialog_align.cpp:270
-#, c-format
+#, fuzzy, c-format
 msgid "Bad x or y position! Require: 0 <= x < %i, 0 <= y < %i"
 msgstr ""
+"错误的 x 或 y 位置！要求： 0 <= x < %i， 0 <= y < %i： 0 <= x < %i, 0 <= y < "
+"%i"
 
 #: ../src/dialog_align.cpp:275
+#, fuzzy
 msgid "Bad tolerance value! Require: 0 <= torlerance <= 255"
-msgstr ""
+msgstr "误差容许值！要求 0 <= 扭矩 <= 255"
 
 #: ../src/dialog_align.cpp:297
+#, fuzzy
 msgid "Selected position and color are not within tolerance!"
-msgstr ""
+msgstr "所选位置和颜色不在公差范围内！"
 
 #: ../src/dialog_align.cpp:325
+#, fuzzy
 msgid "Align to video by key point"
-msgstr ""
+msgstr "按关键点对齐视频"
 
 #: ../src/dialog_attachments.cpp:68
 msgid "Attachment List"
@@ -3748,7 +3665,7 @@ msgstr "目标："
 
 #: ../src/dialog_kara_timing_copy.cpp:470
 msgid "Kanji timing"
-msgstr "汉字计时器"
+msgstr "汉字K值配对"
 
 #: ../src/dialog_kara_timing_copy.cpp:476
 msgid "Styles"
@@ -3816,7 +3733,7 @@ msgstr "接受该行(&A)"
 
 #: ../src/dialog_kara_timing_copy.cpp:566
 msgid "kanji timing"
-msgstr "汉字计时器"
+msgstr "汉字K值配对"
 
 #: ../src/dialog_kara_timing_copy.cpp:574
 msgid "Select source and destination styles first."
@@ -3918,7 +3835,7 @@ msgstr "编辑："
 
 #: ../src/dialog_properties.cpp:110
 msgid "Timing:"
-msgstr "计时："
+msgstr "时间轴："
 
 #: ../src/dialog_properties.cpp:111
 msgid "Synch point:"
@@ -5277,36 +5194,46 @@ msgid "Choose video track"
 msgstr "选择视频流"
 
 #: ../src/fold_controller.cpp:78
+#, fuzzy
 msgid "add fold"
-msgstr ""
+msgstr "加折"
 
 #: ../src/fold_controller.cpp:315
+#, fuzzy
 msgid "clear all folds"
-msgstr ""
+msgstr "清除所有褶皱"
 
 #: ../src/fold_controller.cpp:320
+#, fuzzy
 msgid "open all folds"
-msgstr ""
+msgstr "打开所有折叠"
 
 #: ../src/fold_controller.cpp:325
+#, fuzzy
 msgid "close all folds"
-msgstr ""
+msgstr "合拢"
 
 #: ../src/fold_controller.cpp:334
+#, fuzzy
+#| msgid "clear line"
 msgid "clear folds"
-msgstr ""
+msgstr "清除行"
 
 #: ../src/fold_controller.cpp:339
+#, fuzzy
 msgid "open folds"
-msgstr ""
+msgstr "褶皱"
 
 #: ../src/fold_controller.cpp:344
+#, fuzzy
 msgid "close folds"
-msgstr ""
+msgstr "合拢"
 
 #: ../src/fold_controller.cpp:349
+#, fuzzy
+#| msgid "toggle bold"
 msgid "toggle folds"
-msgstr ""
+msgstr "加粗"
 
 #: ../src/font_file_lister.cpp:67
 #, c-format
@@ -5399,11 +5326,12 @@ msgstr "行号"
 
 #: ../src/grid_column.cpp:130
 msgid " >"
-msgstr ""
+msgstr " >"
 
 #: ../src/grid_column.cpp:131
+#, fuzzy
 msgid "Folds"
-msgstr ""
+msgstr "折叠"
 
 #: ../src/grid_column.cpp:177
 msgid "L"
@@ -5727,16 +5655,21 @@ msgid "Automatically open audio when opening video"
 msgstr "打开视频时自动加载音频"
 
 #: ../src/preferences.cpp:176
+#, fuzzy
+#| msgid "Default Zoom"
 msgid "Default to Video Zoom"
-msgstr ""
+msgstr "默认缩放"
 
 #: ../src/preferences.cpp:178
+#, fuzzy
 msgid "Disable zooming with scroll bar"
-msgstr ""
+msgstr "禁用滚动条缩放"
 
 #: ../src/preferences.cpp:180
+#, fuzzy
+#| msgid "Remove fro&m dictionary"
 msgid "Reverse zoom direction"
-msgstr ""
+msgstr "从字典移除(&M)"
 
 #: ../src/preferences.cpp:184
 msgid "Default Zoom"
@@ -5843,16 +5776,19 @@ msgid "Hide overrides symbol"
 msgstr "隐藏特效标签"
 
 #: ../src/preferences.cpp:233
+#, fuzzy
 msgid "Skip over whitespace"
-msgstr ""
+msgstr "忽略空格"
 
 #: ../src/preferences.cpp:235
+#, fuzzy
 msgid "Colour Picker"
-msgstr ""
+msgstr "颜色选择器"
 
 #: ../src/preferences.cpp:236
+#, fuzzy
 msgid "Restrict Screen Picker to Window"
-msgstr ""
+msgstr "将屏幕选择器限制为窗口"
 
 #: ../src/preferences.cpp:251
 msgid "Audio Display"
@@ -5895,20 +5831,27 @@ msgid "Comments"
 msgstr "注释"
 
 #: ../src/preferences.cpp:263
+#, fuzzy
+#| msgid "Commands"
 msgid "Drawing Commands"
-msgstr ""
+msgstr "指令"
 
 #: ../src/preferences.cpp:264
+#, fuzzy
+#| msgid "Drawings"
 msgid "Drawing X Coords"
-msgstr ""
+msgstr "绘图代码"
 
 #: ../src/preferences.cpp:265
+#, fuzzy
+#| msgid "Drawings"
 msgid "Drawing Y Coords"
-msgstr ""
+msgstr "绘图代码"
 
 #: ../src/preferences.cpp:266
+#, fuzzy
 msgid "Underline Spline Endpoints"
-msgstr ""
+msgstr "下划线样条曲线端点"
 
 #: ../src/preferences.cpp:268
 msgid "Brackets"
@@ -5991,12 +5934,16 @@ msgid "Selected comment background"
 msgstr "选中注释行背景色"
 
 #: ../src/preferences.cpp:296
+#, fuzzy
+#| msgid "In frame background"
 msgid "Open fold background"
-msgstr ""
+msgstr "在当前帧显示的行背景色"
 
 #: ../src/preferences.cpp:297
+#, fuzzy
+#| msgid "Comment background"
 msgid "Closed fold background"
-msgstr ""
+msgstr "注释行背景色"
 
 #: ../src/preferences.cpp:298
 msgid "Header background"
@@ -6019,32 +5966,39 @@ msgid "CPS Error"
 msgstr "每秒字符数错误"
 
 #: ../src/preferences.cpp:304
+#, fuzzy
 msgid "Visual Typesetting Tools"
-msgstr ""
+msgstr "可视化排版"
 
 #: ../src/preferences.cpp:305
+#, fuzzy
 msgid "Primary Lines"
-msgstr ""
+msgstr "主要颜色"
 
 #: ../src/preferences.cpp:306
+#, fuzzy
 msgid "Secondary Lines"
-msgstr ""
+msgstr "次要颜色"
 
 #: ../src/preferences.cpp:307
+#, fuzzy
 msgid "Primary Highlight"
-msgstr ""
+msgstr "语法高亮"
 
 #: ../src/preferences.cpp:308
+#, fuzzy
 msgid "Secondary Highlight"
-msgstr ""
+msgstr "语法高亮"
 
 #: ../src/preferences.cpp:311
+#, fuzzy
 msgid "Visual Typesetting Tools Alpha"
-msgstr ""
+msgstr "可视化排版"
 
 #: ../src/preferences.cpp:312
+#, fuzzy
 msgid "Shaded Area"
-msgstr ""
+msgstr "阴影区"
 
 #: ../src/preferences.cpp:321
 msgid "Backup"
@@ -6200,28 +6154,35 @@ msgid "Quality"
 msgstr "质量"
 
 #: ../src/preferences.cpp:399
+#, fuzzy
 msgid "Compressed"
-msgstr ""
+msgstr "压缩"
 
 #: ../src/preferences.cpp:399
+#, fuzzy
 msgid "Extended"
-msgstr ""
+msgstr "扩展"
 
 #: ../src/preferences.cpp:399
+#, fuzzy
+#| msgid "Line"
 msgid "Linear"
-msgstr ""
+msgstr "直线"
 
 #: ../src/preferences.cpp:399
+#, fuzzy
 msgid "Logarithmic"
-msgstr ""
+msgstr "对数"
 
 #: ../src/preferences.cpp:399
+#, fuzzy
 msgid "Medium"
-msgstr ""
+msgstr "中型"
 
 #: ../src/preferences.cpp:401
+#, fuzzy
 msgid "Frequency mapping"
-msgstr ""
+msgstr "频率映射"
 
 #: ../src/preferences.cpp:403
 msgid "Cache memory max (MB)"
@@ -6256,16 +6217,19 @@ msgid "Always index all audio tracks"
 msgstr "总是索引所有音轨"
 
 #: ../src/preferences.cpp:421
+#, fuzzy
 msgid "Downmix to stereo"
-msgstr ""
+msgstr "缩混至立体声"
 
 #: ../src/preferences.cpp:427
+#, fuzzy
 msgid "Max BS cache size (MB)"
-msgstr ""
+msgstr "最大 BS 缓存大小（MB）"
 
 #: ../src/preferences.cpp:428
+#, fuzzy
 msgid "Use Aegisub's Cache"
-msgstr ""
+msgstr "使用 Aegisub 的缓存"
 
 #: ../src/preferences.cpp:434
 msgid "Portaudio device"
@@ -6308,46 +6272,63 @@ msgid "Enable unsafe seeking"
 msgstr "允许可能不安全的定位"
 
 #: ../src/preferences.cpp:482
+#, fuzzy
 msgid "Max cache size (MB)"
-msgstr ""
+msgstr "最大缓存大小（MB）"
 
 #: ../src/preferences.cpp:483
+#, fuzzy
 msgid "Decoder Threads (0 to autodetect)"
-msgstr ""
+msgstr "解码器线程（0 至自动检测）"
 
 #: ../src/preferences.cpp:484
+#, fuzzy
 msgid "Seek preroll (Frames)"
-msgstr ""
+msgstr "寻找预卷（帧）"
 
 #: ../src/preferences.cpp:492
 msgid "VapourSynth"
-msgstr ""
+msgstr "VapourSynth"
 
 #: ../src/preferences.cpp:497
+#, fuzzy
+#| msgid "Undo Levels"
 msgid "Log Level"
-msgstr ""
+msgstr "撤销的最大次数"
 
 #: ../src/preferences.cpp:499
+#, fuzzy
+#| msgid "Default width"
 msgid "Default Video Script"
-msgstr ""
+msgstr "默认宽度"
 
 #: ../src/preferences.cpp:501
+#, fuzzy
 msgid ""
 "This script will be executed to load video files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"该脚本将在加载非\n"
+"VapourSynth 脚本（即以 .py 或 .vpy 结尾）的视频文件。\n"
+"文件名变量存储文件的路径。"
 
 #: ../src/preferences.cpp:509
+#, fuzzy
+#| msgid "Create audio clip"
 msgid "Default Audio Script"
-msgstr ""
+msgstr "创建音频剪辑"
 
 #: ../src/preferences.cpp:510
+#, fuzzy
 msgid ""
 "This script will be executed to load audio files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"该脚本将在加载非\n"
+"VapourSynth 脚本（即以 .py 或 .vpy 结尾）的视频文件。\n"
+"文件名变量存储文件的路径。"
 
 #: ../src/preferences.cpp:648
 msgid "Hotkeys"
@@ -6576,7 +6557,7 @@ msgstr "时间(&I)"
 
 #: ../src/subs_edit_box.cpp:193
 msgid "Time by h:mm:ss.cs"
-msgstr "按照 时:分:秒.厘秒 计时"
+msgstr "按照 时:分:秒.厘秒 时间轴"
 
 #: ../src/subs_edit_box.cpp:194
 msgid "F&rame"
@@ -6584,7 +6565,7 @@ msgstr "帧(&R)"
 
 #: ../src/subs_edit_box.cpp:194
 msgid "Time by frame number"
-msgstr "按照帧数计时"
+msgstr "按照帧数时间轴"
 
 #: ../src/subs_edit_box.cpp:197
 msgid "Show Original"
@@ -6766,16 +6747,19 @@ msgid "Time of this frame relative to start and end of current subs"
 msgstr "该帧时间，相对于当前字幕的开始与结束时间"
 
 #: ../src/video_provider_bestsource.cpp:128
+#, fuzzy
 msgid "Scanning"
-msgstr ""
+msgstr "扫描"
 
 #: ../src/video_provider_vs.cpp:137
+#, fuzzy
 msgid "Executing VapourSynth Script"
-msgstr ""
+msgstr "执行 VapourSynth 脚本"
 
 #: ../src/video_provider_vs.cpp:147
+#, fuzzy
 msgid "Failed to execute script! Press \"Close\" to continue."
-msgstr ""
+msgstr "执行脚本失败！按 \"关闭 \"继续。"
 
 #: ../src/visual_tool.cpp:129
 msgid "visual typesetting"
@@ -6793,41 +6777,45 @@ msgstr "切换\\move和\\pos"
 msgid "delete control point"
 msgstr "删除控制点"
 
-#: default_hotkey.json:244:
-msgid "Subtitle Edit Box"
-msgstr "字幕编辑框"
-
-#: default_menu.json:0
-msgid "&Audio"
-msgstr "音频(&A)"
-
-#: default_menu.json:0
-msgid "&File"
-msgstr "文件(&F)"
-
-#: default_menu.json:0
-msgid "&Help"
-msgstr "帮助(&H)"
-
 #: default_menu.json:0
 msgid "&Insert (before)"
 msgstr "插入(之前)(&I)"
 
 #: default_menu.json:0
-msgid "&Insert Lines"
-msgstr "插入行(&I)"
+msgid "Insert (after)"
+msgstr "插入(之后)"
+
+#: default_menu.json:0
+msgid "Insert at video time (before)"
+msgstr "以视频时间插入(之前)"
+
+#: default_menu.json:0
+msgid "Insert at video time (after)"
+msgstr "以视频时间插入(之后)"
 
 #: default_menu.json:0
 msgid "&Join (concatenate)"
 msgstr "合并 (连接)(&J)"
 
 #: default_menu.json:0
-msgid "&Make times continuous (change end)"
-msgstr "使时间连续 (更改结束时间)(&M)"
+msgid "Join (keep first)"
+msgstr "合并 (保留首行)"
+
+#: default_menu.json:0
+msgid "Join (as Karaoke)"
+msgstr "合并 (视为卡拉OK)"
 
 #: default_menu.json:0
 msgid "&Make times continuous (change start)"
 msgstr "使时间连续 (更改开始时间)(&M)"
+
+#: default_menu.json:0
+msgid "&Make times continuous (change end)"
+msgstr "使时间连续 (更改结束时间)(&M)"
+
+#: default_menu.json:0
+msgid "&File"
+msgstr "文件(&F)"
 
 #: default_menu.json:0
 msgid "&Subtitle"
@@ -6835,71 +6823,35 @@ msgstr "字幕(&S)"
 
 #: default_menu.json:0
 msgid "&Timing"
-msgstr "计时(&T)"
+msgstr "时间轴(&T)"
 
 #: default_menu.json:0
 msgid "&Video"
 msgstr "视频(&V)"
 
 #: default_menu.json:0
+msgid "&Audio"
+msgstr "音频(&A)"
+
+#: default_menu.json:0
 msgid "A&utomation"
 msgstr "自动化(&U)"
 
 #: default_menu.json:0
-msgid "Export As..."
-msgstr ""
+msgid "Vie&w"
+msgstr "查看(&W)"
 
 #: default_menu.json:0
-msgid "Insert (after)"
-msgstr "插入(之后)"
+msgid "&Help"
+msgstr "帮助(&H)"
 
 #: default_menu.json:0
-msgid "Insert at video time (after)"
-msgstr "以视频时间插入(之后)"
-
-#: default_menu.json:0
-msgid "Insert at video time (before)"
-msgstr "以视频时间插入(之前)"
-
-#: default_menu.json:0
-msgid "Join (as Karaoke)"
-msgstr "合并 (视为卡拉OK)"
-
-#: default_menu.json:0
-msgid "Join (keep first)"
-msgstr "合并 (保留首行)"
+msgid "&Insert Lines"
+msgstr "插入行(&I)"
 
 #: default_menu.json:0
 msgid "Join Lines"
 msgstr "合并行"
-
-#: default_menu.json:0
-msgid "Make Times Continuous"
-msgstr "使时间连续"
-
-#: default_menu.json:0
-msgid "Open Recent"
-msgstr ""
-
-#: default_menu.json:0
-msgid "Open..."
-msgstr ""
-
-#: default_menu.json:0
-msgid "Override &AR"
-msgstr "更改纵横比(&A)"
-
-#: default_menu.json:0
-msgid "Save"
-msgstr ""
-
-#: default_menu.json:0
-msgid "Save As..."
-msgstr ""
-
-#: default_menu.json:0
-msgid "Set &Zoom"
-msgstr "设置缩放(&Z)"
 
 #: default_menu.json:0
 msgid "Sort All Lines"
@@ -6910,24 +6862,274 @@ msgid "Sort Selected Lines"
 msgstr "排序选择行"
 
 #: default_menu.json:0
-msgid "Vie&w"
-msgstr "查看(&W)"
+msgid "Make Times Continuous"
+msgstr "使时间连续"
 
 #: default_menu.json:0
+msgid "Set &Zoom"
+msgstr "设置缩放(&Z)"
+
+#: default_menu.json:0
+msgid "Override &AR"
+msgstr "更改纵横比(&A)"
+
+#: default_menu.json:0
+#, fuzzy
 msgid "Window"
+msgstr "新建窗口"
+
+#: default_menu.json:0
+#, fuzzy
+msgid "Open..."
+msgstr "打开"
+
+#: default_menu.json:0
+#, fuzzy
+msgid "Open Recent"
+msgstr "打开最近打开的音频文件"
+
+#: default_menu.json:0
+#, fuzzy
+msgid "Save"
+msgstr "节省"
+
+#: default_menu.json:0
+#, fuzzy
+msgid "Save As..."
+msgstr "保存关键帧…"
+
+#: default_menu.json:0
+#, fuzzy
+msgid "Export As..."
+msgstr "导出(&E)…"
+
+#: default_hotkey.json:244:
+msgid "Subtitle Edit Box"
+msgstr "字幕编辑框"
+
+#: ../automation/autoload/cleantags-autoload.lua:31
+msgid "Clean Tags"
+msgstr "Clean Tags - 整理特效标签"
+
+#: ../automation/autoload/cleantags-autoload.lua:32
+msgid ""
+"Clean subtitle lines by re-arranging ASS tags and override blocks within the "
+"lines"
+msgstr "通过对行内重新排列ASS标签以及覆盖模块，来清理字幕行。"
+
+#: ../automation/autoload/kara-templater.lua:36
+msgid "Karaoke Templater"
+msgstr "卡拉OK模版执行器"
+
+#: ../automation/autoload/kara-templater.lua:37
+msgid ""
+"Macro and export filter to apply karaoke effects using the template language"
+msgstr "宏和导出滤镜通过模版语言来应用卡拉OK特效"
+
+#: ../automation/autoload/kara-templater.lua:860
+msgid "Apply karaoke template"
+msgstr "Apply karaoke template - 应用卡拉OK模版"
+
+#: ../automation/autoload/kara-templater.lua:860
+msgid "Applies karaoke effects from templates"
+msgstr "通过已有模版套用卡拉OK特效"
+
+#: ../automation/autoload/kara-templater.lua:861
+msgid "Karaoke template"
+msgstr "卡拉OK模板"
+
+#: ../automation/autoload/kara-templater.lua:861
+#, fuzzy
+msgid ""
+"Apply karaoke effect templates to the subtitles.\n"
+"\n"
+"See the help file for information on how to use this."
 msgstr ""
+"为字幕应用卡拉OK特效模版。\n"
+"\n"
+"请阅读帮助文件来了解如何使用它。"
+
+#: ../automation/autoload/karaoke-auto-leadin.lua:32
+msgid "Automatic karaoke lead-in"
+msgstr "Automatic karaoke lead-in"
+
+#: ../automation/autoload/karaoke-auto-leadin.lua:33
+#, fuzzy
+msgid "Join up the ends of selected lines and add \\k tags to shift karaoke"
+msgstr "连接两相邻的行，并在行首添加一个长度为相对原开始时间的\\k标签"
+
+#: ../automation/autoload/macro-1-edgeblur.lua:6
+msgid "Add edgeblur"
+msgstr "Add edgeblur - 添加边角模糊"
+
+#: ../automation/autoload/macro-1-edgeblur.lua:7
+msgid "A demo macro showing how to do simple line modification in Automation 4"
+msgstr "此demo展示了如何用 Automation 4 编写一个简单的对行进行修改的脚本"
+
+#: ../automation/autoload/macro-1-edgeblur.lua:21
+#, fuzzy
+msgid "Adds \\be1 tags to all selected lines"
+msgstr "在所选行中添加 \\be1 标签"
+
+#: ../automation/autoload/macro-2-mkfullwitdh.lua:77
+msgid "Make fullwidth"
+msgstr "Make fullwidth - 转换为全角字符"
+
+#: ../automation/autoload/macro-2-mkfullwitdh.lua:80
+msgid "Convert Latin letters to SJIS fullwidth letters"
+msgstr "转换拉丁字母为SJIS全角字母"
+
+#: ../automation/autoload/strip-tags.lua:17
+msgid "Strip tags"
+msgstr "Strip tags - 删除特效标签"
+
+#: ../automation/autoload/strip-tags.lua:18
+msgid "Remove all override tags from selected lines"
+msgstr "从所选行中移除所有特效标签"
+
+#: ../automation/autoload/strip-tags.lua:28
+msgid "strip tags"
+msgstr "删除特效标签"
+
+#: ../packages/desktop/aegisub.desktop.in.in:5
+#: ../packages/desktop/aegisub.appdata.xml.in.in:6
+msgid "Aegisub"
+msgstr "Aegisub"
+
+#: ../packages/desktop/aegisub.desktop.in.in:6
+msgid "Subtitle Editor"
+msgstr "字幕编辑器"
+
+#: ../packages/desktop/aegisub.desktop.in.in:7
+msgid "Create and edit subtitles for film and videos."
+msgstr "为电影和视频创建和编辑字幕。"
+
+#: ../packages/desktop/aegisub.desktop.in.in:13
+#, fuzzy
+msgid "subtitles;subtitle;captions;captioning;video;audio;"
+msgstr "字幕;字幕;标题;字幕;视频;音频；"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:7
+#, fuzzy
+msgid ""
+"A free, cross-platform open source tool for creating and modifying subtitles"
+msgstr "用于创建和修改字幕的免费、跨平台开源工具"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:9
+#, fuzzy
+msgid ""
+"Aegisub is a free, cross-platform open source tool for creating and "
+"modifying subtitles. Aegisub makes it quick and easy to time subtitles to "
+"audio, and features many powerful tools for styling them, including a built-"
+"in real-time video preview."
+msgstr ""
+"Aegisub 是一款免费的跨平台开源工具，用于创建和修改字幕。Aegisub 可快速、轻松"
+"地将字幕与音频进行定时，并提供许多强大的工具来设计字幕样式，包括内置的实时视"
+"频预览功能。"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:10
+#, fuzzy
+msgid ""
+"Aegisub was originally created as a tool to make typesetting, particularly "
+"in anime fansubs, a less painful experience. At the time of the start of the "
+"project, many other programs that supported the Advanced Substation Alpha "
+"format lacked (and in many cases, still lack; development on several "
+"competing programs have since been dropped for various reasons completely "
+"unrelated to Aegisub) many vital functions, or were too buggy and/or "
+"unreliable to be really useful."
+msgstr ""
+"Aegisub 最初是作为一种排版工具而创建的，尤其是在动漫配音方面，它可以减少排版"
+"过程中的痛苦。在项目启动之初，许多其他支持高级子站阿尔法格式的程序都缺乏（而"
+"且在许多情况下，现在仍然缺乏；由于种种与 Aegisub 完全无关的原因，几个竞争程序"
+"的开发工作已经中止）许多重要的功能，或者存在太多错误和/或不可靠，因而无法发挥"
+"真正的作用。"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:11
+#, fuzzy
+msgid ""
+"Since then, Aegisub has grown into a fully fledged, highly customizable "
+"subtitle editor. It features a lot of convenient tools to help you with "
+"timing, typesetting, editing and translating subtitles, as well as a "
+"powerful scripting environment called Automation (originally mostly intended "
+"for creating karaoke effects, Automation can now be used much else, "
+"including creating macros and various other convenient tools)."
+msgstr ""
+"从那时起，Aegisub 已经发展成为一个功能齐全、高度可定制的字幕编辑器。它有很多"
+"方便的工具，可以帮助你计时、排版、编辑和翻译字幕，还有一个强大的脚本环境，称"
+"为 Automation（最初主要用于创建卡拉 OK 效果，现在 Automation 可以用于很多其他"
+"用途，包括创建宏和其他各种方便的工具）。"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:12
+#, fuzzy
+msgid "Some highlights of Aegisub:"
+msgstr "Aegisub 的一些亮点："
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:14
+#, fuzzy
+msgid "Simple and intuitive yet powerful interface for editing subtitles"
+msgstr "简单直观但功能强大的字幕编辑界面"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:15
+#, fuzzy
+msgid "Support for many formats and character sets"
+msgstr "支持多种格式和字符集"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:16
+#, fuzzy
+msgid "Powerful video mode"
+msgstr "强大的视频模式"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:17
+#, fuzzy
+msgid "Visual typesetting tools"
+msgstr "可视化排版工具"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:18
+#, fuzzy
+msgid "Intuitive and customizable audio timing mode"
+msgstr "直观、可定制的音频计时模式"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:19
+#, fuzzy
+msgid "Fully scriptable through the Automation module"
+msgstr "完全可通过自动化模块编写脚本"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:32
+#, fuzzy
+msgid "Typesetting"
+msgstr "排版"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:36
+#, fuzzy
+msgid "Audio video"
+msgstr "音频视频"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:40
+#, fuzzy
+msgid "Audio timing"
+msgstr "音频计时"
+
+#: ../packages/desktop/aegisub.appdata.xml.in.in:44
+#, fuzzy
+#| msgid "Aegisub"
+msgid "Aegisub Group"
+msgstr "Aegisub"
 
 #: packages/win_installer/fragment_strings.iss:1
-msgid "Automatically check for new versions of Aegisub"
-msgstr "自动检查Aegisub的新版本"
+msgid "Installing runtime libraries..."
+msgstr "正在安装运行库……"
 
 #: packages/win_installer/fragment_strings.iss:1
 msgid "Create a start menu icon"
 msgstr "创建开始菜单图标"
 
 #: packages/win_installer/fragment_strings.iss:1
-msgid "Installing runtime libraries..."
-msgstr "正在安装运行库……"
+msgid "Automatically check for new versions of Aegisub"
+msgstr "自动检查Aegisub的新版本"
+
+#: packages/win_installer/fragment_strings.iss:1
+msgid "Update Checker:"
+msgstr "自动更新："
 
 #: packages/win_installer/fragment_strings.iss:1
 msgid ""
@@ -6942,63 +7144,32 @@ msgstr ""
 "要支付费用，但同时也不会得到任何形式的担保。%n%n您可以到Aegisub官网获取源代码"
 "信息。"
 
-#: packages/win_installer/fragment_strings.iss:1
-msgid "Update Checker:"
-msgstr "自动更新："
-
-#~ msgid "    Subtitle format handler: %s"
-#~ msgstr "    字幕格式处理器： %s"
-
-#~ msgid "%d frames (%s)"
-#~ msgstr "%d 帧  (%s)"
-
-#~ msgid "%u lines were added to selection"
-#~ msgstr "%u 行已被加入所选"
+#~ msgid "Allow pre-2.56a Avisynth"
+#~ msgstr "允许使用2.56a之前版本的Avisynth"
 
 #~ msgid "%u lines were removed from selection"
 #~ msgstr " %u 行已被移出所选"
 
-#~ msgid "&Change aspect ratio"
-#~ msgstr "更改纵横比(&C)"
+#~ msgid "%u lines were added to selection"
+#~ msgstr "%u 行已被加入所选"
 
-#~ msgid "&Export As..."
-#~ msgstr "导出(&E)…"
-
-#~ msgid "&Forums"
-#~ msgstr "论坛(&F)…"
-
-#~ msgid "Allow pre-2.56a Avisynth"
-#~ msgstr "允许使用2.56a之前版本的Avisynth"
+#~ msgid "Selection was set to %u lines"
+#~ msgstr "所选被设为 %u 行"
 
 #~ msgid "Are you sure you want to delete these %d styles?"
 #~ msgstr "您确定要删除这个 %d 样式？"
 
-#~ msgid "Below Normal (recommended)"
-#~ msgstr "低于正常（推荐）"
-
-#~ msgid "Clean Script Info"
-#~ msgstr "清除脚本信息"
-
-#~ msgid "Drawings"
-#~ msgstr "绘图代码"
+#~ msgid "    Subtitle format handler: %s"
+#~ msgstr "    字幕格式处理器： %s"
 
 #~ msgid "File name"
 #~ msgstr "文件名："
 
-#~ msgid "Force BT.601"
-#~ msgstr "强制使用 BT.601"
-
-#~ msgid "Forums"
-#~ msgstr "论坛"
-
-#~ msgid "Lowest"
-#~ msgstr "最低"
+#~ msgid "Reading to Hard Disk cache"
+#~ msgstr "读取到磁盘缓存"
 
 #~ msgid "Reading into RAM"
 #~ msgstr "读取至内存"
-
-#~ msgid "Reading to Hard Disk cache"
-#~ msgstr "读取到磁盘缓存"
 
 #~ msgid ""
 #~ "Removes all but the absolutely required fields from the Script Info "
@@ -7007,16 +7178,37 @@ msgstr "自动更新："
 #~ msgstr ""
 #~ "移除脚本配置中所有不必要的信息。您可以将其用于要以原始形式分发的文件。"
 
-#~ msgid "Selection was set to %u lines"
-#~ msgstr "所选被设为 %u 行"
+#~ msgid "Clean Script Info"
+#~ msgstr "清除脚本信息"
 
-#~ msgid "Thread priority"
-#~ msgstr "线程优先级"
-
-#~ msgid "Visit Aegisub's forums"
-#~ msgstr "访问Aegisub的论坛"
+#~ msgid "&Change aspect ratio"
+#~ msgstr "更改纵横比(&C)"
 
 #~ msgid ""
 #~ "You already have timecodes loaded. Would you like to replace them with "
 #~ "timecodes from the video file?"
 #~ msgstr "您已经载入过时间码。是否要用视频文件中的时间码替换？"
+
+#~ msgid "%d frames (%s)"
+#~ msgstr "%d 帧  (%s)"
+
+#~ msgid "Force BT.601"
+#~ msgstr "强制使用 BT.601"
+
+#~ msgid "Thread priority"
+#~ msgstr "线程优先级"
+
+#~ msgid "Lowest"
+#~ msgstr "最低"
+
+#~ msgid "Below Normal (recommended)"
+#~ msgstr "低于正常（推荐）"
+
+#~ msgid "Visit Aegisub's forums"
+#~ msgstr "访问Aegisub的论坛"
+
+#~ msgid "Forums"
+#~ msgstr "论坛"
+
+#~ msgid "&Forums"
+#~ msgstr "论坛(&F)…"
