@@ -1243,7 +1243,7 @@ msgstr ""
 
 #: ../src/command/edit.cpp:1158
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Повторить последнее отмененное действие"
 
 #: ../src/command/edit.cpp:1163
 msgid "Nothing to &redo"
@@ -1636,25 +1636,25 @@ msgstr ""
 
 #: ../src/command/grid.cpp:522
 msgid "Open or close the folds around the selected lines"
-msgstr ""
+msgstr "Открыть или закрыть створки вокруг выбранных линий"
 
 #: ../src/command/grid.cpp:536 ../src/command/grid.cpp:537
 #: ../src/command/grid.cpp:538
 msgid "Open all Folds"
-msgstr ""
+msgstr "Открыть все створки"
 
 #: ../src/command/grid.cpp:547 ../src/command/grid.cpp:548
 #: ../src/command/grid.cpp:549
 msgid "Close all Folds"
-msgstr ""
+msgstr "Закрыть все створки"
 
 #: ../src/command/grid.cpp:558 ../src/command/grid.cpp:559
 msgid "Clear all Folds"
-msgstr ""
+msgstr "Очистить все створки"
 
 #: ../src/command/grid.cpp:560
 msgid "Remove all Folds"
-msgstr ""
+msgstr "Удалить все створки"
 
 #: ../src/command/help.cpp:48
 msgid "&Bug Tracker..."
@@ -5950,19 +5950,19 @@ msgstr ""
 
 #: ../src/preferences.cpp:263
 msgid "Drawing Commands"
-msgstr ""
+msgstr "Команды рисунка"
 
 #: ../src/preferences.cpp:264
 msgid "Drawing X Coords"
-msgstr ""
+msgstr "Построение координат X"
 
 #: ../src/preferences.cpp:265
 msgid "Drawing Y Coords"
-msgstr ""
+msgstr "Построение координат Y"
 
 #: ../src/preferences.cpp:266
 msgid "Underline Spline Endpoints"
-msgstr ""
+msgstr "Подчеркнуть конечные точки сплайна"
 
 #: ../src/preferences.cpp:268
 msgid "Brackets"
@@ -6046,11 +6046,11 @@ msgstr "Фон выделенных комментариев"
 
 #: ../src/preferences.cpp:296
 msgid "Open fold background"
-msgstr ""
+msgstr "Фон открытой створки"
 
 #: ../src/preferences.cpp:297
 msgid "Closed fold background"
-msgstr ""
+msgstr "Фон закрытой створки"
 
 #: ../src/preferences.cpp:298
 msgid "Header background"
@@ -6255,27 +6255,27 @@ msgstr "Качество"
 
 #: ../src/preferences.cpp:399
 msgid "Compressed"
-msgstr ""
+msgstr "Сжатое"
 
 #: ../src/preferences.cpp:399
 msgid "Extended"
-msgstr ""
+msgstr "Расширенное"
 
 #: ../src/preferences.cpp:399
 msgid "Linear"
-msgstr ""
+msgstr "Линейное"
 
 #: ../src/preferences.cpp:399
 msgid "Logarithmic"
-msgstr ""
+msgstr "Логарифмическое"
 
 #: ../src/preferences.cpp:399
 msgid "Medium"
-msgstr ""
+msgstr "Среднее"
 
 #: ../src/preferences.cpp:401
 msgid "Frequency mapping"
-msgstr ""
+msgstr "Частотное отображение"
 
 #: ../src/preferences.cpp:403
 msgid "Cache memory max (MB)"
@@ -6315,11 +6315,11 @@ msgstr ""
 
 #: ../src/preferences.cpp:427
 msgid "Max BS cache size (MB)"
-msgstr ""
+msgstr "Максимальный размер кэша BS (МБ)"
 
 #: ../src/preferences.cpp:428
 msgid "Use Aegisub's Cache"
-msgstr ""
+msgstr "Использовать кэш Aegisub"
 
 #: ../src/preferences.cpp:434
 msgid "Portaudio device"
@@ -6363,15 +6363,15 @@ msgstr "Разрешить небезопасную перемотку"
 
 #: ../src/preferences.cpp:482
 msgid "Max cache size (MB)"
-msgstr ""
+msgstr "Максимальный размер кэша (МБ)"
 
 #: ../src/preferences.cpp:483
 msgid "Decoder Threads (0 to autodetect)"
-msgstr ""
+msgstr "Потоки декодера (от 0 до автоматического определения)"
 
 #: ../src/preferences.cpp:484
 msgid "Seek preroll (Frames)"
-msgstr ""
+msgstr "Искать предварительный просмотр (фреймы)"
 
 #: ../src/preferences.cpp:492
 msgid "VapourSynth"
@@ -6379,11 +6379,11 @@ msgstr ""
 
 #: ../src/preferences.cpp:497
 msgid "Log Level"
-msgstr ""
+msgstr "Уровень лога"
 
 #: ../src/preferences.cpp:499
 msgid "Default Video Script"
-msgstr ""
+msgstr "Видео скрипт по умолчанию"
 
 #: ../src/preferences.cpp:501
 msgid ""
@@ -6391,10 +6391,13 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Этот скрипт будет выполнен для загрузки видеофайлов, которые не\n"
+"являются скриптами VapourSynth (т. е. заканчиваются на .py или .vpy).\n"
+"Имя переменной хранит путь к файлу."
 
 #: ../src/preferences.cpp:509
 msgid "Default Audio Script"
-msgstr ""
+msgstr "Аудио скрипт по умолчанию"
 
 #: ../src/preferences.cpp:510
 msgid ""
@@ -6402,6 +6405,9 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Этот скрипт будет выполнен для загрузки аудиофайлов, которые не\n"
+"являются скриптами VapourSynth (т. е. заканчиваются на .py или .vpy).\n"
+"Имя переменной хранит путь к файлу."
 
 #: ../src/preferences.cpp:648
 msgid "Hotkeys"
