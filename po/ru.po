@@ -3,11 +3,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Aegisub 3\n"
+"Project-Id-Version: Aegisub Arch1t3cht v9643\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-30 03:10+0200\n"
-"PO-Revision-Date: 2012-10-04 22:11+0200\n"
-"Last-Translator: Igor Urazov <z0rc3r@gmail.com>\n"
+"PO-Revision-Date: 2023-09-14 12:42+0300\n"
+"Last-Translator: xetrin <https://t.me/repacks_by_xetrin>\n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../automation/autoload/cleantags-autoload.lua:31
 msgid "Clean Tags"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:17
 msgid "Visual typesetting tools"
-msgstr ""
+msgstr "Инструменты визуального оформления"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:18
 msgid "Intuitive and customizable audio timing mode"
@@ -176,11 +176,11 @@ msgstr ""
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:36
 msgid "Audio video"
-msgstr ""
+msgstr "Звук видео"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:40
 msgid "Audio timing"
-msgstr ""
+msgstr "Тайминг звука"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:44
 msgid "Aegisub Group"
@@ -327,7 +327,7 @@ msgstr "Индексирование"
 #: ../src/audio_provider_bestsource.cpp:60
 #: ../src/video_provider_bestsource.cpp:119
 msgid "Creating cache... This can take a while!"
-msgstr ""
+msgstr "Создание кэша... Это может занять некоторое время!"
 
 #: ../src/audio_renderer_waveform.cpp:152
 msgid "Maximum"
