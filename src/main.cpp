@@ -67,6 +67,7 @@
 
 #include <boost/interprocess/streams/bufferstream.hpp>
 #include <boost/locale.hpp>
+#include <boost/program_options.hpp>
 #include <locale>
 #include <wx/clipbrd.h>
 #include <wx/msgdlg.h>
@@ -80,7 +81,7 @@ namespace config {
 	Automation4::AutoloadScriptManager *global_scripts;
 }
 
-wxIMPLEMENT_APP(AegisubApp);
+wxIMPLEMENT_APP_NO_MAIN(AegisubApp);
 
 static const char *LastStartupState = nullptr;
 
@@ -107,61 +108,7 @@ wxDEFINE_EVENT(EVT_CALL_THUNK, ValueEvent<agi::dispatch::Thunk>);
 /// Message displayed when an exception has occurred.
 static wxString exception_message = "Oops, Aegisub has crashed!\n\nAn attempt has been made to save a copy of your file to:\n\n%s\n\nAegisub will now close.";
 
-/// @brief Gets called when application starts.
-/// @return bool
-bool AegisubApp::OnInit() {
-	// App name (yeah, this is a little weird to get rid of an odd warning)
-#if defined(__WXMSW__) || defined(__WXMAC__)
-	SetAppName("Aegisub");
-#else
-	SetAppName("aegisub");
-#endif
-
-	// The logger isn't created on demand on background threads, so force it to
-	// be created now
-	(void)wxLog::GetActiveTarget();
-
-	{
-		// Try to get the UTF-8 version of the current locale
-		auto locale = boost::locale::generator().generate("");
-
-		// Check if we actually got a UTF-8 locale
-		using codecvt = std::codecvt<wchar_t, char, std::mbstate_t>;
-		int result = std::codecvt_base::error;
-		if (std::has_facet<codecvt>(locale)) {
-			wchar_t test[] = L"\xFFFE";
-			char buff[8];
-			auto mb = std::mbstate_t();
-			const wchar_t* from_next;
-			char* to_next;
-			result = std::use_facet<codecvt>(locale).out(mb,
-				test, std::end(test), from_next,
-				buff, std::end(buff), to_next);
-		}
-
-		// If we didn't get a UTF-8 locale, force it to a known one
-		if (result != std::codecvt_base::ok)
-			locale = boost::locale::generator().generate("en_US.UTF-8");
-		std::locale::global(locale);
-	}
-
-	boost::filesystem::path::imbue(std::locale());
-
-	// Pointless `this` capture required due to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=51494
-	agi::dispatch::Init([this](agi::dispatch::Thunk f) {
-		auto evt = new ValueEvent<agi::dispatch::Thunk>(EVT_CALL_THUNK, -1, std::move(f));
-		wxTheApp->QueueEvent(evt);
-	});
-
-	wxTheApp->Bind(EVT_CALL_THUNK, [this](ValueEvent<agi::dispatch::Thunk>& evt) {
-		try {
-			evt.Get()();
-		}
-		catch (...) {
-			OnExceptionInMainLoop();
-		}
-	});
-
+bool AegisubInitialize(std::function<void(std::string, std::string)> showError, std::function<void()> initLocale) {
 	config::path = new agi::Path;
 	crash_writer::Initialize(config::path->Decode("?user"));
 
@@ -263,13 +210,7 @@ bool AegisubApp::OnInit() {
 
 		StartupLog("Initialize final locale");
 
-		// Set locale
-		auto lang = OPT_GET("App/Language")->GetString();
-		if (lang.empty() || (lang != "en_US" && !locale.HasLanguage(lang))) {
-			lang = locale.PickLanguage();
-			OPT_SET("App/Language")->SetString(lang);
-		}
-		locale.Init(lang);
+		initLocale();
 
 #ifdef __APPLE__
 		// When run from an app bundle, LC_CTYPE defaults to "C", which breaks on
@@ -293,7 +234,137 @@ bool AegisubApp::OnInit() {
 		StartupLog("Register export filters");
 		AssExportFilterChain::Register(agi::make_unique<AssFixStylesFilter>());
 		AssExportFilterChain::Register(agi::make_unique<AssTransformFramerateFilter>());
+	}
+	catch (agi::Exception const& e) {
+		showError(e.GetMessage(), "Fatal error while initializing");
+		return false;
+	}
+	catch (std::exception const& e) {
+		showError(e.what(), "Fatal error while initializing");
+		return false;
+	}
+#ifndef _DEBUG
+	catch (...) {
+		showError("Fatal error while initializing", "Unhandled exception");
+		return false;
+	}
+#endif
+	return true;
+}
 
+/// @brief Gets called when application starts.
+/// @return int
+int main(int argc, char *argv[]) {
+	wxDISABLE_DEBUG_SUPPORT();
+
+	boost::program_options::options_description cmdline("Options");
+	boost::program_options::options_description flags("Options");
+	boost::program_options::positional_options_description posdesc;
+
+	flags.add_options()
+		("help", "produce help message")
+		("cli", "whether to run in CLI mode, without opening a GUI window")
+	;
+
+	cmdline.add(flags);
+	boost::program_options::variables_map vm;
+
+	boost::program_options::store(
+		boost::program_options::command_line_parser(argc, argv).
+		options(cmdline).positional(posdesc).run(), vm);
+	boost::program_options::notify(vm);
+
+	if (vm.count("help")) {
+		std::cout << argv[0] << " [options] <input file> <output file> <macro>" << std::endl;
+		std::cout << flags << std::endl;
+		return 0;
+	}
+
+	bool cli = vm.count("cli");
+
+	{
+		// Try to get the UTF-8 version of the current locale
+		auto locale = boost::locale::generator().generate("");
+
+		// Check if we actually got a UTF-8 locale
+		using codecvt = std::codecvt<wchar_t, char, std::mbstate_t>;
+		int result = std::codecvt_base::error;
+		if (std::has_facet<codecvt>(locale)) {
+			wchar_t test[] = L"\xFFFE";
+			char buff[8];
+			auto mb = std::mbstate_t();
+			const wchar_t* from_next;
+			char* to_next;
+			result = std::use_facet<codecvt>(locale).out(mb,
+				test, std::end(test), from_next,
+				buff, std::end(buff), to_next);
+		}
+
+		// If we didn't get a UTF-8 locale, force it to a known one
+		if (result != std::codecvt_base::ok)
+			locale = boost::locale::generator().generate("en_US.UTF-8");
+		std::locale::global(locale);
+	}
+
+	boost::filesystem::path::imbue(std::locale());
+
+	if (cli) {
+		// TODO force everything onto one thread or figure something else out here
+		agi::dispatch::Init([](agi::dispatch::Thunk f) {
+			f();
+		});
+
+		if (!AegisubInitialize([&](std::string msg, std::string title) { std::cerr << agi::format("%s: %s\n", title, msg); }, []{})) {
+			return -1;
+		}
+	} else {
+		return wxEntry(argc, argv);
+	}
+}
+
+
+/// @brief wx's initialization function. Called from main() to initialize the GUI-specific stuff and then call Initialize()
+/// @return bool
+bool AegisubApp::OnInit() {
+       // App name (yeah, this is a little weird to get rid of an odd warning)
+#if defined(__WXMSW__) || defined(__WXMAC__)
+       SetAppName("Aegisub");
+#else
+       SetAppName("aegisub");
+#endif
+	// The logger isn't created on demand on background threads, so force it to
+	// be created now
+	(void)wxLog::GetActiveTarget();
+
+	// Pointless `this` capture required due to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=51494
+	agi::dispatch::Init([this](agi::dispatch::Thunk f) {
+		auto evt = new ValueEvent<agi::dispatch::Thunk>(EVT_CALL_THUNK, -1, std::move(f));
+		wxTheApp->QueueEvent(evt);
+	});
+
+	wxTheApp->Bind(EVT_CALL_THUNK, [this](ValueEvent<agi::dispatch::Thunk>& evt) {
+		try {
+			evt.Get()();
+		}
+		catch (...) {
+			OnExceptionInMainLoop();
+		}
+	});
+
+	auto initLocale = [&]() {
+		auto lang = OPT_GET("App/Language")->GetString();
+		if (lang.empty() || (lang != "en_US" && !locale.HasLanguage(lang))) {
+			lang = locale.PickLanguage();
+			OPT_SET("App/Language")->SetString(lang);
+		}
+		locale.Init(lang);
+	};
+
+	if (!::AegisubInitialize([&] (std::string msg, std::string title) { wxMessageBox(msg, "Fatal error while initializing"); }, initLocale)) {
+		return false;
+	}
+
+	try {
 		StartupLog("Install PNG handler");
 		wxImage::AddHandler(new wxPNGHandler);
 
