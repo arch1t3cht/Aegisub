@@ -35,6 +35,7 @@
 #include <libaegisub/dispatch.h>
 #include <libaegisub/format_path.h>
 #include <libaegisub/fs.h>
+#include <libaegisub/make_unique.h>
 #include <libaegisub/path.h>
 #include <libaegisub/util.h>
 
@@ -149,10 +150,13 @@ SubsController::SubsController(agi::Context *context)
 , text_selection_connection(context->textSelectionController->AddSelectionListener(&SubsController::OnTextSelectionChanged, this))
 , autosave_queue(agi::dispatch::Create())
 {
-	autosave_timer_changed(&autosave_timer);
-	OPT_SUB("App/Auto/Save", [=] { autosave_timer_changed(&autosave_timer); });
-	OPT_SUB("App/Auto/Save Every Seconds", [=] { autosave_timer_changed(&autosave_timer); });
-	autosave_timer.Bind(wxEVT_TIMER, [=](wxTimerEvent&) { AutoSave(); });
+	if (config::hasGui) {
+		autosave_timer = agi::make_unique<wxTimer>();
+		autosave_timer_changed(autosave_timer.get());
+		OPT_SUB("App/Auto/Save", [=] { autosave_timer_changed(autosave_timer.get()); });
+		OPT_SUB("App/Auto/Save Every Seconds", [=] { autosave_timer_changed(autosave_timer.get()); });
+		autosave_timer->Bind(wxEVT_TIMER, [=](wxTimerEvent&) { AutoSave(); });
+	}
 }
 
 SubsController::~SubsController() {

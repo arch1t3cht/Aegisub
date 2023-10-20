@@ -54,7 +54,7 @@ class SubsController {
 	int next_commit_id = 1;
 
 	/// Timer for triggering autosaves
-	wxTimer autosave_timer;
+	std::unique_ptr<wxTimer> autosave_timer;
 
 	/// Queue which autosaves are performed on
 	std::unique_ptr<agi::dispatch::Queue> autosave_queue;

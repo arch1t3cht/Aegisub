@@ -79,6 +79,7 @@ namespace config {
 	agi::MRUManager *mru = nullptr;
 	agi::Path *path = nullptr;
 	Automation4::AutoloadScriptManager *global_scripts;
+	bool hasGui = false;
 }
 
 wxIMPLEMENT_APP_NO_MAIN(AegisubApp);
@@ -308,6 +309,8 @@ int main(int argc, char *argv[]) {
 
 	boost::filesystem::path::imbue(std::locale());
 
+	config::hasGui = !cli;
+
 	if (cli) {
 		// TODO force everything onto one thread or figure something else out here
 		agi::dispatch::Init([](agi::dispatch::Thunk f) {
@@ -317,6 +320,8 @@ int main(int argc, char *argv[]) {
 		if (!AegisubInitialize([&](std::string msg, std::string title) { std::cerr << agi::format("%s: %s\n", title, msg); }, []{})) {
 			return -1;
 		}
+
+		std::unique_ptr<agi::Context> context = agi::make_unique<agi::Context>();
 	} else {
 		return wxEntry(argc, argv);
 	}

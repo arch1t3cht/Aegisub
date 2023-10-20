@@ -81,7 +81,7 @@ class AudioController final : public wxEvtHandler {
 	PlaybackMode playback_mode = PM_NotPlaying;
 
 	/// Timer used for playback position updates
-	wxTimer playback_timer;
+	std::unique_ptr<wxTimer> playback_timer;
 
 	/// The audio provider
 	agi::AudioProvider *provider = nullptr;

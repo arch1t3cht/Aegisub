@@ -43,6 +43,7 @@
 #include "video_frame.h"
 
 #include <libaegisub/ass/time.h>
+#include <libaegisub/make_unique.h>
 
 #include <wx/log.h>
 
@@ -57,7 +58,11 @@ VideoController::VideoController(agi::Context *c)
 {
 	Bind(EVT_VIDEO_ERROR, &VideoController::OnVideoError, this);
 	Bind(EVT_SUBTITLES_ERROR, &VideoController::OnSubtitlesError, this);
-	playback.Bind(wxEVT_TIMER, &VideoController::OnPlayTimer, this);
+
+	if (config::hasGui) {
+		playback = agi::make_unique<wxTimer>();
+		playback->Bind(wxEVT_TIMER, &VideoController::OnPlayTimer, this);
+	}
 }
 
 void VideoController::OnNewVideoProvider(AsyncVideoProvider *new_provider) {
@@ -133,6 +138,7 @@ void VideoController::PrevFrame() {
 }
 
 void VideoController::Play() {
+	assert(config::hasGui);
 	if (IsPlaying()) {
 		Stop();
 		return;
@@ -146,10 +152,11 @@ void VideoController::Play() {
 	context->audioController->PlayToEnd(start_ms);
 
 	playback_start_time = std::chrono::steady_clock::now();
-	playback.Start(10);
+	playback->Start(10);
 }
 
 void VideoController::PlayLine() {
+	assert(config::hasGui);
 	Stop();
 
 	AssDialogue *curline = context->selectionController->GetActiveLine();
@@ -165,12 +172,13 @@ void VideoController::PlayLine() {
 	JumpToFrame(startFrame);
 
 	playback_start_time = std::chrono::steady_clock::now();
-	playback.Start(10);
+	playback->Start(10);
 }
 
 void VideoController::Stop() {
+	assert(config::hasGui);
 	if (IsPlaying()) {
-		playback.Stop();
+		playback->Stop();
 		context->audioController->Stop();
 	}
 }
@@ -187,6 +195,10 @@ void VideoController::OnPlayTimer(wxTimerEvent &) {
 		RequestFrame();
 		Seek(frame_n);
 	}
+}
+
+bool VideoController::IsPlaying() const {
+	return config::hasGui && playback->IsRunning();
 }
 
 double VideoController::GetARFromType(AspectRatio type) const {
