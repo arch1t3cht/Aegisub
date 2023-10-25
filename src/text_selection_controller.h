@@ -57,6 +57,7 @@ public:
 	int GetStagedInsertionPoint() const { return has_staged_selection ? staged_selection_end : insertion_point; }
 
 	void SetControl(wxStyledTextCtrl *ctrl);
+	wxStyledTextCtrl* GetControl() const {return ctrl;}
 	~TextSelectionController();
 
 	DEFINE_SIGNAL_ADDERS(AnnounceSelectionChanged, AddSelectionListener)

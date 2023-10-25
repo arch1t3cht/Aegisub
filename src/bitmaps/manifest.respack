@@ -91,6 +91,16 @@ button/button_color_two_24.png
 button/button_color_two_32.png
 button/button_color_two_48.png
 button/button_color_two_64.png
+button/direction_ltr_16.png
+button/direction_ltr_24.png
+button/direction_ltr_32.png
+button/direction_ltr_48.png
+button/direction_ltr_64.png
+button/direction_rtl_16.png
+button/direction_rtl_24.png
+button/direction_rtl_32.png
+button/direction_rtl_48.png
+button/direction_rtl_64.png
 button/button_fontname_16.png
 button/button_fontname_24.png
 button/button_fontname_32.png

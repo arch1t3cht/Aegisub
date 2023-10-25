@@ -46,6 +46,7 @@
 #include "../project.h"
 #include "../selection_controller.h"
 #include "../subs_controller.h"
+#include "../subs_edit_ctrl.h"
 #include "../text_selection_controller.h"
 #include "../utils.h"
 #include "../video_controller.h"
@@ -1265,6 +1266,40 @@ struct edit_insert_original final : public Command {
 	}
 };
 
+struct edit_text_ltr final : public Command {
+	CMD_NAME("edit/text_ltr")
+	CMD_ICON(direction_ltr)
+	STR_DISP("Set text to LTR")
+	STR_MENU("Set text to LTR")
+	STR_HELP("Change the direction of the text to LTR")
+
+	void operator()(agi::Context *c) override {
+		if (c->textSelectionController->GetControl()->GetLayoutDirection() != wxLayout_LeftToRight) {
+			c->textSelectionController->GetControl()->SetLayoutDirection (wxLayout_LeftToRight);
+		}
+	}
+};
+
+struct edit_text_rtl final : public Command {
+	CMD_NAME("edit/text_rtl")
+	CMD_ICON(direction_rtl)
+	STR_DISP("Set text to RTL")
+	STR_MENU("Set text to RTL")
+	STR_HELP("Change the direction of the text to RTL")
+
+	void operator()(agi::Context *c) override {
+		if (c->textSelectionController->GetControl()->GetLayoutDirection() == wxLayout_RightToLeft) 
+			return;
+		
+		c->textSelectionController->GetControl()->SetLayoutDirection (wxLayout_RightToLeft);
+		wxString data = c->textSelectionController->GetControl()->GetText();
+		if (data.StartsWith(RTL_MARK) != false) {
+			data.insert(0, RTL_MARK);
+			c->textSelectionController->GetControl()->SetTextRaw(data.c_str());
+		}
+	}
+};
+
 }
 
 namespace cmd {
@@ -1273,6 +1308,8 @@ namespace cmd {
 		reg(agi::make_unique<edit_color_secondary>());
 		reg(agi::make_unique<edit_color_outline>());
 		reg(agi::make_unique<edit_color_shadow>());
+		reg(agi::make_unique<edit_text_ltr>());
+		reg(agi::make_unique<edit_text_rtl>());
 		reg(agi::make_unique<edit_font>());
 		reg(agi::make_unique<edit_find_replace>());
 		reg(agi::make_unique<edit_line_copy>());

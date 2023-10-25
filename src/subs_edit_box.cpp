@@ -188,6 +188,9 @@ SubsEditBox::SubsEditBox(wxWindow *parent, agi::Context *context)
 	MakeButton("edit/color/shadow");
 	middle_right_sizer->AddSpacer(5);
 	MakeButton("grid/line/next/create");
+	middle_right_sizer->AddSpacer(5);
+	MakeButton("edit/text_ltr");
+	MakeButton("edit/text_rtl");
 	middle_right_sizer->AddSpacer(10);
 
 	by_time = MakeRadio(_("T&ime"), true, _("Time by h:mm:ss.cs"));

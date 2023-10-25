@@ -96,6 +96,11 @@ int SmallestPowerOf2(int x) {
 	return x;
 }
 
+bool IsCharRTL(wxChar c) {
+	// only hebrew for now
+	return (((wxChar)0x5d0) <= c) && (c <= ((wxChar)0x5ea));
+}
+
 #ifndef __WXMAC__
 void RestartAegisub() {
 	config::opt->Flush();
