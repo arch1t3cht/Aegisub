@@ -112,6 +112,9 @@ agi::fs::path const& MRUManager::GetEntry(const char *key, const size_t entry) {
 }
 
 void MRUManager::Flush() {
+	if (config_name.string().empty())
+		return;
+
 	json::Object out;
 
 	for (size_t i = 0; i < mru.size(); ++i) {
