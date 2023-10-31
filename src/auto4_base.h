@@ -46,7 +46,7 @@
 #include <vector>
 
 class AssStyle;
-class DialogProgress;
+class OptDialogProgress;
 class wxWindow;
 class wxDialog;
 
@@ -103,7 +103,7 @@ namespace Automation4 {
 	class ProgressSink;
 
 	class BackgroundScriptRunner {
-		std::unique_ptr<DialogProgress> impl;
+		std::unique_ptr<OptDialogProgress> impl;
 
 	public:
 		wxWindow *GetParentWindow() const;

@@ -239,7 +239,7 @@ void Project::LoadUnloadFiles(ProjectProperties properties) {
 
 void Project::DoLoadAudio(agi::fs::path const& path, bool quiet) {
 	if (!progress)
-		progress = new DialogProgress(context->parent);
+		progress = new OptDialogProgress(context->parent);
 
 	try {
 		try {
@@ -285,7 +285,7 @@ void Project::CloseAudio() {
 
 bool Project::DoLoadVideo(agi::fs::path const& path) {
 	if (!progress)
-		progress = new DialogProgress(context->parent);
+		progress = new OptDialogProgress(context->parent);
 
 	try {
 		auto old_matrix = context->ass->GetScriptInfo("YCbCr Matrix");
