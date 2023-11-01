@@ -18,6 +18,7 @@
 
 #include "compat.h"
 #include "factory_manager.h"
+#include "gui_wrap.h"
 #include "options.h"
 #include "utils.h"
 
@@ -126,7 +127,7 @@ std::unique_ptr<agi::AudioProvider> SelectAudioProvider(fs::path const& filename
 	for (auto const& f : remaining_providers)
 		names.push_back(f->name);
 
-	int choice = wxGetSingleChoiceIndex(agi::format("Could not open %s with the preferred provider:\n\n%s\nPlease choose a different audio provider to try:", filename.string(), errors), _("Error loading audio"), to_wx(names));
+	int choice = wrapChoiceDialog("audio-provider", agi::format("Could not open %s with the preferred provider:\n\n%s\nPlease choose a different audio provider to try:", filename.string(), errors), _("Error loading audio"), to_wx(names));
 	if (choice == -1) {
 		throw agi::UserCancelException("audio loading cancelled by user");
 	}

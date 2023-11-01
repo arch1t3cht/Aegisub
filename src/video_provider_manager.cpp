@@ -18,6 +18,7 @@
 
 #include "compat.h"
 #include "factory_manager.h"
+#include "gui_wrap.h"
 #include "include/aegisub/video_provider.h"
 #include "options.h"
 
@@ -138,7 +139,7 @@ std::unique_ptr<VideoProvider> VideoProviderFactory::GetProvider(agi::fs::path c
 	for (auto const& f : remaining_providers)
 		names.push_back(f->name);
 
-	int choice = wxGetSingleChoiceIndex(agi::format("Could not open %s with the preferred provider:\n\n%s\nPlease choose a different video provider to try:", filename.string(), errors), _("Error loading video"), to_wx(names));
+	int choice = wrapChoiceDialog("video-provider", agi::format("Could not open %s with the preferred provider:\n\n%s\nPlease choose a different video provider to try:", filename.string(), errors), _("Error loading video"), to_wx(names));
 	if (choice == -1) {
 		throw agi::UserCancelException("video loading cancelled by user");
 	}
