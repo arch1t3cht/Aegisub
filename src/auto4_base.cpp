@@ -41,6 +41,7 @@
 #include <libaegisub/dispatch.h>
 #include <libaegisub/format.h>
 #include <libaegisub/fs.h>
+#include <libaegisub/log.h>
 #include <libaegisub/path.h>
 #include <libaegisub/make_unique.h>
 #include <libaegisub/split.h>
@@ -50,6 +51,7 @@
 #include <future>
 
 #include <wx/dcmemory.h>
+#include <wx/init.h>
 #include <wx/log.h>
 #include <wx/sizer.h>
 
@@ -120,6 +122,12 @@ namespace Automation4 {
 		DeleteObject(dc);
 
 #else // not WIN32
+		if (!config::hasInitializedWx) {
+			config::hasInitializedWx = true;
+			LOG_W("agi") << "Text extents were requested. Initializing wxWidgets. This requires a display server.";
+			wxInitialize();
+		}
+
 		wxMemoryDC thedc;
 
 		// fix fontsize to be 72 DPI
