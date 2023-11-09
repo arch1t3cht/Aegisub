@@ -1,7 +1,8 @@
 [wrap-git]
 directory = ffmpeg
 url = https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
-revision = head
+revision = meson-6.1
+depth = 1
 diff_files = ffmpeg/0001.patch
 
 [provide]

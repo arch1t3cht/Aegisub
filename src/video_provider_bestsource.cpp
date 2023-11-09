@@ -137,8 +137,12 @@ BSVideoProvider::BSVideoProvider(agi::fs::path const& filename, std::string cons
 			if (frame == nullptr) {
 				throw VideoOpenError("Couldn't read frame!");
 			}
-
+// https://github.com/FFmpeg/FFmpeg/blob/n6.1/doc/APIchanges#L144-L148
+#if (LIBAVUTIL_VERSION_MAJOR == 58 && LIBAVUTIL_VERSION_MINOR >= 7) || LIBAVUTIL_VERSION_MAJOR >= 59
+			if (frame->GetAVFrame()->flags & AV_FRAME_FLAG_KEY) {
+#else
 			if (frame->GetAVFrame()->key_frame) {
+#endif
 				Keyframes.push_back(n);
 			}
 
