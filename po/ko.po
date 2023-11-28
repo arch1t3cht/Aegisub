@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Aegisub\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-30 03:10+0200\n"
-"PO-Revision-Date: 2023-08-15 07:15\n"
+"PO-Revision-Date: 2023-11-29 00:00\n"
 "Last-Translator: Hack茶ん\n"
 "Language-Team: TNC\n"
 "Language: ko_KR\n"
@@ -5650,6 +5650,14 @@ msgstr "색 선택"
 #: ../src/preferences.cpp:236
 msgid "Restrict Screen Picker to Window"
 msgstr "화면 선택기를 창으로 제한"
+
+#: ../src/preferences.cpp:242
+msgid "Dark Mode"
+msgstr "다크 모드"
+
+#: ../src/preferences.cpp:243
+msgid "Enable experimental dark mode (restart required)"
+msgstr "실험용 다크 모드 사용(다시 시작 필요)"
 
 #: ../src/preferences.cpp:251
 msgid "Audio Display"
