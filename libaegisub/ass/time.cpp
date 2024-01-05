@@ -23,8 +23,21 @@
 
 #include <algorithm>
 
+// classic VSFilter internally uses a signed 32-bit int to denote milliseconds.
+// To avoid this limit to < 596h (-6 to avoid rounding up to 596h in centisecond precision)
+static const int MAX_TIME = 596 * 60 * 60 * 1000 - 6;
+
+static void decompose_time(int ms_time, int& h, int& m, int& s, int& ms) {
+	h = ms_time / 3600000;
+	ms_time -= h * 3600000;
+	m = ms_time / 60000;
+	ms_time -= m * 60000;
+	s = ms_time / 1000;
+	ms = ms_time - s * 1000;
+}
+
 namespace agi {
-Time::Time(int time) : time(util::mid(0, time, 10 * 60 * 60 * 1000 - 6)) { }
+Time::Time(int time) : time(util::mid(0, time, MAX_TIME)) { }
 
 Time::Time(std::string const& text) {
 	int after_decimal = -1;
@@ -56,38 +69,25 @@ Time::Time(std::string const& text) {
 		time = (time * 60 + current) * 1000;
 
 	// Limit to the valid range
-	time = util::mid(0, time, 10 * 60 * 60 * 1000 - 6);
+	time = util::mid(0, time, MAX_TIME);
 }
 
 std::string Time::GetAssFormatted(bool msPrecision) const {
 	int ass_time = msPrecision ? time : int(*this);
-	std::string ret(10 + msPrecision, ':');
-	ret[0] = '0' + ass_time / 3600000;
-	ret[2] = '0' + (ass_time % (60 * 60 * 1000)) / (60 * 1000 * 10);
-	ret[3] = '0' + (ass_time % (10 * 60 * 1000)) / (60 * 1000);
-	ret[5] = '0' + (ass_time % (60 * 1000)) / (1000 * 10);
-	ret[6] = '0' + (ass_time % (10 * 1000)) / 1000;
-	ret[7] = '.';
-	ret[8] = '0' + (ass_time % 1000) / 100;
-	ret[9] = '0' + (ass_time % 100) / 10;
-	if (msPrecision)
-		ret[10] = '0' + ass_time % 10;
-	return ret;
+	int h, m, s, ms;
+
+	decompose_time(ass_time, h, m, s, ms);
+
+	if (!msPrecision)
+		return format("%d:%02d:%02d.%02d", h, m, s, ms / 10);
+	else
+		return format("%d:%02d:%02d.%03d", h, m, s, ms);
 }
 
 std::string Time::GetSrtFormatted() const {
-	std::string ret(12, ':');
-	ret[0] = '0';
-	ret[1] = '0' + time / 3600000;
-	ret[3] = '0' + (time % (60 * 60 * 1000)) / (60 * 1000 * 10);
-	ret[4] = '0' + (time % (10 * 60 * 1000)) / (60 * 1000);
-	ret[6] = '0' + (time % (60 * 1000)) / (1000 * 10);
-	ret[7] = '0' + (time % (10 * 1000)) / 1000;
-	ret[8] = ',';
-	ret[9] = '0' + (time % 1000) / 100;
-	ret[10] = '0' + (time % 100) / 10;
-	ret[11] = '0' + time % 10;
-	return ret;
+	int h, m, s, ms;
+	decompose_time(time, h, m, s, ms);
+	return format("%02d:%02d:%02d,%03d", h, m, s, ms);
 }
 
 SmpteFormatter::SmpteFormatter(vfr::Framerate fps, char sep)

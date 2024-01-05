@@ -23,7 +23,7 @@ using agi::Time;
 
 TEST(lagi_time, out_of_range_times) {
 	EXPECT_EQ(0, (int)Time(-1));
-	EXPECT_EQ(10 * 60 * 60 * 1000 - 10, (int)Time(10 * 60 * 60 * 1000));
+	EXPECT_EQ(596 * 60 * 60 * 1000 - 10, (int)Time(596 * 60 * 60 * 1000));
 }
 
 TEST(lagi_time, rounds_to_cs) {
