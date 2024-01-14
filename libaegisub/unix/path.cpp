@@ -84,11 +84,14 @@ void Path::FillPlatformSpecificPaths() {
 	{
 		agi::fs::path xdg_config_home = xdg_dir("XDG_CONFIG_HOME", (home/".config").string());
 		agi::fs::path xdg_cache_home = xdg_dir("XDG_CACHE_HOME", (home/".cache").string());
+		agi::fs::path xdg_state_home = xdg_dir("XDG_STATE_HOME", (home/".local/state").string());
 		SetToken("?user", xdg_config_home/"Aegisub");
 		SetToken("?local", xdg_cache_home/"Aegisub");
+		SetToken("?state", xdg_state_home/"Aegisub");
 	} else {
 		SetToken("?user", prev_dir);
 	    SetToken("?local", prev_dir);
+		SetToken("?state", prev_dir);
 	}
 
 #ifdef APPIMAGE_BUILD
@@ -104,6 +107,7 @@ void Path::FillPlatformSpecificPaths() {
 	agi::fs::path app_support = agi::util::GetApplicationSupportDirectory();
 	SetToken("?user", app_support/"Aegisub");
 	SetToken("?local", app_support/"Aegisub");
+	SetToken("?state", app_support/"Aegisub");
 	SetToken("?data", agi::util::GetBundleSharedSupportDirectory());
 	SetToken("?dictionary", Decode("?data/dictionaries"));
 #endif

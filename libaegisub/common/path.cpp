@@ -28,6 +28,7 @@ static const char *tokens[] = {
 	"?dictionary",
 	"?local",
 	"?script",
+	"?state",
 	"?temp",
 	"?user",
 	"?video"
@@ -42,9 +43,10 @@ int find_token(const char *str, size_t len) {
 	case 'd' + 't': idx = 2; break;
 	case 'l' + 'a': idx = 3; break;
 	case 's' + 'i': idx = 4; break;
-	case 't' + 'p': idx = 5; break;
-	case 'u' + 'r': idx = 6; break;
-	case 'v' + 'e': idx = 7; break;
+	case 's' + 't': idx = 5; break;
+	case 't' + 'p': idx = 6; break;
+	case 'u' + 'r': idx = 7; break;
+	case 'v' + 'e': idx = 8; break;
 	default: return -1;
 	}
 
