@@ -50,6 +50,7 @@ class GdiFontFileLister {
 
 public:
 	/// Constructor
+	/// @throws agi::EnvironmentError if an error occurs during construction.
 	GdiFontFileLister(FontCollectorStatusCallback &);
 
 	/// @brief Get the path to the font with the given styles
