@@ -187,6 +187,11 @@ elif host_machine.system() == 'windows'
     else
         error('Missing Windows SDK GDI Library (wingdi.h / gdi32.lib)')
     endif
+    if cc.has_header('dwrite.h')
+        deps += cc.find_library('dwrite', required: true)
+    else
+        error('Missing Windows SDK DirectWrite Library (dwrite.h / dwrite.lib)')
+    endif
         if cc.has_header('usp10.h')
         deps += cc.find_library('usp10', required: true)
     else
