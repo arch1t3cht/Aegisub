@@ -192,11 +192,6 @@ elif host_machine.system() == 'windows'
     else
         error('Missing Windows SDK DirectWrite Library (dwrite.h / dwrite.lib)')
     endif
-        if cc.has_header('usp10.h')
-        deps += cc.find_library('usp10', required: true)
-    else
-        error('Missing Windows SDK Uniscribe Library (usp10.h / usp10.lib)')
-    endif
 
     res_inc = include_directories('bitmaps/windows')
     res_dep_files = files(
