@@ -52,8 +52,8 @@ bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
 		return false;
 	}
 
-	normalized_path_length = GetFinalPathNameByHandle(hfile_sh, normalized_path, normalized_path_length + 1, FILE_NAME_NORMALIZED);
-	if (!normalized_path_length) {
+	if (!GetFinalPathNameByHandle(hfile_sh, normalized_path, normalized_path_length + 1, FILE_NAME_NORMALIZED)) {
+		delete[] normalized_path;
 		return false;
 	}
 
@@ -234,6 +234,7 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	if (path == nullptr) {
 		return ret;
 	}
+	agi::scoped_holder<WCHAR**> path_sh(&path, [](WCHAR** p) { delete[] *p; });
 
 	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, path, path_length + 1)))
 	{
@@ -247,7 +248,6 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	}
 
 	ret.paths.push_back(agi::fs::path(path));
-	delete[] path;
 
 	BOOL exists;
 	HRESULT hr;
