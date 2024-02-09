@@ -317,7 +317,7 @@ if host_machine.system() == 'windows'
             # Windows 8 not required if XAudio2 fails to be found. revert for compat.
             add_project_arguments('-D_WIN32_WINNT=0x0601', language: 'cpp')
         endif
-        
+
         if not have_dsound_h and get_option('xaudio2').enabled()
             error('xaudio2 enabled but xaudio2.h not found')
         endif
@@ -325,6 +325,10 @@ if host_machine.system() == 'windows'
         # Windows 8 not required if XAudio2 is disabled. revert for compat.
         add_project_arguments('-D_WIN32_WINNT=0x0601', language: 'cpp')
     endif
+endif
+
+if host_machine.system() == 'windows' and cc.has_header('dwrite_3.h')
+    add_project_arguments('-DHAVE_DWRITE_3', language: 'cpp')
 endif
 
 if host_machine.system() == 'darwin'
