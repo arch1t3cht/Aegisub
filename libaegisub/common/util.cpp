@@ -17,10 +17,14 @@
 #include "libaegisub/util.h"
 #include "libaegisub/util_osx.h"
 
+#include "libaegisub/exception.h"
+
 #include <boost/locale/boundary.hpp>
 #include <boost/locale/conversion.hpp>
+#include <boost/locale/util.hpp>
 #include <boost/range/distance.hpp>
 #include <ctime>
+#include <unicode/locid.h>
 
 namespace {
 const size_t bad_pos = (size_t)-1;
@@ -192,6 +196,15 @@ void tagless_find_helper::map_range(size_t &s, size_t &e) {
 		// Note that blocks cannot be partially within the match
 		e += block.second - block.first;
 	}
+}
+
+void InitLocale() {
+       // FIXME: need to verify we actually got a utf-8 locale
+       auto id = boost::locale::util::get_system_locale(true);
+       UErrorCode err = U_ZERO_ERROR;
+       icu::Locale::setDefault(icu::Locale::createCanonical(id.c_str()), err);
+       if (U_FAILURE(err)) throw InternalError(u_errorName(err));
+       std::locale::global(boost::locale::generator().generate(""));
 }
 } // namespace util
 

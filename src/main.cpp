@@ -121,7 +121,7 @@ wxDEFINE_EVENT(EVT_CALL_THUNK, ValueEvent<agi::dispatch::Thunk>);
 /// Message displayed when an exception has occurred.
 static wxString exception_message = "Oops, Aegisub has crashed!\n\nAn attempt has been made to save a copy of your file to:\n\n%s\n\nAegisub will now close.";
 
-bool AegisubInitialize(std::function<void(std::string, std::string)> showError, std::function<void()> initLocale) {
+bool AegisubInitialize(AegisubApp *app, std::function<void(std::string, std::string)> showError) {
 	config::path = new agi::Path;
 	crash_writer::Initialize(config::path->Decode("?user"));
 
@@ -225,7 +225,15 @@ bool AegisubInitialize(std::function<void(std::string, std::string)> showError, 
 
 		StartupLog("Initialize final locale");
 
-		initLocale();
+		if (app) {
+			auto lang = OPT_GET("App/Language")->GetString();
+			if (lang.empty() || (lang != "en_US" && !app->locale.HasLanguage(lang))) {
+				lang = app->locale.PickLanguage();
+				OPT_SET("App/Language")->SetString(lang);
+			}
+			app->locale.Init(lang);
+		}
+
 
 #ifdef __APPLE__
 		// When run from an app bundle, LC_CTYPE defaults to "C", which breaks on
@@ -267,30 +275,6 @@ bool AegisubInitialize(std::function<void(std::string, std::string)> showError, 
 	}
 #endif
 	return true;
-}
-
-void AegisubSetupInitialLocale() {
-	// Try to get the UTF-8 version of the current locale
-	auto locale = boost::locale::generator().generate("");
-
-	// Check if we actually got a UTF-8 locale
-	using codecvt = std::codecvt<wchar_t, char, std::mbstate_t>;
-	int result = std::codecvt_base::error;
-	if (std::has_facet<codecvt>(locale)) {
-		wchar_t test[] = L"\xFFFE";
-		char buff[8];
-		auto mb = std::mbstate_t();
-		const wchar_t* from_next;
-		char* to_next;
-		result = std::use_facet<codecvt>(locale).out(mb,
-			test, std::end(test), from_next,
-			buff, std::end(buff), to_next);
-	}
-
-	// If we didn't get a UTF-8 locale, force it to a known one
-	if (result != std::codecvt_base::ok)
-		locale = boost::locale::generator().generate("en_US.UTF-8");
-	std::locale::global(locale);
 }
 
 std::unique_ptr<Automation4::Script> find_script(const std::string& file)
@@ -376,7 +360,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	AegisubSetupInitialLocale();
+	agi::util::InitLocale();
 	boost::filesystem::path::imbue(std::locale());
 
 	if (cli) {
@@ -385,7 +369,7 @@ int main(int argc, char *argv[]) {
 			f();
 		});
 
-		if (!AegisubInitialize([&](std::string msg, std::string title) { std::cerr << agi::format("%s: %s\n", title, msg); }, []{})) {
+		if (!AegisubInitialize(nullptr, [&](std::string msg, std::string title) { std::cerr << agi::format("%s: %s\n", title, msg); })) {
 			return -1;
 		}
 
@@ -537,16 +521,7 @@ bool AegisubApp::OnInit() {
 		}
 	});
 
-	auto initLocale = [&]() {
-		auto lang = OPT_GET("App/Language")->GetString();
-		if (lang.empty() || (lang != "en_US" && !locale.HasLanguage(lang))) {
-			lang = locale.PickLanguage();
-			OPT_SET("App/Language")->SetString(lang);
-		}
-		locale.Init(lang);
-	};
-
-	if (!::AegisubInitialize([&] (std::string msg, std::string title) { wxMessageBox(msg, "Fatal error while initializing"); }, initLocale)) {
+	if (!::AegisubInitialize(this, [&] (std::string msg, std::string title) { wxMessageBox(msg, "Fatal error while initializing"); })) {
 		return false;
 	}
 
