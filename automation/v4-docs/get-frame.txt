@@ -40,7 +40,7 @@ Returns: number
 
 Get RGB pixel value at a certain position of frame object.
 
-function frame:frame:getPixel(x, y)
+function frame:getPixel(x, y)
 
 @x (number)
   Pixel to retrieve on the x-axis
@@ -48,8 +48,10 @@ function frame:frame:getPixel(x, y)
 @y (number)
   Pixel to retrieve on the y-axis
 
-Returns: number
-  Integer value representing the RGB pixel value.
+Returns: 3 values, all numbers
+  1. R value of the pixel
+  2. G value of the pixel
+  3. B value of the pixel
 
 ---
 
