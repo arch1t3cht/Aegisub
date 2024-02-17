@@ -254,12 +254,13 @@ namespace {
 
 			size_t pos = y * frame->pitch + x * 4;
 			// VideoFrame is stored as BGRA, but we want to return RGB
-			int pixelValue = frame->data[pos+2] * 65536 + frame->data[pos+1] * 256 + frame->data[pos];
-			push_value(L, pixelValue);
+			push_value(L, frame->data[pos+2]);
+			push_value(L, frame->data[pos+1]);
+			push_value(L, frame->data[pos]);
 		} else {
 			lua_pushnil(L);
 		}
-		return 1;
+		return 3;
 	}
 
 	int FramePixelFormatted(lua_State *L) {
