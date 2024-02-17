@@ -282,7 +282,7 @@ namespace {
 		return 1;
 	}
 
-	int FrameDestory(lua_State *L) {
+	int FrameDestroy(lua_State *L) {
 		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
 		frame.~shared_ptr<VideoFrame>();
 		return 0;
@@ -306,7 +306,7 @@ namespace {
 			{"height", FrameHeight},
 			{"getPixel", FramePixel},
 			{"getPixelFormatted", FramePixelFormatted},
-			{"__gc", FrameDestory},
+			{"__gc", FrameDestroy},
 			{NULL, NULL}
 		};
 
