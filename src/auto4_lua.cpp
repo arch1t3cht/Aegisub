@@ -225,25 +225,25 @@ namespace {
 		}
 	}
 
-	std::shared_ptr<VideoFrame> check_VideoFrame(lua_State *L) {
+	std::shared_ptr<VideoFrame> *check_VideoFrame(lua_State *L) {
 		auto framePtr = static_cast<std::shared_ptr<VideoFrame>*>(luaL_checkudata(L, 1, "VideoFrame"));
-		return *framePtr;
+		return framePtr;
 	}
 
 	int FrameWidth(lua_State *L) {
-		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		std::shared_ptr<VideoFrame> frame = *check_VideoFrame(L);
 		push_value(L, frame->width);
 		return 1;
 	}
 
 	int FrameHeight(lua_State *L) {
-		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		std::shared_ptr<VideoFrame> frame = *check_VideoFrame(L);
 		push_value(L, frame->height);
 		return 1;
 	}
 
 	int FramePixel(lua_State *L) {
-		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		std::shared_ptr<VideoFrame> frame = *check_VideoFrame(L);
 		size_t x = lua_tointeger(L, -2);
 		size_t y = lua_tointeger(L, -1);
 		lua_pop(L, 2);
@@ -263,7 +263,7 @@ namespace {
 	}
 
 	int FramePixelFormatted(lua_State *L) {
-		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
+		std::shared_ptr<VideoFrame> frame = *check_VideoFrame(L);
 		size_t x = lua_tointeger(L, -2);
 		size_t y = lua_tointeger(L, -1);
 		lua_pop(L, 2);
@@ -283,8 +283,8 @@ namespace {
 	}
 
 	int FrameDestroy(lua_State *L) {
-		std::shared_ptr<VideoFrame> frame = check_VideoFrame(L);
-		frame.~shared_ptr<VideoFrame>();
+		std::shared_ptr<VideoFrame> *frame = check_VideoFrame(L);
+		frame->~shared_ptr<VideoFrame>();
 		return 0;
 	}
 
