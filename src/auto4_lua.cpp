@@ -283,6 +283,16 @@ namespace {
 		return 1;
 	}
 
+	int FrameData(lua_State *L) {
+		std::shared_ptr<VideoFrame> frame = *check_VideoFrame(L);
+
+		push_value(L, frame->data.data());
+		push_value(L, frame->pitch);
+		push_value(L, frame->flipped);
+
+		return 3;
+	}
+
 	int FrameDestroy(lua_State *L) {
 		std::shared_ptr<VideoFrame> *frame = check_VideoFrame(L);
 		frame->~shared_ptr<VideoFrame>();
@@ -307,6 +317,7 @@ namespace {
 			{"height", FrameHeight},
 			{"getPixel", FramePixel},
 			{"getPixelFormatted", FramePixelFormatted},
+			{"data", FrameData},
 			{"__gc", FrameDestroy},
 			{NULL, NULL}
 		};
