@@ -69,3 +69,25 @@ Returns: string
   String in ASS format representing the pixel value. e.g. "&H0073FF&"
 
 ---
+
+Get raw BGRA (alpha being irrelevant) data of frame object, whose pixel values
+can then be accessed via LuaJIT's FFI.
+
+The frame data is valid until the frame object is garbage-collected.
+
+Example usage (which does not account for flipped frames for simplicity)
+
+data, pitch = frame:data()
+buf = require("ffi").cast("unsigned char *", data)
+-- Get the R value of the pixel at coordinates (42, 34)
+pix_val = buf[34 * pitch + 4 * 42 + 2]
+
+function frame:data()
+
+Returns: 3 values - a lightuserdata, a number, and a boolean
+  1. Lightuserdata object which can be cast to "unsigned char *" via ffi.cast, a pointer
+     to the raw frame data.
+  2. The pitch of the frame data.
+  3. Whether the frame is flipped upside-down.
+
+---
