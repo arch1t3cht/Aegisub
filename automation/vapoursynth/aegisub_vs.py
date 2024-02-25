@@ -187,10 +187,7 @@ def wrap_lwlibavsource(filename: str, cachedir: str | None = None, **kwargs: Any
     if cachedir is None:
         cachedir = aegi_vscache
 
-    try:
-        os.mkdir(cachedir)
-    except FileExistsError:
-        pass
+    os.makedirs(cachedir, exist_ok=True)
     cachefile = os.path.join(cachedir, make_lwi_cache_filename(filename))
 
     progress_set_message("Loading video file")
