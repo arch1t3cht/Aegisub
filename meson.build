@@ -328,7 +328,7 @@ if host_machine.system() == 'windows'
 endif
 
 if host_machine.system() == 'windows' and cc.has_header('dwrite_3.h')
-    add_project_arguments('-DHAVE_DWRITE_3', language: 'cpp')
+    conf.set('HAVE_DWRITE_3', 1)
 endif
 
 if host_machine.system() == 'darwin'
