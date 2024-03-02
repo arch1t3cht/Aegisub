@@ -34,26 +34,22 @@
 ///          - Returns true if the normalization is successful.
 ///          - Returns false if an error occurs during file handling or path normalization.
 bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
-	if (path == nullptr || length == nullptr) {
+	if (path == nullptr || length == nullptr)
 		return false;
-	}
 
 	/* FILE_FLAG_BACKUP_SEMANTICS is required to open a directory */
 	HANDLE hfile = CreateFile(*path, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
-	if(hfile == INVALID_HANDLE_VALUE) {
+	if (hfile == INVALID_HANDLE_VALUE)
 		return false;
-	}
 	agi::scoped_holder<HANDLE> hfile_sh(hfile, [](HANDLE hfile) { CloseHandle(hfile); });
 
 	DWORD normalized_path_length = GetFinalPathNameByHandle(hfile_sh, nullptr, 0, FILE_NAME_NORMALIZED);
-	if (!normalized_path_length) {
+	if (!normalized_path_length)
 		return false;
-	}
 
 	WCHAR* normalized_path = new WCHAR[normalized_path_length + 1];
-	if (normalized_path == nullptr) {
+	if (normalized_path == nullptr)
 		return false;
-	}
 
 	if (!GetFinalPathNameByHandle(hfile_sh, normalized_path, normalized_path_length + 1, FILE_NAME_NORMALIZED)) {
 		delete[] normalized_path;
@@ -69,8 +65,7 @@ bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
 	if (wcsncmp(normalized_path, L"\\\\?\\UNC\\", 8) == 0) {
 		wmemmove(normalized_path + 2, normalized_path + 8, normalized_path_length - 7);
 		normalized_path_length -= 6;
-	}
-	else if (wcsncmp(normalized_path, L"\\\\?\\", 4) == 0) {
+	} else if (wcsncmp(normalized_path, L"\\\\?\\", 4) == 0) {
 		wmemmove(normalized_path, normalized_path + 4, normalized_path_length - 3);
 		normalized_path_length -= 4;
 	}
@@ -90,29 +85,22 @@ GdiFontFileLister::GdiFontFileLister(FontCollectorStatusCallback &)
 {
 	IDWriteFactory* dwrite_factory;
 	if (FAILED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&dwrite_factory))))
-	{
 		throw agi::EnvironmentError("Failed to initialize the DirectWrite Factory");
-	}
 	dwrite_factory_sh = dwrite_factory;
 
 	IDWriteFontCollection* font_collection;
 	if (FAILED(dwrite_factory_sh->GetSystemFontCollection(&font_collection, true)))
-	{
 		throw agi::EnvironmentError("Failed to initialize the system font collection");
-	}
 	font_collection_sh = font_collection;
 
 	HDC dc = CreateCompatibleDC(nullptr);
-	if (dc == nullptr) {
+	if (dc == nullptr)
 		throw agi::EnvironmentError("Failed to initialize the HDC");
-	}
 	dc_sh = dc;
 
 	IDWriteGdiInterop* gdi_interop;
 	if (FAILED(dwrite_factory_sh->GetGdiInterop(&gdi_interop)))
-	{
 		throw agi::EnvironmentError("Failed to initialize the Gdi Interop");
-	}
 	gdi_interop_sh = gdi_interop;
 }
 
@@ -176,17 +164,14 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	}
 
 	agi::scoped_holder<HFONT> hfont_sh(CreateFontIndirect(&lf), [](HFONT p) { DeleteObject(p); });
-	if (hfont_sh == nullptr) {
+	if (hfont_sh == nullptr)
 		return ret;
-	}
 
 	SelectFont(dc_sh, hfont_sh);
 
 	IDWriteFontFace* font_face;
 	if (FAILED(gdi_interop_sh->CreateFontFaceFromHdc(dc_sh, &font_face)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteFontFace*> font_face_sh(font_face, [](IDWriteFontFace* p) { p->Release(); });
 
 #ifdef HAVE_DWRITE_3
@@ -198,9 +183,7 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 
 	IDWriteFontFace3* font_face_3;
 	if (FAILED(font_face_sh->QueryInterface(__uuidof(IDWriteFontFace3), (void**)&font_face_3)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteFontFace3*> font_face_3_sh(font_face_3, [](IDWriteFontFace3* p) { p->Release(); });
 
 	for (int character : characters) {
@@ -211,18 +194,15 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 #else
 	IDWriteFont* font;
 	if (FAILED(font_collection_sh->GetFontFromFontFace(font_face_sh, &font)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteFont*> font_sh(font, [](IDWriteFont* p) { p->Release(); });
 
 	BOOL exists;
 	HRESULT hr;
 	for (int character : characters) {
 		hr = font_sh->HasCharacter((UINT32)character, &exists);
-		if (FAILED(hr) || !exists) {
+		if (FAILED(hr) || !exists)
 			ret.missing += character;
-		}
 	}
 #endif
 
@@ -230,54 +210,40 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	IDWriteFontFile* font_file;
 	// DirectWrite only supports one file per face
 	if (FAILED(font_face_sh->GetFiles(&file_count, &font_file)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteFontFile*> font_file_sh(font_file, [](IDWriteFontFile* p) { p->Release(); });
 
 	IDWriteFontFileLoader* loader;
 	if (FAILED(font_file_sh->GetLoader(&loader)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteFontFileLoader*> loader_sh(loader, [](IDWriteFontFileLoader* p) { p->Release(); });
 
 	IDWriteLocalFontFileLoader* local_loader;
 	if (FAILED(loader_sh->QueryInterface(__uuidof(IDWriteLocalFontFileLoader), (void**)&local_loader)))
-	{
 		return ret;
-	}
 	agi::scoped_holder<IDWriteLocalFontFileLoader*> local_loader_sh(local_loader, [](IDWriteLocalFontFileLoader* p) { p->Release(); });
 
 	LPCVOID font_file_reference_key;
 	UINT32 font_file_reference_key_size;
 	if (FAILED(font_file_sh->GetReferenceKey(&font_file_reference_key, &font_file_reference_key_size)))
-	{
 		return ret;
-	}
 
 	UINT32 path_length;
 	if (FAILED(local_loader_sh->GetFilePathLengthFromKey(font_file_reference_key, font_file_reference_key_size, &path_length)))
-	{
 		return ret;
-	}
 
 	WCHAR* path = new WCHAR[path_length + 1];
-	if (path == nullptr) {
+	if (path == nullptr)
 		return ret;
-	}
 	agi::scoped_holder<WCHAR**> path_sh(&path, [](WCHAR** p) { delete[] *p; });
 
 	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, path, path_length + 1)))
-	{
 		return ret;
-	}
 
 	// DirectWrite always return the filepath in upper case. Ex: "C:\WINDOWS\FONTS\ARIAL.TTF"
 	DWORD normalized_path_length;
-	if (!normalizeFilePathCase(&path, &normalized_path_length)) {
+	if (!normalizeFilePathCase(&path, &normalized_path_length))
 		return ret;
-	}
 
 	ret.paths.push_back(agi::fs::path(path));
 
