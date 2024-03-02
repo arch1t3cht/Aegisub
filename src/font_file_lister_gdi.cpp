@@ -64,7 +64,7 @@ bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
 	// We need to convert it to ``fully qualified DOS Path``. Ex: "C:\Windows\Fonts\ariali.ttf"
 	// There isn't any public API that remove the prefix (there is RtlNtPathNameToDosPathName, but it is really hacky to use it)
 	// See: https://stackoverflow.com/questions/31439011/getfinalpathnamebyhandle-result-without-prepended
-	// Even cython remove the prefix manually: https://github.com/python/cpython/blob/963904335e579bfe39101adf3fd6a0cf705975ff/Lib/ntpath.py#L733-L793
+	// Even CPython remove the prefix manually: https://github.com/python/cpython/blob/963904335e579bfe39101adf3fd6a0cf705975ff/Lib/ntpath.py#L733-L793
 	// Gecko: https://github.com/mozilla/gecko-dev/blob/6032a565e3be7dcdd01e4fe26791c84f9222a2e0/widget/windows/WinUtils.cpp#L1577-L1584
 	if (wcsncmp(normalized_path, L"\\\\?\\UNC\\", 8) == 0) {
 		wmemmove(normalized_path + 2, normalized_path + 8, normalized_path_length - 7);
