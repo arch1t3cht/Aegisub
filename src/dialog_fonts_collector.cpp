@@ -99,9 +99,7 @@ void FontsCollectorThread(AssFile *subs, agi::fs::path const& destination, FcMod
 			paths = FontCollector(AppendText).GetFontPaths(subs);
 		}
 		catch (agi::EnvironmentError const& err) {
-			AppendText(fmt_tl("* An error occurred when collecting the font: %s.\n", err.GetMessage()), 2);
-			collector->AddPendingEvent(wxThreadEvent(EVT_COLLECTION_DONE));
-			return;
+			AppendText(fmt_tl("* An error occurred when enumerating the used fonts: %s.\n", err.GetMessage()), 2);
 		}
 
 		if (paths.empty()) {
