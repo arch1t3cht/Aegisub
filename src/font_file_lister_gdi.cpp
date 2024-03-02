@@ -175,11 +175,10 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 		ret.fake_bold = (italic && has_italic ? !has_bold_italic : !has_bold);
 	}
 
-	HFONT hfont = CreateFontIndirect(&lf);
-	if (hfont == nullptr) {
+	agi::scoped_holder<HFONT> hfont_sh(CreateFontIndirect(&lf), [](HFONT p) { DeleteObject(p); });
+	if (hfont_sh == nullptr) {
 		return ret;
 	}
-	agi::scoped_holder<HFONT> hfont_sh(hfont, [](HFONT p) { DeleteObject(p); });
 
 	SelectFont(dc_sh, hfont_sh);
 
