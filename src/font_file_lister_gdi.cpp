@@ -27,34 +27,27 @@
 #endif
 
 /// @brief Normalize the case of a file path.
-///        Ex: For "C:\WINDOWS\FONTS\ARIAL.TTF", it would return "C:\Windows\Fonts\arial.ttf"
-/// @param[out] path   The path to be normalized. It can be a directory or a file.
-/// @param[out] length Length of the normalized file path string, not including the terminated NULL character.
-/// @return Returns a boolean value indicating the success of the normalization process.
-///          - Returns true if the normalization is successful.
-///          - Returns false if an error occurs during file handling or path normalization.
-bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
-	if (path == nullptr || length == nullptr)
-		return false;
-
+/// @param path The path to be normalized. It can be a directory or a file.
+/// @return A string representing the normalized path.
+///         If the path normalization fails due to file handling errors or other issues,
+///         an empty string is returned.
+/// @example For "C:\WINDOWS\FONTS\ARIAL.TTF", it would return "C:\Windows\Fonts\arial.ttf"
+std::wstring normalizeFilePathCase(const std::wstring path) {
 	/* FILE_FLAG_BACKUP_SEMANTICS is required to open a directory */
-	HANDLE hfile = CreateFile(*path, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+	HANDLE hfile = CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
 	if (hfile == INVALID_HANDLE_VALUE)
-		return false;
+		return L"";
 	agi::scoped_holder<HANDLE> hfile_sh(hfile, [](HANDLE hfile) { CloseHandle(hfile); });
 
 	DWORD normalized_path_length = GetFinalPathNameByHandle(hfile_sh, nullptr, 0, FILE_NAME_NORMALIZED);
 	if (!normalized_path_length)
-		return false;
+		return L"";
 
-	WCHAR* normalized_path = new WCHAR[normalized_path_length + 1];
-	if (normalized_path == nullptr)
-		return false;
+	agi::scoped_holder<WCHAR*> normalized_path_sh(new WCHAR[normalized_path_length + 1], [](WCHAR* p) { delete[] p; });
+	if (!GetFinalPathNameByHandle(hfile_sh, normalized_path_sh, normalized_path_length + 1, FILE_NAME_NORMALIZED))
+		return L"";
 
-	if (!GetFinalPathNameByHandle(hfile_sh, normalized_path, normalized_path_length + 1, FILE_NAME_NORMALIZED)) {
-		delete[] normalized_path;
-		return false;
-	}
+	std::wstring normalized_path(normalized_path_sh);
 
 	// GetFinalPathNameByHandle return path into ``device path`` form. Ex: "\\?\C:\Windows\Fonts\ariali.ttf"
 	// We need to convert it to ``fully qualified DOS Path``. Ex: "C:\Windows\Fonts\ariali.ttf"
@@ -62,19 +55,12 @@ bool normalizeFilePathCase(WCHAR** path, DWORD* length) {
 	// See: https://stackoverflow.com/questions/31439011/getfinalpathnamebyhandle-result-without-prepended
 	// Even CPython remove the prefix manually: https://github.com/python/cpython/blob/963904335e579bfe39101adf3fd6a0cf705975ff/Lib/ntpath.py#L733-L793
 	// Gecko: https://github.com/mozilla/gecko-dev/blob/6032a565e3be7dcdd01e4fe26791c84f9222a2e0/widget/windows/WinUtils.cpp#L1577-L1584
-	if (wcsncmp(normalized_path, L"\\\\?\\UNC\\", 8) == 0) {
-		wmemmove(normalized_path + 2, normalized_path + 8, normalized_path_length - 7);
-		normalized_path_length -= 6;
-	} else if (wcsncmp(normalized_path, L"\\\\?\\", 4) == 0) {
-		wmemmove(normalized_path, normalized_path + 4, normalized_path_length - 3);
-		normalized_path_length -= 4;
-	}
+	if (normalized_path.compare(0, 7, L"\\\\?\\UNC") == 0)
+		normalized_path.erase(2, 6);
+	else if (normalized_path.compare(0, 4, L"\\\\?\\") == 0)
+		normalized_path.erase(0, 4);
 
-	delete[] *path;
-	*path = normalized_path;
-	*length = normalized_path_length;
-
-	return true;
+	return normalized_path;
 }
 
 GdiFontFileLister::GdiFontFileLister(FontCollectorStatusCallback &)
@@ -233,19 +219,15 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 		return ret;
 
 	WCHAR* path = new WCHAR[path_length + 1];
-	if (path == nullptr)
-		return ret;
-	agi::scoped_holder<WCHAR**> path_sh(&path, [](WCHAR** p) { delete[] *p; });
-
 	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, path, path_length + 1)))
 		return ret;
 
-	// DirectWrite always return the filepath in upper case. Ex: "C:\WINDOWS\FONTS\ARIAL.TTF"
-	DWORD normalized_path_length;
-	if (!normalizeFilePathCase(&path, &normalized_path_length))
+	// DirectWrite always return the file path in upper case. Ex: "C:\WINDOWS\FONTS\ARIAL.TTF"
+	std::wstring normalized_path = normalizeFilePathCase(std::wstring(path));
+	if (normalized_path.empty())
 		return ret;
 
-	ret.paths.push_back(agi::fs::path(path));
+	ret.paths.push_back(agi::fs::path(normalized_path));
 
 	return ret;
 }
