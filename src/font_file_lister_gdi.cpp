@@ -218,12 +218,12 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	if (FAILED(local_loader_sh->GetFilePathLengthFromKey(font_file_reference_key, font_file_reference_key_size, &path_length)))
 		return ret;
 
-	WCHAR* path = new WCHAR[path_length + 1];
-	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, path, path_length + 1)))
+	std::wstring path(path_length, L'\0');
+	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, &path[0], path_length + 1)))
 		return ret;
 
 	// DirectWrite always return the file path in upper case. Ex: "C:\WINDOWS\FONTS\ARIAL.TTF"
-	std::wstring normalized_path = normalizeFilePathCase(std::wstring(path));
+	std::wstring normalized_path = normalizeFilePathCase(path);
 	if (normalized_path.empty())
 		return ret;
 
