@@ -110,44 +110,14 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	lf.lfQuality = ANTIALIASED_QUALITY;
 	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
-	// Gather all of the styles for the given family name
-	std::vector<LOGFONTW> matches;
-	using type = decltype(matches);
+	bool is_family_exist = false;
 	EnumFontFamiliesEx(dc_sh, &lf, [](const LOGFONT *lf, const TEXTMETRIC *, DWORD, LPARAM lParam) -> int {
-		reinterpret_cast<type*>(lParam)->push_back(*lf);
-		return 1;
-	}, (LPARAM)&matches, 0);
+		*reinterpret_cast<bool*>(lParam)= true;
+		return 0;
+	}, (LPARAM)&is_family_exist, 0);
 
-	if (matches.empty())
+	if (!is_family_exist)
 		return ret;
-
-	// If the user asked for a non-regular style, verify that it actually exists
-	// We don't use DirectWrite because, in some very specific cases,
-	// DirectWrite may label a font as italic while GDI wouldn't.
-	// The same applies to font weight.
-	if (italic || bold) {
-		bool has_bold = false;
-		bool has_italic = false;
-		bool has_bold_italic = false;
-
-		auto is_italic = [&](LOGFONTW const& lf) {
-			return !italic || lf.lfItalic;
-		};
-		auto is_bold = [&](LOGFONTW const& lf) {
-			return !bold
-				|| (bold == 1 && lf.lfWeight >= 700)
-				|| (bold > 1 && lf.lfWeight > bold);
-		};
-
-		for (auto const& match : matches) {
-			has_bold = has_bold || is_bold(match);
-			has_italic = has_italic || is_italic(match);
-			has_bold_italic = has_bold_italic || (is_bold(match) && is_italic(match));
-		}
-
-		ret.fake_italic = !has_italic;
-		ret.fake_bold = (italic && has_italic ? !has_bold_italic : !has_bold);
-	}
 
 	agi::scoped_holder<HFONT> hfont_sh(CreateFontIndirect(&lf), [](HFONT p) { DeleteObject(p); });
 	if (hfont_sh == nullptr)
@@ -159,6 +129,9 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	if (FAILED(gdi_interop_sh->CreateFontFaceFromHdc(dc_sh, &font_face)))
 		return ret;
 	agi::scoped_holder<IDWriteFontFace*> font_face_sh(font_face, [](IDWriteFontFace* p) { p->Release(); });
+
+	ret.fake_italic = font_face_sh->GetSimulations() & DWRITE_FONT_SIMULATIONS_OBLIQUE;
+	ret.fake_bold = font_face_sh->GetSimulations() & DWRITE_FONT_SIMULATIONS_BOLD;
 
 #ifdef HAVE_DWRITE_3
 	// Fonts added via the AddFontResource API are not included in the IDWriteFontCollection.
