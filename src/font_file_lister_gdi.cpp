@@ -133,6 +133,7 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	ret.fake_italic = font_face_sh->GetSimulations() & DWRITE_FONT_SIMULATIONS_OBLIQUE;
 	ret.fake_bold = font_face_sh->GetSimulations() & DWRITE_FONT_SIMULATIONS_BOLD;
 
+	bool is_query_font_face_3_succeeded = false;
 #ifdef HAVE_DWRITE_3
 	// Fonts added via the AddFontResource API are not included in the IDWriteFontCollection.
 	// This omission causes GetFontFromFontFace to fail.
@@ -141,29 +142,32 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	// From this new instance, we can verify font character(s) availability.
 
 	IDWriteFontFace3* font_face_3;
-	if (FAILED(font_face_sh->QueryInterface(__uuidof(IDWriteFontFace3), (void**)&font_face_3)))
-		return ret;
-	agi::scoped_holder<IDWriteFontFace3*> font_face_3_sh(font_face_3, [](IDWriteFontFace3* p) { p->Release(); });
+	if (SUCCEEDED(font_face_sh->QueryInterface(__uuidof(IDWriteFontFace3), (void**)&font_face_3))) {
+		agi::scoped_holder<IDWriteFontFace3*> font_face_3_sh(font_face_3, [](IDWriteFontFace3* p) { p->Release(); });
+		is_query_font_face_3_succeeded = true;
 
-	for (int character : characters) {
-		if (!font_face_3_sh->HasCharacter((UINT32)character)) {
-			ret.missing += character;
+		for (int character : characters) {
+			if (!font_face_3_sh->HasCharacter((UINT32)character)) {
+				ret.missing += character;
+			}
 		}
 	}
-#else
-	IDWriteFont* font;
-	if (FAILED(font_collection_sh->GetFontFromFontFace(font_face_sh, &font)))
-		return ret;
-	agi::scoped_holder<IDWriteFont*> font_sh(font, [](IDWriteFont* p) { p->Release(); });
-
-	BOOL exists;
-	HRESULT hr;
-	for (int character : characters) {
-		hr = font_sh->HasCharacter((UINT32)character, &exists);
-		if (FAILED(hr) || !exists)
-			ret.missing += character;
-	}
 #endif
+
+	if (!is_query_font_face_3_succeeded) {
+		IDWriteFont* font;
+		if (FAILED(font_collection_sh->GetFontFromFontFace(font_face_sh, &font)))
+			return ret;
+		agi::scoped_holder<IDWriteFont*> font_sh(font, [](IDWriteFont* p) { p->Release(); });
+
+		BOOL exists;
+		HRESULT hr;
+		for (int character : characters) {
+			hr = font_sh->HasCharacter((UINT32)character, &exists);
+			if (FAILED(hr) || !exists)
+				ret.missing += character;
+		}
+	}
 
 	UINT32 file_count = 1;
 	IDWriteFontFile* font_file;
