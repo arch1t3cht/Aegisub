@@ -102,7 +102,7 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	//   - https://sourceforge.net/p/guliverkli2/code/HEAD/tree/src/subtitles/STS.cpp#l2992
 	LOGFONTW lf{};
 	lf.lfCharSet = DEFAULT_CHARSET; // we should use the one specified in the ass file
-	wcsncpy(lf.lfFaceName, agi::charset::ConvertW(facename).c_str(), LF_FACESIZE);
+	wcsncpy_s(lf.lfFaceName, LF_FACESIZE, agi::charset::ConvertW(facename).c_str(), _TRUNCATE);
 	lf.lfItalic = italic ? -1 : 0;
 	lf.lfWeight = weight;
 	lf.lfOutPrecision = OUT_TT_PRECIS;
@@ -110,20 +110,20 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	lf.lfQuality = ANTIALIASED_QUALITY;
 	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
-	bool is_family_exist = false;
-	EnumFontFamiliesEx(dc_sh, &lf, [](const LOGFONT *lf, const TEXTMETRIC *, DWORD, LPARAM lParam) -> int {
-		*reinterpret_cast<bool*>(lParam)= true;
-		return 0;
-	}, (LPARAM)&is_family_exist, 0);
-
-	if (!is_family_exist)
-		return ret;
-
 	agi::scoped_holder<HFONT> hfont_sh(CreateFontIndirect(&lf), [](HFONT p) { DeleteObject(p); });
 	if (hfont_sh == nullptr)
 		return ret;
 
 	SelectFont(dc_sh, hfont_sh);
+
+	std::wstring selected_name(LF_FACESIZE - 1, L'\0');
+	if (!GetTextFaceW(dc_sh, LF_FACESIZE, &selected_name[0]))
+		return ret;
+
+	// If the selected_name is different then the lf.lfFaceName,
+	// it means that the requested font doesn't exist.
+	if (_wcsnicmp(&selected_name[0], lf.lfFaceName, LF_FACESIZE))
+		return ret;
 
 	IDWriteFontFace* font_face;
 	if (FAILED(gdi_interop_sh->CreateFontFaceFromHdc(dc_sh, &font_face)))
