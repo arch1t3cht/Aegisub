@@ -117,6 +117,8 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	SelectFont(dc_sh, hfont_sh);
 
 	std::wstring selected_name(LF_FACESIZE - 1, L'\0');
+	// FIXME: This will override the string's terminator, which is not technically correct.
+	// After switching to C++20 this should use .data().
 	if (!GetTextFaceW(dc_sh, LF_FACESIZE, &selected_name[0]))
 		return ret;
 
@@ -196,6 +198,8 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 		return ret;
 
 	std::wstring path(path_length, L'\0');
+	// FIXME: This will override the string's terminator, which is not technically correct.
+	// After switching to C++20 this should use .data().
 	if (FAILED(local_loader_sh->GetFilePathFromKey(font_file_reference_key, font_file_reference_key_size, &path[0], path_length + 1)))
 		return ret;
 
