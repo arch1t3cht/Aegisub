@@ -101,7 +101,7 @@ CollectionResult GdiFontFileLister::GetFontPaths(std::string const& facename, in
 	//   - https://sourceforge.net/p/guliverkli2/code/HEAD/tree/src/subtitles/RTS.cpp#l45
 	//   - https://sourceforge.net/p/guliverkli2/code/HEAD/tree/src/subtitles/STS.cpp#l2992
 	LOGFONTW lf{};
-	lf.lfCharSet = DEFAULT_CHARSET; // we should use the one specified in the ass file
+	lf.lfCharSet = DEFAULT_CHARSET; // FIXME: Note that this currently ignores the font encoding specified in the ass file.
 	wcsncpy_s(lf.lfFaceName, LF_FACESIZE, agi::charset::ConvertW(facename).c_str(), _TRUNCATE);
 	lf.lfItalic = italic ? -1 : 0;
 	lf.lfWeight = weight;
