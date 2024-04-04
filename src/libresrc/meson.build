@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 fs = import('fs')
 
-python = find_program('python3')
 respack = find_program(meson.project_source_root() / 'tools/respack.py')
 
 bitmap_manifest = '../bitmaps/manifest.respack'
