@@ -15,7 +15,7 @@ endforeach
 
 resrc = [
     custom_target('bitmap.{cpp,h}',
-                  command: [python, respack, '@INPUT@', '@OUTPUT@'],
+                  command: ['python3', respack, '@INPUT@', '@OUTPUT@'],
                   input: files(bitmap_manifest),
                   depend_files: bitmap_files,
                   output: ['bitmap.cpp', 'bitmap.h'])
@@ -47,7 +47,7 @@ foreach rfile : fs.read(resmanifest).strip().split('\n')
 endforeach
 
 resrc += custom_target('default_config.{cpp,h}',
-                        command: [python, respack, '@INPUT0@', '@OUTPUT@'],
+                        command: ['python3', respack, '@INPUT0@', '@OUTPUT@'],
                         input: [files(resmanifest)],
                         depend_files: resmanifest_files,
                         output: ['default_config.cpp', 'default_config.h'])
