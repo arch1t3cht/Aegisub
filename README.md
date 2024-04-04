@@ -1,5 +1,5 @@
 ## arch1t3cht's Aegisub "fork"
-Download release builds [here](https://github.com/arch1t3cht/Aegisub/releases), or the latest CI builds [here](https://github.com/arch1t3cht/Aegisub/actions).
+Download release builds [here](https://github.com/arch1t3cht/Aegisub/releases), or the latest CI builds [here](https://github.com/arch1t3cht/Aegisub/actions?query=branch%3Afeature+event%3Apush).
 
 The release page also has detailed list of all changes and new features. If you're interested in the technical details or want to compile yourself, read on.
 
