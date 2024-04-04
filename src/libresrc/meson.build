@@ -1,5 +1,6 @@
 fs = import('fs')
 
+python = find_program('python3')
 respack = find_program(meson.project_source_root() / 'tools/respack.py')
 
 bitmap_manifest = '../bitmaps/manifest.respack'
@@ -13,7 +14,7 @@ endforeach
 
 resrc = [
     custom_target('bitmap.{cpp,h}',
-                  command: [respack, '@INPUT@', '@OUTPUT@'],
+                  command: [python, respack, '@INPUT@', '@OUTPUT@'],
                   input: files(bitmap_manifest),
                   depend_files: bitmap_files,
                   output: ['bitmap.cpp', 'bitmap.h'])
@@ -45,7 +46,7 @@ foreach rfile : fs.read(resmanifest).strip().split('\n')
 endforeach
 
 resrc += custom_target('default_config.{cpp,h}',
-                        command: [respack, '@INPUT0@', '@OUTPUT@'],
+                        command: [python, respack, '@INPUT0@', '@OUTPUT@'],
                         input: [files(resmanifest)],
                         depend_files: resmanifest_files,
                         output: ['default_config.cpp', 'default_config.h'])
