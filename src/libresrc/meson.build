@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 fs = import('fs')
 
 python = find_program('python3')
