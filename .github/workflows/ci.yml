@@ -6,10 +6,14 @@ on:
       - master
       - feature
       - cibuilds
+    paths-ignore:
+      - ".github/workflows/distro.yml"
   pull_request:
     branches:
       - master
       - feature
+    paths-ignore:
+      - ".github/workflows/distro.yml"
   workflow_dispatch:
 
 jobs:
