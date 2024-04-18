@@ -1,8 +1,7 @@
 [wrap-git]
 url = https://github.com/vapoursynth/bestsource
-revision = 9d7e218588867bf2b1334e5382b0f4d1b6a45aa1
+revision = R4
 clone-recursive = true
-diff_files = bestsource/0001.patch
 
 [provide]
 bestsource = bestsource_dep

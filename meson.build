@@ -224,7 +224,7 @@ needs_ffmpeg = false
 
 if get_option('bestsource').enabled()
     conf.set('WITH_BESTSOURCE', 1)
-    bs = subproject('bestsource', default_options: ['link_static=' + (get_option('default_library') == 'static').to_string()])
+    bs = subproject('bestsource', default_options: ['prefer_static=' + (get_option('default_library') == 'static').to_string(), 'enable_plugin=false'])
     deps += bs.get_variable('bestsource_dep')
     dep_avail += 'BestSource'
     needs_ffmpeg = true

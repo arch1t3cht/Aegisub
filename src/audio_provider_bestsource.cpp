@@ -67,7 +67,7 @@ BSAudioProvider::BSAudioProvider(agi::fs::path const& filename, agi::BackgroundR
 		ps->SetTitle(from_wx(_("Indexing")));
 		ps->SetMessage(from_wx(_("Indexing file... This will take a while!")));
 		try {
-			bs = agi::make_unique<BestAudioSource>(filename.string(), static_cast<int>(track), -1, false, 0, provider_bs::GetCacheFile(filename), &bsopts, 0, [=](int Track, int64_t Current, int64_t Total) {
+			bs = agi::make_unique<BestAudioSource>(filename.string(), static_cast<int>(track), -1, false, 0, 1, provider_bs::GetCacheFile(filename), &bsopts, 0, [=](int Track, int64_t Current, int64_t Total) {
 				ps->SetProgress(Current, Total);
 				return !ps->IsCancelled();
 			});
