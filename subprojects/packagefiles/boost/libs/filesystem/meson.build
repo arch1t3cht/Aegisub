@@ -1,7 +1,7 @@
 filesystem_sources = files([
     'src/codecvt_error_category.cpp',
-    'src/exception.cpp',
     'src/directory.cpp',
+    'src/exception.cpp',
     'src/operations.cpp',
     'src/path.cpp',
     'src/path_traits.cpp',
@@ -11,7 +11,7 @@ filesystem_sources = files([
     'src/windows_file_codecvt.cpp',
 ])
 
-filesystem_args = ['-DBOOST_FILESYSTEM_SOURCE',
+filesystem_args = ['-DBOOST_FILESYSTEM_SOURCE', '-DBOOST_FILESYSTEM_NO_CXX20_ATOMIC_REF',
                    is_static ? '-DBOOST_FILESYSTEM_STATIC_LINK=1' : '-DBOOST_FILESYSTEM_DYN_LINK=1']
 
 filesystem_deps = []

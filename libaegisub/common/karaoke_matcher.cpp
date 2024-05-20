@@ -50,7 +50,11 @@ bool is_whitespace(std::string const& str) {
 // strcmp but ignoring case and accents
 int compare(std::string const& a, std::string const& b) {
 	using namespace boost::locale;
+#if BOOST_VERSION >= 108100
+	return std::use_facet<collator<char>>(std::locale()).compare(collate_level::primary, a, b);
+#else
 	return std::use_facet<collator<char>>(std::locale()).compare(collator_base::primary, a, b);
+#endif
 }
 
 }
