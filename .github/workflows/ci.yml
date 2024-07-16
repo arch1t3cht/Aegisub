@@ -6,6 +6,7 @@ on:
       - master
       - feature
       - cibuilds
+      - buildtests
   pull_request:
     branches:
       - master
@@ -116,7 +117,7 @@ jobs:
       - name: Setup Meson
         run: |
           python -m pip install --upgrade pip setuptools
-          pip install meson
+          pip install meson==1.4.2
 
       - name: Setup MSVC
         if: matrix.config.os == 'windows-latest' && matrix.config.msvc == true
