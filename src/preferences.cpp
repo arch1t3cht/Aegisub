@@ -234,6 +234,7 @@ void Interface(wxTreebook *book, Preferences *parent) {
 
 	auto visual_tools = p->PageSizer(_("Visual Tools"));
 	p->OptionAdd(visual_tools, _("Shape handle size"), "Tool/Visual/Shape Handle Size");
+	p->OptionFont(visual_tools, "Tool/Visual/");
 
 	auto color_picker = p->PageSizer(_("Colour Picker"));
 	p->OptionAdd(color_picker, _("Restrict Screen Picker to Window"), "Tool/Colour Picker/Restrict to Window");
