@@ -222,12 +222,12 @@ jobs:
           meson install -C build --destdir=../appimage/appdir
 
           cd appimage
-          sudo apt-get install libfuse2
-          curl -L "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20220822-1/linuxdeploy-x86_64.AppImage" -o linuxdeploy
-          curl -L "https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage" -o appimagetool
+          sudo apt-get install appstream libfuse2
+          curl -L "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage" -o linuxdeploy
+          curl -L "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
           chmod +x linuxdeploy appimagetool
 
-          ./linuxdeploy --appdir appdir --desktop-file=appdir/aegisub.desktop
+          ./linuxdeploy --appdir appdir --desktop-file=appdir/org.aegisub.aegisub.desktop
           ./appimagetool appdir
 
       - name: Upload artifacts - Linux AppImage
