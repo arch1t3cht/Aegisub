@@ -14,7 +14,7 @@
 
 #include "fs_fwd.h"
 
-#include <boost/container/flat_map.hpp>
+#include <map>
 #include <iosfwd>
 #include <memory>
 #include <string>
@@ -27,7 +27,7 @@ namespace charset { class IconvWrapper; }
 
 class Thesaurus {
 	/// Map of word -> byte position in the data file
-	boost::container::flat_map<std::string, size_t> offsets;
+	std::map<std::string, size_t> offsets;
 	/// Read handle to the data file
 	std::unique_ptr<read_file_mapping> dat;
 	/// Converter from the data file's charset to UTF-8
