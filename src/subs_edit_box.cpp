@@ -41,6 +41,7 @@
 #include "compat.h"
 #include "dialog_style_editor.h"
 #include "flyweight_hash.h"
+#include "font.h"
 #include "include/aegisub/context.h"
 #include "include/aegisub/hotkey.h"
 #include "initial_line_state.h"
@@ -128,8 +129,7 @@ SubsEditBox::SubsEditBox(wxWindow *parent, agi::Context *context)
 	style_edit_button = new wxButton(this, -1, _("Edit"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	style_edit_button->Bind(wxEVT_BUTTON, [=](wxCommandEvent&) {
 		if (active_style) {
-			wxArrayString font_list = wxFontEnumerator::GetFacenames();
-			font_list.Sort();
+			wxArrayString font_list = GetFaceNames();
 			DialogStyleEditor(this, active_style, c, nullptr, "", font_list).ShowModal();
 		}
 	});
