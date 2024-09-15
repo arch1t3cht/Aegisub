@@ -37,16 +37,16 @@ static const char *tokens[] = {
 int find_token(const char *str, size_t len) {
 	if (len < 5 || str[0] != '?') return -1;
 	int idx;
-	switch (str[1] + str[4]) {
-	case 'a' + 'i': idx = 0; break;
-	case 'd' + 'a': idx = 1; break;
-	case 'd' + 't': idx = 2; break;
-	case 'l' + 'a': idx = 3; break;
-	case 's' + 'i': idx = 4; break;
-	case 's' + 't': idx = 5; break;
-	case 't' + 'p': idx = 6; break;
-	case 'u' + 'r': idx = 7; break;
-	case 'v' + 'e': idx = 8; break;
+	switch (str[2] + str[4]) {
+	case 'u' + 'i': idx = 0; break;
+	case 'a' + 'a': idx = 1; break;
+	case 'i' + 't': idx = 2; break;
+	case 'o' + 'a': idx = 3; break;
+	case 'c' + 'i': idx = 4; break;
+	case 't' + 't': idx = 5; break;
+	case 'e' + 'p': idx = 6; break;
+	case 's' + 'r': idx = 7; break;
+	case 'i' + 'e': idx = 8; break;
 	default: return -1;
 	}
 
