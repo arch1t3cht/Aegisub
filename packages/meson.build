@@ -24,7 +24,7 @@ else
 
     i18n = import('i18n')
     i18n.merge_file(input: desktop_template,
-                    output: 'aegisub.desktop',
+                    output: 'org.aegisub.aegisub.desktop',
                     type: 'desktop',
                     po_dir: '../po',
                     install: true,
@@ -34,7 +34,7 @@ else
                                       output: 'aegisub.desktop.appdata.xml.in',
                                       configuration: conf_pkg)
 	i18n.merge_file(input: appdata_template,
-                    output: 'aegisub.appdata.xml',
+                    output: 'org.aegisub.aegisub.appdata.xml',
                     type: 'xml',
                     po_dir: '../po',
                     install: true,
@@ -52,6 +52,6 @@ else
     if get_option('build_appimage')
       install_symlink('AppRun', install_dir: '/', pointing_to: bindir.strip('/') / 'aegisub')
       install_symlink('.DirIcon', install_dir: '/', pointing_to: datadir.strip('/') / 'icons' / 'hicolor' / 'scalable' / 'apps' / 'aegisub.svg')
-      install_symlink('aegisub.desktop', install_dir: '/', pointing_to: datadir.strip('/') / 'applications' / 'aegisub.desktop')
+      install_symlink('org.aegisub.aegisub.desktop', install_dir: '/', pointing_to: datadir.strip('/') / 'applications' / 'org.aegisub.aegisub.desktop')
     endif
 endif
