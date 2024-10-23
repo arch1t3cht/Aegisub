@@ -620,6 +620,8 @@
 			"Skip Whitespace" : true
 		},
 		"Visual" : {
+			"Font Face": "Verdana",
+			"Font Size": 12,
 			"Perspective": {
 				"Outer": false,
 				"Outer Locked": false,

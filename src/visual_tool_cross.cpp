@@ -24,6 +24,7 @@
 #include "include/aegisub/context.h"
 #include "selection_controller.h"
 #include "video_display.h"
+#include "utils.h"
 
 #include <libaegisub/color.h>
 #include <libaegisub/format.h>
@@ -34,10 +35,23 @@ VisualToolCross::VisualToolCross(VideoDisplay *parent, agi::Context *context)
 , gl_text(agi::make_unique<OpenGLText>())
 {
 	parent->SetCursor(wxCursor(wxCURSOR_BLANK));
+	OPT_SUB("Tool/Visual/Font Face", &VisualToolCross::SetFont, this);
+	OPT_SUB("Tool/Visual/Font Size", &VisualToolCross::SetFont, this);
 }
 
 VisualToolCross::~VisualToolCross() {
 	parent->SetCursor(wxNullCursor);
+}
+
+void VisualToolCross::SetFont() {
+	wxFont font = *wxNORMAL_FONT;
+	font.SetEncoding(wxFONTENCODING_DEFAULT);
+	font.MakeBold();
+	wxString fontname = FontFace("Tool/Visual");
+	if (!fontname.empty()) font.SetFaceName(fontname);
+	font.SetPointSize(OPT_GET("Tool/Visual/Font Size")->GetInt());
+
+	gl_text->SetFont(font);
 }
 
 void VisualToolCross::OnDoubleClick() {
@@ -80,7 +94,7 @@ void VisualToolCross::Draw() {
 	std::string mouse_text = Text(ToScriptCoords(shift_down ? video_res - mouse_pos : mouse_pos));
 
 	int tw, th;
-	gl_text->SetFont("Verdana", 12, true, false);
+	this->SetFont();
 	gl_text->SetColour(agi::Color(255, 255, 255, 255));
 	gl_text->GetExtent(mouse_text, tw, th);
 
