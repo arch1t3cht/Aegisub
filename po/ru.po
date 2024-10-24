@@ -3,11 +3,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Aegisub 3\n"
+"Project-Id-Version: Aegisub Arch1t3cht v9643\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-30 03:10+0200\n"
-"PO-Revision-Date: 2012-10-04 22:11+0200\n"
-"Last-Translator: Igor Urazov <z0rc3r@gmail.com>\n"
+"PO-Revision-Date: 2023-09-14 12:42+0300\n"
+"Last-Translator: xetrin <https://t.me/repacks_by_xetrin>\n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../automation/autoload/cleantags-autoload.lua:31
 msgid "Clean Tags"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:17
 msgid "Visual typesetting tools"
-msgstr ""
+msgstr "Инструменты визуального оформления"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:18
 msgid "Intuitive and customizable audio timing mode"
@@ -176,11 +176,11 @@ msgstr ""
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:36
 msgid "Audio video"
-msgstr ""
+msgstr "Звук видео"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:40
 msgid "Audio timing"
-msgstr ""
+msgstr "Тайминг звука"
 
 #: ../packages/desktop/aegisub.appdata.xml.in.in:44
 msgid "Aegisub Group"
@@ -327,7 +327,7 @@ msgstr "Индексирование"
 #: ../src/audio_provider_bestsource.cpp:60
 #: ../src/video_provider_bestsource.cpp:119
 msgid "Creating cache... This can take a while!"
-msgstr ""
+msgstr "Создание кэша... Это может занять некоторое время!"
 
 #: ../src/audio_renderer_waveform.cpp:152
 msgid "Maximum"
@@ -1243,7 +1243,7 @@ msgstr ""
 
 #: ../src/command/edit.cpp:1158
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Повторить последнее отмененное действие"
 
 #: ../src/command/edit.cpp:1163
 msgid "Nothing to &redo"
@@ -1636,25 +1636,25 @@ msgstr ""
 
 #: ../src/command/grid.cpp:522
 msgid "Open or close the folds around the selected lines"
-msgstr ""
+msgstr "Открыть или закрыть створки вокруг выбранных линий"
 
 #: ../src/command/grid.cpp:536 ../src/command/grid.cpp:537
 #: ../src/command/grid.cpp:538
 msgid "Open all Folds"
-msgstr ""
+msgstr "Открыть все створки"
 
 #: ../src/command/grid.cpp:547 ../src/command/grid.cpp:548
 #: ../src/command/grid.cpp:549
 msgid "Close all Folds"
-msgstr ""
+msgstr "Закрыть все створки"
 
 #: ../src/command/grid.cpp:558 ../src/command/grid.cpp:559
 msgid "Clear all Folds"
-msgstr ""
+msgstr "Очистить все створки"
 
 #: ../src/command/grid.cpp:560
 msgid "Remove all Folds"
-msgstr ""
+msgstr "Удалить все створки"
 
 #: ../src/command/help.cpp:48
 msgid "&Bug Tracker..."
@@ -5950,19 +5950,19 @@ msgstr ""
 
 #: ../src/preferences.cpp:263
 msgid "Drawing Commands"
-msgstr ""
+msgstr "Команды рисунка"
 
 #: ../src/preferences.cpp:264
 msgid "Drawing X Coords"
-msgstr ""
+msgstr "Построение координат X"
 
 #: ../src/preferences.cpp:265
 msgid "Drawing Y Coords"
-msgstr ""
+msgstr "Построение координат Y"
 
 #: ../src/preferences.cpp:266
 msgid "Underline Spline Endpoints"
-msgstr ""
+msgstr "Подчеркнуть конечные точки сплайна"
 
 #: ../src/preferences.cpp:268
 msgid "Brackets"
@@ -6046,11 +6046,11 @@ msgstr "Фон выделенных комментариев"
 
 #: ../src/preferences.cpp:296
 msgid "Open fold background"
-msgstr ""
+msgstr "Фон открытой створки"
 
 #: ../src/preferences.cpp:297
 msgid "Closed fold background"
-msgstr ""
+msgstr "Фон закрытой створки"
 
 #: ../src/preferences.cpp:298
 msgid "Header background"
@@ -6255,27 +6255,27 @@ msgstr "Качество"
 
 #: ../src/preferences.cpp:399
 msgid "Compressed"
-msgstr ""
+msgstr "Сжатое"
 
 #: ../src/preferences.cpp:399
 msgid "Extended"
-msgstr ""
+msgstr "Расширенное"
 
 #: ../src/preferences.cpp:399
 msgid "Linear"
-msgstr ""
+msgstr "Линейное"
 
 #: ../src/preferences.cpp:399
 msgid "Logarithmic"
-msgstr ""
+msgstr "Логарифмическое"
 
 #: ../src/preferences.cpp:399
 msgid "Medium"
-msgstr ""
+msgstr "Среднее"
 
 #: ../src/preferences.cpp:401
 msgid "Frequency mapping"
-msgstr ""
+msgstr "Частотное отображение"
 
 #: ../src/preferences.cpp:403
 msgid "Cache memory max (MB)"
@@ -6315,11 +6315,11 @@ msgstr ""
 
 #: ../src/preferences.cpp:427
 msgid "Max BS cache size (MB)"
-msgstr ""
+msgstr "Максимальный размер кэша BS (МБ)"
 
 #: ../src/preferences.cpp:428
 msgid "Use Aegisub's Cache"
-msgstr ""
+msgstr "Использовать кэш Aegisub"
 
 #: ../src/preferences.cpp:434
 msgid "Portaudio device"
@@ -6363,15 +6363,15 @@ msgstr "Разрешить небезопасную перемотку"
 
 #: ../src/preferences.cpp:482
 msgid "Max cache size (MB)"
-msgstr ""
+msgstr "Максимальный размер кэша (МБ)"
 
 #: ../src/preferences.cpp:483
 msgid "Decoder Threads (0 to autodetect)"
-msgstr ""
+msgstr "Потоки декодера (от 0 до автоматического определения)"
 
 #: ../src/preferences.cpp:484
 msgid "Seek preroll (Frames)"
-msgstr ""
+msgstr "Искать предварительный просмотр (фреймы)"
 
 #: ../src/preferences.cpp:492
 msgid "VapourSynth"
@@ -6379,11 +6379,11 @@ msgstr ""
 
 #: ../src/preferences.cpp:497
 msgid "Log Level"
-msgstr ""
+msgstr "Уровень лога"
 
 #: ../src/preferences.cpp:499
 msgid "Default Video Script"
-msgstr ""
+msgstr "Видео скрипт по умолчанию"
 
 #: ../src/preferences.cpp:501
 msgid ""
@@ -6391,10 +6391,13 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Этот скрипт будет выполнен для загрузки видеофайлов, которые не\n"
+"являются скриптами VapourSynth (т. е. заканчиваются на .py или .vpy).\n"
+"Имя переменной хранит путь к файлу."
 
 #: ../src/preferences.cpp:509
 msgid "Default Audio Script"
-msgstr ""
+msgstr "Аудио скрипт по умолчанию"
 
 #: ../src/preferences.cpp:510
 msgid ""
@@ -6402,6 +6405,9 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Этот скрипт будет выполнен для загрузки аудиофайлов, которые не\n"
+"являются скриптами VapourSynth (т. е. заканчиваются на .py или .vpy).\n"
+"Имя переменной хранит путь к файлу."
 
 #: ../src/preferences.cpp:648
 msgid "Hotkeys"
