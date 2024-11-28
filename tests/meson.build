@@ -3,9 +3,13 @@ all_test_dep_libs = []
 all_test_sources = []
 
 
-gtest_proj = subproject('gtest')
-gtest_dep = gtest_proj.get_variable('gtest_dep')
-gmock_dep = gtest_proj.get_variable('gmock_dep')
+gtest_dep = dependency('gtest', main: true, required: false)
+gmock_dep = dependency('gmock', required: false)
+if not gtest_dep.found() or not gmock_dep.found()
+    gtest_proj = subproject('gtest')
+    gtest_dep = gtest_proj.get_variable('gtest_dep')
+    gmock_dep = gtest_proj.get_variable('gmock_dep')
+endif
 
 
 all_test_deps += [
