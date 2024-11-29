@@ -283,8 +283,13 @@ endif
 
 if get_option('vapoursynth').enabled()
     conf.set('WITH_VAPOURSYNTH', 1)
-    vs_sub = subproject('vapoursynth')
-    deps_inc += vs_sub.get_variable('vs_inc')
+    vs_dep = dependency('vapoursynth', required: false)
+    if vs_dep.found()
+        deps_inc += vs_dep.get_variable('includedir')
+    else
+        vs_sub = subproject('vapoursynth')
+        deps_inc += vs_sub.get_variable('vs_inc')
+    endif
     dep_avail += 'VapourSynth'
 endif
 
