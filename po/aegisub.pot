@@ -922,6 +922,23 @@ msgid ""
 "line which starts on the current frame"
 msgstr ""
 
+
+#: ../src/command/edit.cpp:786
+msgid "Join &Dialogue"
+msgstr ""
+
+#: ../src/command/edit.cpp:787
+msgid "Join Dialogue"
+msgstr ""
+
+#: ../src/command/edit.cpp:788
+msgid ""Join selected lines in a single one, concatenating dialogue together""
+msgstr ""
+
+#: ../src/command/edit.cpp:791
+msgid "join as dialogue"
+msgstr ""
+
 #: ../src/command/edit.cpp:786
 msgid "As &Karaoke"
 msgstr ""
@@ -5610,6 +5627,26 @@ msgstr ""
 msgid "Restrict Screen Picker to Window"
 msgstr ""
 
+#! ../src/preferences.cpp:246
+msgid "Dash second line without space"
+msgstr ""
+
+#! ../src/preferences.cpp:246
+msgid "Dash second line with space"
+msgstr "
+
+#: ../src/preferences.cpp:246
+msgid "Dash both lines with space"
+msgstr ""
+
+#: ../src/preferences.cpp:246
+msgid "Dash both lines without space"
+msgstr ""
+
+#: ../src/preferences.cpp:248
+msgid "Join as Dialogue Format"
+msgstr ""
+
 #: ../src/preferences.cpp:251
 msgid "Audio Display"
 msgstr ""
@@ -6561,6 +6598,10 @@ msgstr ""
 
 #: default_menu.json:0
 msgid "Join (keep first)"
+msgstr ""
+
+#: default_menu.json:0
+msgid "Join as Dialogue"
 msgstr ""
 
 #: default_menu.json:0

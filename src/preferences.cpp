@@ -243,6 +243,10 @@ void Interface(wxTreebook *book, Preferences *parent) {
 	p->OptionAdd(dark_mode, _("Enable experimental dark mode (restart required)"), "App/Dark Mode");
 #endif
 
+    const wxString cdialogue_pref[4] = { _("Dash second line with space"), _("Dash second line without space"), _("Dash both lines with space"), _("Dash both lines without space") };
+    wxArrayString dialogue_pref(4, cdialogue_pref);
+    p->OptionChoice(grid, _("Join as Dialogue Format"), dialogue_pref, "Subtitle/Grid/Join as Dialogue Format");
+    
 	p->SetSizerAndFit(p->sizer);
 }
 
