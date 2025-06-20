@@ -56,7 +56,18 @@ std::pair<TrackSelection, bool> SelectTrack(agi::fs::path const& filename, bool 
 
 		if (info.MediaType == type) {
 			TrackNumbers.push_back(i);
-			Choices.Add(agi::wxformat(_("Track %02d: %s"), i, info.CodecString));
+			std::map<std::string, std::string> metadata = tracklist.GetTrackMetadata(i);
+			wxString description = agi::wxformat(_("Track %02d: %s"), i, info.CodecString);
+
+			if (metadata.count("language") > 0) {
+				description += agi::wxformat(_(" - [%s]"), metadata["language"]);
+			}
+
+			if (metadata.count("title") > 0) {
+				description += agi::wxformat(_(" - %s"), metadata["title"]);
+			}
+
+			Choices.Add(description);
 		}
 	}
 
