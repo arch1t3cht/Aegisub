@@ -42,7 +42,8 @@ TEST(lagi_iconv, StrLen1) {
 TEST(lagi_iconv, StrLen2) {
 	IconvWrapper conv("UTF-16LE", "UTF-16LE", false);
 	for (int i = 0; i < 10; i++) {
-		std::basic_string<int16_t> str(i, ' ');
+		std::basic_string<char16_t> str(i, ' ');
+		static_assert(sizeof(char16_t) == sizeof(int16_t));
 		ASSERT_EQ(2*i, conv.SrcStrLen((const char *)str.c_str()));
 		ASSERT_EQ(2*i, conv.DstStrLen((const char *)str.c_str()));
 	}
@@ -50,7 +51,8 @@ TEST(lagi_iconv, StrLen2) {
 TEST(lagi_iconv, StrLen4) {
 	IconvWrapper conv("UTF-32LE", "UTF-32LE", false);
 	for (int i = 0; i < 10; i++) {
-		std::basic_string<int32_t> str(i, ' ');
+		std::basic_string<char32_t> str(i, ' ');
+		static_assert(sizeof(char32_t) == sizeof(int32_t));
 		ASSERT_EQ(4*i, conv.SrcStrLen((const char *)str.c_str()));
 		ASSERT_EQ(4*i, conv.DstStrLen((const char *)str.c_str()));
 	}
