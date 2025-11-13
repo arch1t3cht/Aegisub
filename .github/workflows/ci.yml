@@ -161,9 +161,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install ninja-build build-essential libx11-dev libwxgtk3.0-gtk3-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm desktop-file-utils
 
+      - name: Set macOS Meson args
+        if: matrix.config.os == 'macos-latest'
+        run: echo "MESON_CMAKE_ARGS=-Dwxwidgets:cmake_args=-DCMAKE_POLICY_VERSION_MINIMUM=3.10" >> $GITHUB_ENV
+        shell: bash
+
       - name: Configure
         run: |
-          meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
+          meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }} ${MESON_CMAKE_ARGS}
           meson configure build
 
       - name: Build
