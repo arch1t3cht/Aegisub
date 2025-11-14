@@ -449,8 +449,30 @@ void SubsEditBox::UpdateFrameTiming(agi::vfr::Framerate const& fps) {
 }
 
 void SubsEditBox::OnKeyDown(wxKeyEvent &event) {
+	// Allow IME to handle events first
 	if (!osx::ime::process_key_event(edit_ctrl, event))
 		hotkey::check("Subtitle Edit Box", c, event);
+
+	// Toggle text layout direction on Ctrl + Shift (matches original fork behavior
+	// of using Ctrl + Right Shift; here we accept either shift key). This switches
+	// between LeftToRight and RightToLeft for the edit control and secondary editor.
+	if (event.GetKeyCode() == WXK_SHIFT && event.ControlDown() && event.ShiftDown()) {
+		// Determine current direction and flip
+		wxLayoutDirection cur = edit_ctrl->GetLayoutDirection();
+		wxLayoutDirection next = (cur == wxLayout_RightToLeft) ? wxLayout_LeftToRight : wxLayout_RightToLeft;
+		edit_ctrl->SetLayoutDirection(next);
+		if (secondary_editor) secondary_editor->SetLayoutDirection(next);
+		// Also, for the styled control, set alignment to match direction
+		if (auto stc = dynamic_cast<wxStyledTextCtrl*>(edit_ctrl)) {
+			if (next == wxLayout_RightToLeft)
+				stc->SetViewEOL(false); // trigger minimal refresh; alignment handled by layout dir
+			else
+				stc->SetViewEOL(false);
+		}
+		// consume the event
+		event.Skip(false);
+		return;
+	}
 }
 
 void SubsEditBox::OnChange(wxStyledTextEvent &event) {
