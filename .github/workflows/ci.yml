@@ -65,7 +65,7 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
-              -Dwx_version='3.3.0'
+              -Dwx_version='3.3.1'
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
