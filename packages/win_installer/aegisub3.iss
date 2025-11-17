@@ -1,5 +1,11 @@
 #define ARCH 64
 
+#ifndef INSTALLER_VERSION
+  #define INSTALLER_VERSION "1.0.0.0"
+#endif
+
+#define FILE_VERSION_INFO "1.0.0.0"
+
 #include "fragment_setupbase.iss"
 #include "fragment_strings.iss"
 
