@@ -15,6 +15,7 @@
 // Aegisub Project http://www.aegisub.org/
 
 /// @file spellchecker.h
+#pragma once
 /// @brief Declaration of factory for spell checkers
 /// @ingroup main_headers spelling
 ///
