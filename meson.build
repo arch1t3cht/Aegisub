@@ -14,8 +14,8 @@ if host_machine.system() == 'windows'
         add_global_arguments('-DCSRI_NO_EXPORT', language: 'c')
     endif
 
-    sys_nasm = find_program('nasm', required: false)
-    if not sys_nasm.found()
+    if get_option('fallback_nasm') or \
+        not find_program('nasm', required: false).found()
         nasm = subproject('nasm').get_variable('nasm')
         meson.override_find_program('nasm', nasm)
     endif
@@ -117,6 +117,13 @@ if get_option('local_boost') or not boost_dep.found()
     endforeach
 endif
 
+if cc.get_argument_syntax() == 'gcc'
+  # Work around compile error in Boost GIL, can be removed once
+  # https://github.com/boostorg/gil/commit/2956a0e9ef71f5c4f3163c8b8d675679e0fbaaff
+  # is in a boost release that's available everywhere
+  add_project_arguments(cc.get_supported_arguments(['-Wno-missing-template-arg-list-after-template-kw']), language: 'cpp')
+endif
+
 deps += boost_dep
 if host_machine.system() == 'windows'
     conf.set('BOOST_USE_WINDOWS_H', 1)
@@ -158,7 +165,7 @@ else
         'wxBUILD_MONOLITHIC': true      # otherwise breaks project generation w/ meson
     })
 
-    if get_option('wx_version').version_compare('>=3.3.0')
+    if get_option('wx_version').version_compare('>=3.3.1')
         wx = cmake.subproject('wxWidgets-master', options: opt_var)
     else
         wx = cmake.subproject('wxWidgets', options: opt_var)
@@ -170,7 +177,7 @@ else
         wx.dependency('wxscintilla')
     ]
 
-    if get_option('wx_version').version_compare('>=3.3.0')
+    if get_option('wx_version').version_compare('>=3.3.1')
         deps += [
             wx.dependency('wxlexilla')
         ]
@@ -415,6 +422,12 @@ if not get_option('csri').disabled() and host_machine.system() == 'windows'
 
     csri_sp = subproject('csri')
     deps += csri_sp.get_variable('csri_dep')
+endif
+
+if not get_option('wxstc').disabled()
+    conf.set('WITH_WXSTC', 1)
+elif get_option('wxstc').enabled()
+    error('wxstc enabled but wxWidgets stc module not available')
 endif
 
 acconf = configure_file(output: 'acconf.h', configuration: conf)
