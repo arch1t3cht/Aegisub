@@ -165,7 +165,7 @@ else
         'wxBUILD_MONOLITHIC': true      # otherwise breaks project generation w/ meson
     })
 
-    if get_option('wx_version').version_compare('>=3.3.1')
+    if get_option('wx_version').version_compare('>=3.3.0')
         wx = cmake.subproject('wxWidgets-master', options: opt_var)
     else
         wx = cmake.subproject('wxWidgets', options: opt_var)
@@ -177,7 +177,7 @@ else
         wx.dependency('wxscintilla')
     ]
 
-    if get_option('wx_version').version_compare('>=3.3.1')
+    if get_option('wx_version').version_compare('>=3.3.0')
         deps += [
             wx.dependency('wxlexilla')
         ]
