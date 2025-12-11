@@ -37,7 +37,6 @@
 #include "dialog_style_editor.h"
 #include "dialogs.h"
 #include "format.h"
-#include "font.h"
 #include "help_button.h"
 #include "include/aegisub/context.h"
 #include "libresrc/libresrc.h"
@@ -263,7 +262,9 @@ DialogStyleManager::DialogStyleManager(agi::Context *context)
 , commit_connection(c->ass->AddCommitListener(&DialogStyleManager::LoadCurrentStyles, this))
 , active_line_connection(c->selectionController->AddActiveLineListener(&DialogStyleManager::OnActiveLineChanged, this))
 , font_list(std::async(std::launch::async, []() -> wxArrayString {
-	return GetFaceNames();
+	wxArrayString fontList = wxFontEnumerator::GetFacenames();
+	fontList.Sort();
+	return fontList;
 }))
 {
 	using std::bind;
