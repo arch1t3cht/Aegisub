@@ -133,7 +133,7 @@ deps += dependency('zlib')
 
 wx_minver = '>=' + get_option('wx_version')
 if host_machine.system() == 'darwin'
-    wx_minver = '>=3.2.2'
+    wx_minver = '>=3.1.0'
 endif
 wx_dep = dependency('wxWidgets', version: wx_minver,
                     required: false,
