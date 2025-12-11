@@ -2,7 +2,7 @@ name: Meson CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ migration02 ]
     tags: [ 'v*' ]
   pull_request:
     branches: [ master ]
