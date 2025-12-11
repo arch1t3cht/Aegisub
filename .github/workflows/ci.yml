@@ -184,10 +184,24 @@ jobs:
           sudo apt-get update
           sudo apt-get install ninja-build build-essential libx11-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libcurl4-openssl-dev libuchardet-dev libgtest-dev libgmock-dev libwxgtk3.2-dev libpulse-dev libopenal-dev libxxhash-dev nasm desktop-file-utils
 
+      - name: Setup CMake (Windows)
+        if: matrix.config.os == 'windows-latest'
+        uses: lukka/get-cmake@v3
+        with:
+          cmake-version: 'latest'
+
       - name: Configure
         run: |
           meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
           meson configure build
+
+      - name: Fix generated wxWidgets meson.build (Windows)
+        if: matrix.config.os == 'windows-latest'
+        run: |
+          $mesonFile = "build\\subprojects\\wxWidgets-master\\meson.build"
+          if (Test-Path $mesonFile) {
+            (Get-Content $mesonFile) -replace ',\\s*soversion:\\s*[^,\\)]+' , '' -replace ',\\s*version:\\s*[^,\\)]+' , '' | Set-Content $mesonFile
+          }
 
       - name: Build
         run: meson compile -C build
