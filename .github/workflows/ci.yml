@@ -116,11 +116,11 @@ jobs:
           }
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
 
@@ -184,24 +184,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install ninja-build build-essential libx11-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libcurl4-openssl-dev libuchardet-dev libgtest-dev libgmock-dev libwxgtk3.2-dev libpulse-dev libopenal-dev libxxhash-dev nasm desktop-file-utils
 
-      - name: Install CMake (Windows)
-        if: matrix.config.os == 'windows-latest'
-        run: |
-          choco install cmake --installargs '"ADD_CMAKE_TO_PATH=System"' -y
-          cmake --version
-
       - name: Configure
         run: |
           meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
           meson configure build
-
-      - name: Fix generated wxWidgets meson.build (Windows)
-        if: matrix.config.os == 'windows-latest'
-        run: |
-          $mesonFile = "build\\subprojects\\wxWidgets-master\\meson.build"
-          if (Test-Path $mesonFile) {
-            (Get-Content $mesonFile) -replace ',\\s*soversion:\\s*[^,\\)]+' , '' -replace ',\\s*version:\\s*[^,\\)]+' , '' | Set-Content $mesonFile
-          }
 
       - name: Build
         run: meson compile -C build
@@ -222,7 +208,7 @@ jobs:
         run: cd build && ninja win-portable
 
       - name: Upload artifacts - win_installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - installer
@@ -230,7 +216,7 @@ jobs:
           if-no-files-found: error
       
       - name: Upload artifacts - portable.zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - portable
@@ -244,7 +230,7 @@ jobs:
           meson compile osx-build-dmg -C build
 
       - name: Upload artifacts - macOS dmg
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: startsWith(matrix.config.os, 'macos-')
         with:
           name: ${{ matrix.config.name }} - installer
