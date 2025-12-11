@@ -73,11 +73,11 @@ wxString GetFaceName(const wxFont& font) {
 	if (dc == nullptr)
 		throw agi::EnvironmentError("Failed to initialize the HDC");
 	agi::scoped_holder<HDC> dc_sh(dc, [](HDC dc) { DeleteDC(dc); });
-
+;
 	WXHFONT hfont = font.GetHFONT();
-	SelectFont(dc_sh.get(), hfont);
+	SelectFont(dc_sh, hfont);
 
-	UINT otm_size = GetOutlineTextMetricsW(dc_sh.get(), 0, nullptr);
+	UINT otm_size = GetOutlineTextMetricsW(dc_sh, 0, nullptr);
 	if (!otm_size)
 		throw agi::EnvironmentError("Failed to initialize the otm_size");
 
@@ -85,7 +85,7 @@ wxString GetFaceName(const wxFont& font) {
 	agi::scoped_holder<OUTLINETEXTMETRICW*> otm_sh(otm, [](OUTLINETEXTMETRICW* otm) { free(otm); });
 
 	otm->otmSize = otm_size;
-	if (!GetOutlineTextMetricsW(dc_sh.get(), otm_size, otm))
+	if (!GetOutlineTextMetricsW(dc_sh, otm_size, otm_sh))
 		throw agi::EnvironmentError("Failed to initialize the otm");
 
 	return reinterpret_cast<wxChar*>(otm) + wxPtrToUInt(otm->otmpFamilyName)/sizeof(wxChar);
