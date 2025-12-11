@@ -27,8 +27,7 @@ jobs:
             buildtype: release
             args: >-
               -Ddefault_library=static 
-              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng
-              -Dfallback_nasm=true
+              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
               -Dfreetype2:harfbuzz=disabled 
               -Dharfbuzz:freetype=disabled 
               -Dharfbuzz:cairo=disabled 
@@ -51,8 +50,7 @@ jobs:
             buildtype: release
             args: >-
               -Ddefault_library=static 
-              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng
-              -Dfallback_nasm=true
+              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
               -Dfreetype2:harfbuzz=disabled 
               -Dharfbuzz:freetype=disabled 
               -Dharfbuzz:cairo=disabled 
