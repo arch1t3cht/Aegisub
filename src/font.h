@@ -1,4 +1,4 @@
-// Copyright (c) 2012, Thomas Goyne <plorkyeran@aegisub.org>
+// Copyright (c) 2025, arch1t3cht <arch1t3cht@gmail.com>
 //
 // Permission to use, copy, modify, and distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -14,16 +14,18 @@
 //
 // Aegisub Project http://www.aegisub.org/
 
-/// @file spellchecker.h
-#pragma once
-/// @brief Declaration of factory for spell checkers
-/// @ingroup main_headers spelling
+/// @file font.h
+/// @see font.cpp
 ///
 
-#include <memory>
+#include <wx/string.h>
+#include <wx/font.h>
 
-namespace agi { class SpellChecker; }
+/// @brief Get all the font face name installed in the system.
+/// @return A list containing all the font face name sorted
+wxArrayString GetFaceNames();
 
-struct SpellCheckerFactory {
-	static std::unique_ptr<agi::SpellChecker> GetSpellChecker();
-};
+/// @brief Get the font face name.
+/// @param font The path to be normalized. It can be a directory or a file.
+/// @return The font face name.
+wxString GetFaceName(const wxFont& font);

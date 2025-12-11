@@ -35,6 +35,9 @@
 #include "persist_location.h"
 #include "project.h"
 #include "subs_edit_ctrl.h"
+#ifdef WITH_WXSTC
+#include "subs_edit_ctrl_stc.h"
+#endif
 #include "selection_controller.h"
 #include "video_controller.h"
 
@@ -97,16 +100,31 @@ DialogTranslation::DialogTranslation(agi::Context *c)
 	}
 
 	{
-		translated_text = new SubsTextEditCtrl(this, wxSize(320, 80), 0, nullptr);
-		translated_text->SetWrapMode(wxSTC_WRAP_WORD);
-		translated_text->SetMarginWidth(1, 0);
-		translated_text->SetFocus();
-		translated_text->Bind(wxEVT_CHAR_HOOK, &DialogTranslation::OnKeyDown, this);
-		translated_text->CmdKeyAssign(wxSTC_KEY_RETURN, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_NEWLINE);
+#ifdef WITH_WXSTC
+		bool use_stc = OPT_GET("Subtitle/Use STC")->GetBool();
+		if (use_stc) {
+			translated_text_stc = new SubsStyledTextEditCtrl(this, wxSize(320, 80), 0, nullptr);
+			translated_text_stc->SetWrapMode(wxSTC_WRAP_WORD);
+			translated_text_stc->SetMarginWidth(1, 0);
+			translated_text_stc->SetFocus();
+			translated_text_stc->Bind(wxEVT_CHAR_HOOK, &DialogTranslation::OnKeyDown, this);
+			translated_text_stc->CmdKeyAssign(wxSTC_KEY_RETURN, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_NEWLINE);
 
-		wxSizer *translated_box = new wxStaticBoxSizer(wxVERTICAL, this, _("Translation"));
-		translated_box->Add(translated_text, 1, wxEXPAND, 0);
-		translation_sizer->Add(translated_box, 1, wxTOP|wxEXPAND, 5);
+			wxSizer *translated_box = new wxStaticBoxSizer(wxVERTICAL, this, _("Translation"));
+			translated_box->Add(translated_text_stc, 1, wxEXPAND, 0);
+			translation_sizer->Add(translated_box, 1, wxTOP|wxEXPAND, 5);
+		}
+		else
+#endif
+		{
+			translated_text = new SubsTextEditCtrl(this, wxSize(320, 80), 0, nullptr);
+			translated_text->SetFocus();
+			translated_text->Bind(wxEVT_CHAR_HOOK, &DialogTranslation::OnKeyDown, this);
+
+			wxSizer *translated_box = new wxStaticBoxSizer(wxVERTICAL, this, _("Translation"));
+			translated_box->Add(translated_text, 1, wxEXPAND, 0);
+			translation_sizer->Add(translated_box, 1, wxTOP|wxEXPAND, 5);
+		}
 	}
 	main_sizer->Add(translation_sizer, 1, wxALL | wxEXPAND, 5);
 
@@ -268,12 +286,29 @@ void DialogTranslation::UpdateDisplay() {
 
 	if (seek_video->IsChecked()) c->videoController->JumpToTime(active_line->Start);
 
-	translated_text->ClearAll();
-	translated_text->SetFocus();
+	// Clear and focus the appropriate control
+#ifdef WITH_WXSTC
+	if (OPT_GET("Subtitle/Use STC")->GetBool()) {
+		translated_text_stc->ClearAll();
+		translated_text_stc->SetFocus();
+	}
+	else {
+#endif
+		translated_text->Clear();
+		translated_text->SetFocus();
+#ifdef WITH_WXSTC
+	}
+#endif
 }
 
 void DialogTranslation::Commit(bool next) {
-	std::string new_value = translated_text->GetTextRaw().data();
+	std::string new_value;
+#ifdef WITH_WXSTC
+	if (OPT_GET("Subtitle/Use STC")->GetBool())
+		new_value = translated_text_stc->GetTextRaw().data();
+	else
+#endif
+		new_value = translated_text->GetValue().utf8_str();
 	boost::replace_all(new_value, "\r\n", "\\N");
 	boost::replace_all(new_value, "\r", "\\N");
 	boost::replace_all(new_value, "\n", "\\N");
@@ -297,7 +332,12 @@ void DialogTranslation::Commit(bool next) {
 
 void DialogTranslation::InsertOriginal() {
 	auto const& text = blocks[cur_block]->GetText();
-	translated_text->AddTextRaw(text.data(), text.size());
+#ifdef WITH_WXSTC
+	if (OPT_GET("Subtitle/Use STC")->GetBool())
+		translated_text_stc->AddTextRaw(text.data(), text.size());
+	else
+#endif
+		translated_text->AppendText(to_wx(text));
 }
 
 void DialogTranslation::OnKeyDown(wxKeyEvent &evt) {
@@ -306,7 +346,12 @@ void DialogTranslation::OnKeyDown(wxKeyEvent &evt) {
 
 void DialogTranslation::OnPlayVideoButton(wxCommandEvent &) {
 	c->videoController->PlayLine();
-	translated_text->SetFocus();
+#ifdef WITH_WXSTC
+	if (OPT_GET("Subtitle/Use STC")->GetBool())
+		translated_text_stc->SetFocus();
+	else
+#endif
+		translated_text->SetFocus();
 }
 
 void DialogTranslation::OnPlayAudioButton(wxCommandEvent &) {

@@ -38,6 +38,7 @@
 #include "../compat.h"
 #include "../dialog_search_replace.h"
 #include "../dialogs.h"
+#include "../font.h"
 #include "../format.h"
 #include "../include/aegisub/context.h"
 #include "../initial_line_state.h"
@@ -233,6 +234,11 @@ struct parsed_line {
 				break;
 			}
 		}
+
+		// Defensive: ensure orig_pos is within the bounds of the underlying
+		// string so subsequent substr/rfind calls cannot throw out_of_range.
+		if (orig_pos < 0) orig_pos = 0;
+		if (orig_pos > (int)line->Text.get().size()) orig_pos = (int)line->Text.get().size();
 
 		// If we didn't hit a suitable block for inserting the override just put
 		// it at the beginning of the line
@@ -519,8 +525,8 @@ struct edit_font final : public Command {
 				shift += parsed.set_tag(tag_name, value, norm_sel_start, sel_start + shift);
 			};
 
-			if (font.GetFaceName() != startfont.GetFaceName())
-				do_set_tag("\\fn", from_wx(font.GetFaceName()));
+			if (GetFaceName(font) != GetFaceName(startfont))
+				do_set_tag("\\fn", from_wx(GetFaceName(font)));
 			if (font.GetPointSize() != startfont.GetPointSize())
 				do_set_tag("\\fs", std::to_string(font.GetPointSize()));
 			if (font.GetWeight() != startfont.GetWeight())

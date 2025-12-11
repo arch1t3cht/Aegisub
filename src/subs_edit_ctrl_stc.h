@@ -18,7 +18,7 @@
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 // ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
 // LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
 // SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
 // INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
@@ -30,23 +30,23 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <wx/textctrl.h>
+#include <wx/stc/stc.h>
 
-namespace agi {
-	struct Context;
-	class SpellChecker;
-}
 class Thesaurus;
+namespace agi {
+	class SpellChecker;
+	struct Context;
+	namespace ass { struct DialogueToken; }
+}
 
-/// @class SubsTextEditCtrl
-/// @brief Native wxTextCtrl-based subtitle editor
-/// Better platform-specific support: keyboard shortcuts, IME, RTL languages
-class SubsTextEditCtrl final : public wxTextCtrl {
+/// @class SubsStyledTextEditCtrl
+/// @brief A Scintilla control with spell checking and syntax highlighting
+class SubsStyledTextEditCtrl final : public wxStyledTextCtrl {
+	/// Backend spellchecker to use
+	std::unique_ptr<agi::SpellChecker> spellchecker;
+
 	/// Backend thesaurus to use
 	std::unique_ptr<Thesaurus> thesaurus;
-
-	/// Backend spell checker to use
-	std::unique_ptr<agi::SpellChecker> spellchecker;
 
 	/// Project context, for splitting lines
 	agi::Context *context;
@@ -63,17 +63,46 @@ class SubsTextEditCtrl final : public wxTextCtrl {
 	/// Thesaurus suggestions for the last right-clicked word
 	std::vector<std::string> thesSugs;
 
+	/// Text of the currently shown calltip, to avoid flickering from
+	/// pointlessly reshowing the current tip
+	std::string calltip_text;
+
+	/// Position of the currently show calltip
+	size_t calltip_position = 0;
+
+	/// Cursor position which the current calltip is for
+	int cursor_pos;
+
+	/// The last seen line text, used to avoid reparsing the line for syntax
+	/// highlighting when possible
+	std::string line_text;
+
+	/// Tokenized version of line_text
+	std::vector<agi::ass::DialogueToken> tokenized_line;
+
 	void OnContextMenu(wxContextMenuEvent &);
+	void OnDoubleClick(wxStyledTextEvent&);
+	void OnUseSuggestion(wxCommandEvent &event);
+	void OnSetDicLanguage(wxCommandEvent &event);
+	void OnSetThesLanguage(wxCommandEvent &event);
+	void OnToggleRTL(wxCommandEvent &event);
+	void OnLoseFocus(wxFocusEvent &event);
 	void OnKeyDown(wxKeyEvent &event);
 
-	void SetStyles();
-	void UpdateSyntaxHighlight();
+	void SetSyntaxStyle(int id, wxFont &font, std::string const& name, wxColor const& default_background);
+	void Subscribe(std::string const& name);
 
-	/// Add the spell checker suggestions to a menu
-	void AddSpellCheckerEntries(wxMenu &menu);
+	void StyleSpellCheck();
+	void UpdateCallTip();
+	void SetStyles();
+
+	void UpdateStyle();
 
 	/// Add the thesaurus suggestions to a menu
 	void AddThesaurusEntries(wxMenu &menu);
+
+	/// Add the spell checker suggestions to a menu
+	void AddSpellCheckerEntries(wxMenu &menu);
 
 	/// Generate a languages submenu from a list of locales and a current language
 	/// @param base_id ID to use for the first menu item
@@ -81,30 +110,14 @@ class SubsTextEditCtrl final : public wxTextCtrl {
 	/// @param lang Full list of languages
 	wxMenu *GetLanguagesMenu(int base_id, wxString const& curLang, wxArrayString const& langs);
 
-	/// Handle spell checker or thesaurus suggestion menu item click
-	void OnUseSuggestion(wxCommandEvent &event);
-
-	/// Handle spell checker language selection
-	void OnSetSpellLang(wxCommandEvent &event);
-
-	/// Add word to spell checker dictionary
-	void OnAddToDict(wxCommandEvent &event);
-
-	/// Remove word from spell checker dictionary
-	void OnRemoveFromDict(wxCommandEvent &event);
-
-	/// Handle thesaurus language selection
-	void OnSetThesLanguage(wxCommandEvent &event);
-
-	/// Toggle Right-to-Left reading order (context menu action)
-	void OnToggleRTL(wxCommandEvent &event);
-
 public:
-	SubsTextEditCtrl(wxWindow* parent, wxSize size, long style, agi::Context *context);
-	~SubsTextEditCtrl();
+	SubsStyledTextEditCtrl(wxWindow* parent, wxSize size, long style, agi::Context *context);
+	~SubsStyledTextEditCtrl();
 
 	void SetTextTo(std::string const& text);
 	void Paste() override;
 
 	std::pair<int, int> GetBoundsOfWordAtPosition(int pos);
+
+	DECLARE_EVENT_TABLE()
 };

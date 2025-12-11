@@ -27,7 +27,8 @@ jobs:
             buildtype: release
             args: >-
               -Ddefault_library=static 
-              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
+              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng
+              -Dfallback_nasm=true
               -Dfreetype2:harfbuzz=disabled 
               -Dharfbuzz:freetype=disabled 
               -Dharfbuzz:cairo=disabled 
@@ -43,13 +44,15 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
+              -Dwxstc=enabled
           - name: Windows MSVC Release (wx master)
             os: windows-latest
             msvc: true
             buildtype: release
             args: >-
               -Ddefault_library=static 
-              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
+              --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng
+              -Dfallback_nasm=true
               -Dfreetype2:harfbuzz=disabled 
               -Dharfbuzz:freetype=disabled 
               -Dharfbuzz:cairo=disabled 
@@ -65,7 +68,8 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
-              -Dwx_version='3.3.0'
+              -Dwxstc=enabled
+              -Dwx_version='3.3.1'
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
@@ -73,18 +77,18 @@ jobs:
           #}
           - {
             name: Ubuntu Debug,
-            os: ubuntu-22.04,
+            os: ubuntu-latest,
             buildtype: debugoptimized,
-            args: ''
+            args: '-Dwxstc=enabled'
           }
           - {
             name: Ubuntu Release,
-            os: ubuntu-22.04,
+            os: ubuntu-latest,
             buildtype: release,
-            args: ''
+            args: '-Dwxstc=enabled'
           }
           - name: Ubuntu AppImage
-            os: ubuntu-22.04
+            os: ubuntu-latest
             buildtype: release
             appimage: true
             # distro ffms is currently broken
@@ -97,19 +101,26 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
+              -Dwxstc=enabled
+          - {
+            name: macOS Debug,
+            os: macos-15-intel,
+            buildtype: debugoptimized,
+            args: -Ddefault_library=static -Dwxstc=enabled -Dbuild_osx_bundle=true -Dlocal_boost=true --force-fallback-for=ffms2
+          }
           - {
             name: macOS Release,
-            os: macos-13,
+            os: macos-15-intel,
             buildtype: release,
-            args: -Ddefault_library=static -Dbuild_osx_bundle=true -Dlocal_boost=true -Dvapoursynth=enabled --force-fallback-for=ffms2
+            args: -Ddefault_library=static -Dwxstc=enabled -Dbuild_osx_bundle=true -Dlocal_boost=true -Dvapoursynth=enabled --force-fallback-for=ffms2
           }
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
 
@@ -135,7 +146,7 @@ jobs:
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           popd
 
-          $gettexturl = "https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.21-v1.16/gettext0.21-iconv1.16-static-64.zip"
+          $gettexturl = "https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.26-v1.17/gettext0.26-iconv1.17-static-64.zip"
           Invoke-WebRequest -Uri $gettexturl -OutFile ".\gettext.zip"
           Expand-Archive ".\gettext.zip" -DestinationPath gettext
           pushd gettext/bin
@@ -147,11 +158,23 @@ jobs:
         run: |
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          # Workaround for older CMake policy usage in wxWidgets subproject
+          export CMAKE_POLICY_VERSION_MINIMUM=3.5
           # Skip brew update for now, see https://github.com/actions/setup-python/issues/577
           # brew update
           brew install luarocks ninja
-          sudo luarocks install luafilesystem 1.8.0
-          sudo luarocks install moonscript --dev
+          # Install wxWidgets from Homebrew so `wx-config` is available
+          # and Meson can use the system wxWidgets instead of building the
+          # CMake subproject (avoids CMake policy/config issues).
+          brew install wxwidgets
+          # Install LuaRocks modules needed by moonscript first. Try without sudo,
+          # fall back to sudo if the runner requires it.
+          luarocks install luafilesystem 1.8.0 || sudo luarocks install luafilesystem 1.8.0
+          luarocks install lpeg || sudo luarocks install lpeg
+          luarocks install argparse || sudo luarocks install argparse
+          # Now install moonscript (dev). If dependency install failed above,
+          # the command will fail and the workflow will show useful output.
+          luarocks install moonscript --dev || sudo luarocks install moonscript --dev
           brew install libass zlib ffms2 fftw hunspell
           brew install pulseaudio  # NO OpenAL in github CI
 
@@ -159,7 +182,7 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu-')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build build-essential libx11-dev libwxgtk3.0-gtk3-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm desktop-file-utils
+          sudo apt-get install ninja-build build-essential libx11-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libcurl4-openssl-dev libuchardet-dev libgtest-dev libgmock-dev libwxgtk3.2-dev libpulse-dev libopenal-dev libxxhash-dev nasm desktop-file-utils
 
       - name: Configure
         run: |
@@ -168,7 +191,7 @@ jobs:
 
       - name: Build
         run: meson compile -C build
-      
+
       - name: Run test
         run: meson test -C build --verbose "gtest main"
 
@@ -185,7 +208,7 @@ jobs:
         run: cd build && ninja win-portable
 
       - name: Upload artifacts - win_installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - installer
@@ -193,7 +216,7 @@ jobs:
           if-no-files-found: error
       
       - name: Upload artifacts - portable.zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - portable
@@ -207,7 +230,7 @@ jobs:
           meson compile osx-build-dmg -C build
 
       - name: Upload artifacts - macOS dmg
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: startsWith(matrix.config.os, 'macos-')
         with:
           name: ${{ matrix.config.name }} - installer
@@ -228,10 +251,15 @@ jobs:
           chmod +x linuxdeploy appimagetool
 
           ./linuxdeploy --appdir appdir --desktop-file=appdir/aegisub.desktop
+          # Some AppStream metadata may fail validation on CI (appstreamcli)
+          # and cause appimagetool to exit non-zero. Remove it before
+          # packaging as a pragmatic workaround. If you prefer, fix the
+          # appdata/.desktop files instead to conform to AppStream rules.
+          rm -f appdir/usr/share/metainfo/*.appdata.xml || true
           ./appimagetool appdir
 
       - name: Upload artifacts - Linux AppImage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.config.appimage
         with:
           name: ${{ matrix.config.name }}

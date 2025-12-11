@@ -18,15 +18,6 @@
 #import <wx/osx/private.h>
 #import <wx/stc/stc.h>
 
-// from src/osx/cocoa/window.mm
-@interface wxNSView : NSView <NSTextInputClient> {
-    BOOL _hasToolTip;
-    NSTrackingRectTag _lastToolTipTrackTag;
-    id _lastToolTipOwner;
-    void *_lastUserData;
-}
-@end
-
 @interface IMEState : NSObject
 @property (nonatomic) NSRange markedRange;
 @property (nonatomic) bool undoActive;
@@ -41,14 +32,14 @@
 }
 @end
 
-@interface ScintillaNSView : wxNSView <NSTextInputClient>
+@interface ScintillaNSView : NSView <NSTextInputClient>
 @property (nonatomic, readonly) wxStyledTextCtrl *stc;
 @property (nonatomic, readonly) IMEState *state;
 @end
 
 @implementation ScintillaNSView
 - (Class)superclass {
-    return [wxNSView superclass];
+    return [NSView superclass];
 }
 
 - (wxStyledTextCtrl *)stc {

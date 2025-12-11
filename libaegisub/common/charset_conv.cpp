@@ -46,6 +46,42 @@ namespace {
 
 	Converter *get_converter(bool subst, const char *src, const char *dst);
 
+	// Determine the size of the NUL terminator in the given encoding
+	size_t get_nul_size(const char* encoding) {
+		if (!encoding) return 1;
+		std::string enc(encoding);
+		// Normalize to uppercase for comparison
+		for (auto& c : enc) c = toupper((unsigned char)c);
+		
+		if (enc.find("UTF-32") != std::string::npos || enc.find("UCS-4") != std::string::npos)
+			return 4;
+		if (enc.find("UTF-16") != std::string::npos || enc.find("UCS-2") != std::string::npos)
+			return 2;
+		return 1; // Default to single-byte
+	}
+
+	size_t mbstrlen(const char* str, size_t nulLen) {
+		if (!str) return 0;
+		switch (nulLen) {
+			case 1:
+				return strlen(str);
+			case 2: {
+				const uint16_t* p = reinterpret_cast<const uint16_t*>(str);
+				size_t len = 0;
+				while (*p++ != 0) len += 2;
+				return len;
+			}
+			case 4: {
+				const uint32_t* p = reinterpret_cast<const uint32_t*>(str);
+				size_t len = 0;
+				while (*p++ != 0) len += 4;
+				return len;
+			}
+			default:
+				return strlen(str); // Fallback
+		}
+	}
+
 /// @brief Map a user-friendly encoding name to the real encoding name
 	const char *get_real_encoding_name(const char *name) {
 		struct pair { const char *pretty; const char *real; };
@@ -115,26 +151,6 @@ namespace {
 			size_t srcSize = *inbytesleft;
 			cd(&src, &srcSize, &dst, &dstSize);
 		}
-	}
-
-	// Calculate the size of NUL in the given character set
-	size_t nul_size(const char *encoding) {
-		// We need a character set to convert from with a known encoding of NUL
-		// UTF-8 seems like the obvious choice
-		std::unique_ptr<Converter> cd(get_converter(false, "UTF-8", encoding));
-
-		char dbuff[4];
-		char sbuff[] = "";
-		char* dst = dbuff;
-		const char* src = sbuff;
-		size_t dstLen = sizeof(dbuff);
-		size_t srcLen = 1;
-
-		size_t ret = cd->Convert(&src, &srcLen, &dst, &dstLen);
-		assert(ret != iconv_failed);
-		assert(dst - dbuff > 0);
-
-		return dst - dbuff;
 	}
 
 #ifdef ICONV_POSIX
@@ -289,13 +305,10 @@ size_t Iconv::operator()(const char **inbuf, size_t *inbytesleft, char **outbuf,
 }
 
 IconvWrapper::IconvWrapper(const char* sourceEncoding, const char* destEncoding, bool enableSubst)
-: conv(get_converter(enableSubst, sourceEncoding, destEncoding))
-{
-	// These need to be set only after we verify that the source and dest
-	// charsets are valid
-	toNulLen = nul_size(destEncoding);
-	fromNulLen = nul_size(sourceEncoding);
-}
+: srcEncoding(sourceEncoding ? sourceEncoding : "")
+, dstEncoding(destEncoding ? destEncoding : "")
+, conv(get_converter(enableSubst, sourceEncoding, destEncoding))
+{ }
 
 IconvWrapper::~IconvWrapper() { }
 
@@ -392,28 +405,13 @@ size_t IconvWrapper::RequiredBufferSize(const char* src, size_t srcLen) {
 	return charsWritten;
 }
 
-static size_t mbstrlen(const char* str, size_t nulLen) {
-	const char *ptr;
-	switch (nulLen) {
-		case 1:
-			return strlen(str);
-		case 2:
-			for (ptr = str; *reinterpret_cast<const uint16_t *>(ptr) != 0; ptr += 2) ;
-			return ptr - str;
-		case 4:
-			for (ptr = str; *reinterpret_cast<const uint32_t *>(ptr) != 0; ptr += 4) ;
-			return ptr - str;
-		default:
-			return (size_t)-1;
-	}
-}
 
 size_t IconvWrapper::SrcStrLen(const char* str) {
-	return mbstrlen(str, fromNulLen);
-
+	return mbstrlen(str, get_nul_size(srcEncoding.c_str()));
 }
+
 size_t IconvWrapper::DstStrLen(const char* str) {
-	return mbstrlen(str, toNulLen);
+	return mbstrlen(str, get_nul_size(dstEncoding.c_str()));
 }
 
 bool IsConversionSupported(const char *src, const char *dst) {
