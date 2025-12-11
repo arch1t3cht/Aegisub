@@ -4,4 +4,3 @@ url = https://github.com/wxWidgets/wxWidgets.git
 revision = master
 clone-recursive = true
 depth = 1
-diff_files = wxWidgets-master/0001.patch
