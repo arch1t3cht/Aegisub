@@ -189,6 +189,14 @@ jobs:
           meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
           meson configure build
 
+      - name: Fix wxWidgets 3.3.1 meson build (Windows)
+        if: matrix.config.os == 'windows-latest' && contains(matrix.config.args, '3.3.1')
+        run: |
+          $mesonFile = "build\subprojects\wxWidgets-master\meson.build"
+          if (Test-Path $mesonFile) {
+            (Get-Content $mesonFile) -replace ',\s*soversion:\s*[^,\)]+', '' -replace ',\s*version:\s*[^,\)]+', '' | Set-Content $mesonFile
+          }
+
       - name: Build
         run: meson compile -C build
 
