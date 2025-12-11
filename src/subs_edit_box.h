@@ -45,13 +45,13 @@ class AssDialogue;
 class AssStyle;
 class RetinaHelper;
 class SubsTextEditCtrl;
+class SubsStyledTextEditCtrl;
 class TimeEdit;
 class wxButton;
 class wxCheckBox;
 class wxRadioButton;
 class wxSizer;
 class wxSpinCtrl;
-class wxStyledTextCtrl;
 class wxStyledTextEvent;
 class wxTextCtrl;
 struct AssDialogueBase;
@@ -140,7 +140,10 @@ class SubsEditBox final : public wxPanel {
 	wxComboBox *MakeComboBox(wxString const& initial_text, int style, void (SubsEditBox::*handler)(wxCommandEvent&), wxString const& tooltip);
 	wxRadioButton *MakeRadio(wxString const& text, bool start, wxString const& tooltip);
 
-	void OnChange(wxStyledTextEvent &event);
+#ifdef WITH_WXSTC
+	void OnChangeStc(wxStyledTextEvent &event);
+#endif
+	void OnChangeTc(wxCommandEvent& event);
 	void OnKeyDown(wxKeyEvent &event);
 
 	void OnActiveLineChanged(AssDialogue *new_line);
@@ -199,7 +202,11 @@ class SubsEditBox final : public wxPanel {
 
 	void SetDurationField();
 
-	SubsTextEditCtrl *edit_ctrl;
+#ifdef WITH_WXSTC
+	const bool use_stc;
+	SubsStyledTextEditCtrl *edit_ctrl_stc;
+#endif
+	SubsTextEditCtrl* edit_ctrl_tc;
 	wxTextCtrl *secondary_editor;
 
 public:

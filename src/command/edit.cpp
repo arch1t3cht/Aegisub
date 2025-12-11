@@ -234,6 +234,11 @@ struct parsed_line {
 			}
 		}
 
+		// Defensive: ensure orig_pos is within the bounds of the underlying
+		// string so subsequent substr/rfind calls cannot throw out_of_range.
+		if (orig_pos < 0) orig_pos = 0;
+		if (orig_pos > (int)line->Text.get().size()) orig_pos = (int)line->Text.get().size();
+
 		// If we didn't hit a suitable block for inserting the override just put
 		// it at the beginning of the line
 		if (blockn < 0)

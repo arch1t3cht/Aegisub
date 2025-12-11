@@ -62,8 +62,8 @@ struct Converter {
 
 /// @brief A C++ wrapper for iconv
 class IconvWrapper {
-	size_t toNulLen = 0;
-	size_t fromNulLen = 0;
+	std::string srcEncoding;
+	std::string dstEncoding;
 	std::unique_ptr<Converter> conv;
 
 public:

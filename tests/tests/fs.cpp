@@ -19,6 +19,9 @@
 
 #include <libaegisub/fs.h>
 
+#include <algorithm>
+#include <iterator>
+
 using namespace agi::fs;
 
 TEST(lagi_fs, exists) {

@@ -1,7 +1,7 @@
 project('Aegisub', ['c', 'cpp'],
         license: 'BSD-3-Clause',
         meson_version: '>=1.0.0',
-        default_options: ['cpp_std=c++17', 'buildtype=debugoptimized'],
+        default_options: ['cpp_std=c++20', 'buildtype=debugoptimized'],
         version: '3.2.2')
 
 cmake = import('cmake')
@@ -14,8 +14,8 @@ if host_machine.system() == 'windows'
         add_global_arguments('-DCSRI_NO_EXPORT', language: 'c')
     endif
 
-    sys_nasm = find_program('nasm', required: false)
-    if not sys_nasm.found()
+    if get_option('fallback_nasm') or \
+        not find_program('nasm', required: false).found()
         nasm = subproject('nasm').get_variable('nasm')
         meson.override_find_program('nasm', nasm)
     endif
@@ -76,7 +76,7 @@ if host_machine.system() == 'darwin'
     add_languages('objc', 'objcpp')
     add_project_arguments('-DGL_SILENCE_DEPRECATION', language: 'cpp')
     # meson neither supports objcpp_std nor inherits cpp_std https://github.com/mesonbuild/meson/issues/5495
-    add_project_arguments('-std=c++11', language: 'objcpp')
+    add_project_arguments('-std=c++20', language: 'objcpp')
 elif host_machine.system() != 'windows'
     conf.set('WITH_FONTCONFIG', 1)
     deps += dependency('fontconfig')
@@ -103,7 +103,7 @@ deps += dependency('libass', version: '>=0.9.7',
 
 boost_modules = ['chrono', 'filesystem', 'thread', 'locale', 'regex']
 if not get_option('local_boost')
-    boost_dep = dependency('boost', version: '>=1.70.0',
+    boost_dep = dependency('boost', version: '>=1.77.0',
                             modules: boost_modules + ['system'],
                             required: false,
                             static: get_option('default_library') == 'static')
@@ -115,6 +115,13 @@ if get_option('local_boost') or not boost_dep.found()
     foreach module: boost_modules
         boost_dep += boost.get_variable('boost_' + module + '_dep')
     endforeach
+endif
+
+if cc.get_argument_syntax() == 'gcc'
+  # Work around compile error in Boost GIL, can be removed once
+  # https://github.com/boostorg/gil/commit/2956a0e9ef71f5c4f3163c8b8d675679e0fbaaff
+  # is in a boost release that's available everywhere
+  add_project_arguments(cc.get_supported_arguments(['-Wno-missing-template-arg-list-after-template-kw']), language: 'cpp')
 endif
 
 deps += boost_dep
@@ -145,20 +152,21 @@ else
     endif
 
     opt_var = cmake.subproject_options()
-    opt_var.set_override_option('cpp_std', 'c++14')
+    opt_var.set_override_option('cpp_std', 'c++20')
     opt_var.add_cmake_defines({
+        'CMAKE_POLICY_VERSION_MINIMUM': '3.31',
+
         'wxBUILD_INSTALL': false,
         'wxBUILD_PRECOMP': 'OFF',       # otherwise breaks project generation w/ meson
         'wxBUILD_SHARED': build_shared,
 
         'wxUSE_WEBVIEW': false,         # breaks build on linux
-        'wxUSE_REGEX': 'builtin',
         'CMAKE_BUILD_TYPE': build_type,
         'wxUSE_IMAGE': true,
         'wxBUILD_MONOLITHIC': true      # otherwise breaks project generation w/ meson
     })
 
-    if get_option('wx_version').version_compare('>=3.3.0')
+    if get_option('wx_version').version_compare('>=3.3.1')
         wx = cmake.subproject('wxWidgets-master', options: opt_var)
     else
         wx = cmake.subproject('wxWidgets', options: opt_var)
@@ -170,7 +178,7 @@ else
         wx.dependency('wxscintilla')
     ]
 
-    if get_option('wx_version').version_compare('>=3.3.0')
+    if get_option('wx_version').version_compare('>=3.3.1')
         deps += [
             wx.dependency('wxlexilla')
         ]
@@ -415,6 +423,12 @@ if not get_option('csri').disabled() and host_machine.system() == 'windows'
 
     csri_sp = subproject('csri')
     deps += csri_sp.get_variable('csri_dep')
+endif
+
+if not get_option('wxstc').disabled()
+    conf.set('WITH_WXSTC', 1)
+elif get_option('wxstc').enabled()
+    error('wxstc enabled but wxWidgets stc module not available')
 endif
 
 acconf = configure_file(output: 'acconf.h', configuration: conf)

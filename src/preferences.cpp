@@ -209,6 +209,7 @@ void Interface(wxTreebook *book, Preferences *parent) {
 	auto p = new OptionPage(book, parent, _("Interface"));
 
 	auto edit_box = p->PageSizer(_("Edit Box"));
+	p->OptionAdd(edit_box, _("Use styled edit box"), "Subtitle/Use STC");
 	p->OptionAdd(edit_box, _("Enable call tips"), "App/Call Tips");
 	p->OptionAdd(edit_box, _("Overwrite in time boxes"), "Subtitle/Time Edit/Insert Mode");
 	p->OptionAdd(edit_box, _("Shift+Enter adds \\n"), "Subtitle/Edit Box/Soft Line Break");

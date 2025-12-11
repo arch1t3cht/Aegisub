@@ -118,6 +118,13 @@ aegisub_src = files(
     'subs_controller.cpp',
     'subs_edit_box.cpp',
     'subs_edit_ctrl.cpp',
+)
+
+if conf.has('WITH_WXSTC')
+    aegisub_src += files('subs_edit_ctrl_stc.cpp')
+endif
+
+aegisub_src += files(
     'subs_preview.cpp',
     'subtitle_format.cpp',
     'subtitle_format_ass.cpp',
