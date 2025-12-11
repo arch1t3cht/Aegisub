@@ -1,8 +1,18 @@
 project('Aegisub', ['c', 'cpp'],
         license: 'BSD-3-Clause',
         meson_version: '>=1.0.0',
-        default_options: ['cpp_std=c++17', 'buildtype=debugoptimized'],
-        version: '3.2.2')
+        default_options: [
+            'b_ndebug=if-release',
+            'cpp_std=c++20',
+            'buildtype=debugoptimized',
+            'harfbuzz:icu=disabled',
+            'ffmpeg:libdav1d=enabled',
+            'luajit:default_library=static',
+            'luajit:amalgam=true',
+            'luajit:lua52compat=true',
+            'luajit:luajit=false',
+        ],
+        version: '3.2.3')
 
 cmake = import('cmake')
 
@@ -76,7 +86,7 @@ if host_machine.system() == 'darwin'
     add_languages('objc', 'objcpp')
     add_project_arguments('-DGL_SILENCE_DEPRECATION', language: 'cpp')
     # meson neither supports objcpp_std nor inherits cpp_std https://github.com/mesonbuild/meson/issues/5495
-    add_project_arguments('-std=c++11', language: 'objcpp')
+    add_project_arguments('-std=c++20', language: 'objcpp')
 elif host_machine.system() != 'windows'
     conf.set('WITH_FONTCONFIG', 1)
     deps += dependency('fontconfig')
@@ -103,7 +113,7 @@ deps += dependency('libass', version: '>=0.9.7',
 
 boost_modules = ['chrono', 'filesystem', 'thread', 'locale', 'regex']
 if not get_option('local_boost')
-    boost_dep = dependency('boost', version: '>=1.70.0',
+    boost_dep = dependency('boost', version: '>=1.77.0',
                             modules: boost_modules + ['system'],
                             required: false,
                             static: get_option('default_library') == 'static')
@@ -152,14 +162,15 @@ else
     endif
 
     opt_var = cmake.subproject_options()
-    opt_var.set_override_option('cpp_std', 'c++14')
+    opt_var.set_override_option('cpp_std', 'c++20')
     opt_var.add_cmake_defines({
+        'CMAKE_POLICY_VERSION_MINIMUM': '3.31',
+
         'wxBUILD_INSTALL': false,
         'wxBUILD_PRECOMP': 'OFF',       # otherwise breaks project generation w/ meson
         'wxBUILD_SHARED': build_shared,
 
         'wxUSE_WEBVIEW': false,         # breaks build on linux
-        'wxUSE_REGEX': 'builtin',
         'CMAKE_BUILD_TYPE': build_type,
         'wxUSE_IMAGE': true,
         'wxBUILD_MONOLITHIC': true      # otherwise breaks project generation w/ meson
