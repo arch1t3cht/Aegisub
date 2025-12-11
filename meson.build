@@ -1,18 +1,8 @@
 project('Aegisub', ['c', 'cpp'],
         license: 'BSD-3-Clause',
         meson_version: '>=1.0.0',
-        default_options: [
-            'b_ndebug=if-release',
-            'cpp_std=c++20',
-            'buildtype=debugoptimized',
-            'harfbuzz:icu=disabled',
-            'ffmpeg:libdav1d=enabled',
-            'luajit:default_library=static',
-            'luajit:amalgam=true',
-            'luajit:lua52compat=true',
-            'luajit:luajit=false',
-        ],
-        version: '3.2.3')
+        default_options: ['cpp_std=c++20', 'buildtype=debugoptimized'],
+        version: '3.2.2')
 
 cmake = import('cmake')
 
