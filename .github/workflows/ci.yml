@@ -69,7 +69,7 @@ jobs:
               -Dbestsource=enabled
               -Dvapoursynth=enabled
               -Dwxstc=enabled
-              -Dwx_version='3.3.1'
+              -Dwx_version='v3.3.1'
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
