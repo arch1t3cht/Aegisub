@@ -42,6 +42,7 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include <algorithm>
+#include <limits>
 
 VisualToolBase::VisualToolBase(VideoDisplay *parent, agi::Context *context)
 : c(context)
@@ -566,10 +567,10 @@ std::pair<Vector2D, Vector2D> VisualToolBase::GetLineBaseExtents(AssDialogue *di
 		if (!spline.size())
 			return std::make_pair(Vector2D(0, 0), Vector2D(0, 0));
 
-		float left = FLT_MAX;
-		float top = FLT_MAX;
-		float right = -FLT_MAX;
-		float bot = -FLT_MAX;
+		float left = std::numeric_limits<float>::max();
+		float top = std::numeric_limits<float>::max();
+		float right = -std::numeric_limits<float>::max();
+		float bot = -std::numeric_limits<float>::max();
 
 		for (SplineCurve curve : spline) {
 			for (Vector2D pt : curve.AnchorPoints()) {
