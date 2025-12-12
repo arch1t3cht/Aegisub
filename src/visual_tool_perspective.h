@@ -23,6 +23,7 @@
 #include "visual_tool.h"
 #include "options.h"
 
+class wxCommandEvent;
 class wxToolBar;
 
 /// Button IDs
