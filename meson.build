@@ -179,7 +179,8 @@ else
     deps += [
         wx.dependency('wxmono'),
         wx.dependency('wxregex'),
-        wx.dependency('wxscintilla')
+        wx.dependency('wxscintilla'),
+        wx.dependency('wxlexilla'),
     ]
 
     if host_machine.system() == 'windows' or host_machine.system() == 'darwin'
