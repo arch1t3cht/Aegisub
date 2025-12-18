@@ -93,6 +93,8 @@ class VisualToolPerspective final : public VisualTool<VisualToolPerspectiveDragg
 	std::vector<Feature *> inner_corners;
 	std::vector<Feature *> outer_corners;
 
+	float screenZ() const;
+
 	std::vector<Vector2D> FeaturePositions(std::vector<Feature *> features) const;
     void UpdateInner();
     void UpdateOuter();
