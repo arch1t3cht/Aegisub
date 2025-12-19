@@ -79,12 +79,6 @@ bool AegisubLocale::HasLanguage(std::string const& language) {
 }
 
 std::string AegisubLocale::PickLanguage() {
-	if (active_language.empty()) {
-		wxString os_ui_language = GetTranslations()->GetBestTranslation(AEGISUB_CATALOG);
-		if (!os_ui_language.empty())
-			return from_wx(os_ui_language);
-	}
-
 	wxArrayString langs = GetTranslations()->GetAvailableTranslations(AEGISUB_CATALOG);
 
 	// No translations available, so don't bother asking the user
