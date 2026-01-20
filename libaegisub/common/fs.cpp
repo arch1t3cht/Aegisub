@@ -19,7 +19,10 @@
 #include "libaegisub/access.h"
 #include "libaegisub/log.h"
 
+#include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
+#include <cctype>
+#include <string_view>
 #include <system_error>
 
 namespace sfs = std::filesystem;
@@ -110,6 +113,63 @@ void check_error(std::error_code ec, const char *exp, path const& src_path, path
 		if (filename.size() < ext.size() + 1) return false;
 		if (filename[filename.size() - ext.size() - 1] != '.') return false;
 		return boost::iends_with(filename, ext);
+	}
+
+	std::string SanitizeBasename(std::string_view input) {
+		if (input.empty()) return {};
+
+		std::string name(input);
+		if (auto pos = name.find_last_of("/\\"); pos != std::string::npos)
+			name.erase(0, pos + 1);
+
+		while (!name.empty() && (name.back() == ' ' || name.back() == '.'))
+			name.pop_back();
+
+		if (name.empty() || name == "." || name == "..") return {};
+
+		std::string out;
+		out.reserve(name.size());
+		for (unsigned char c : name) {
+			if (c <= 0x1F || c == 0x7F) {
+				out.push_back('_');
+				continue;
+			}
+
+			switch (c) {
+				case '<': case '>': case ':': case '"':
+				case '/': case '\\': case '|': case '?': case '*':
+					out.push_back('_');
+					break;
+				default:
+					out.push_back(static_cast<char>(c));
+					break;
+			}
+		}
+
+		while (!out.empty() && (out.back() == ' ' || out.back() == '.'))
+			out.pop_back();
+
+		if (out.empty() || out == "." || out == "..") return {};
+
+		auto stem = out;
+		if (auto dot = stem.find('.'); dot != std::string::npos)
+			stem.erase(dot);
+
+		std::transform(stem.begin(), stem.end(), stem.begin(), [](unsigned char c) {
+			return static_cast<char>(std::toupper(c));
+		});
+
+		auto is_reserved = [&](std::string_view s) {
+			if (s == "CON" || s == "PRN" || s == "AUX" || s == "NUL") return true;
+			if (s.size() == 4 && s.substr(0, 3) == "COM" && s[3] >= '1' && s[3] <= '9') return true;
+			if (s.size() == 4 && s.substr(0, 3) == "LPT" && s[3] >= '1' && s[3] <= '9') return true;
+			return false;
+		};
+
+		if (is_reserved(stem))
+			out.insert(out.begin(), '_');
+
+		return out;
 	}
 
 	agi::fs::path CurrentPath() {

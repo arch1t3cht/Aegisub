@@ -24,6 +24,7 @@
 #include <iterator>
 #include <memory>
 #include <string>
+#include <string_view>
 
 #undef CreateDirectory
 
@@ -208,6 +209,13 @@ bool Remove(path const& file);
 /// @param p Path to check
 /// @param ext Case-insensitive extension, without leading dot
 bool HasExtension(path const& p, std::string const& ext);
+
+/// Sanitize an untrusted filename into a safe, single path component (basename).
+///
+/// - Strips directory components (both '/' and '\\').
+/// - Replaces characters invalid on Windows with '_' for portability.
+/// - Returns an empty string if no usable name remains.
+std::string SanitizeBasename(std::string_view input);
 
 [[nodiscard]] path Canonicalize(path const& path);
 [[nodiscard]] path Absolute(path const& path);

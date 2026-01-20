@@ -145,6 +145,17 @@ TEST(lagi_fs, has_extension) {
 	EXPECT_FALSE(HasExtension("foo.tar.gz", "tar"));
 }
 
+TEST(lagi_fs, sanitize_basename) {
+	EXPECT_EQ("evil.txt", SanitizeBasename("..\\..\\evil.txt"));
+	EXPECT_EQ("evil.txt", SanitizeBasename("../../evil.txt"));
+	EXPECT_EQ("evil.txt", SanitizeBasename("C:\\evil.txt"));
+	EXPECT_EQ("evil.txt", SanitizeBasename("\\\\server\\share\\evil.txt"));
+	EXPECT_EQ("safe.ttf", SanitizeBasename("safe.ttf"));
+	EXPECT_EQ("safe.ttf", SanitizeBasename("folder\\safe.ttf"));
+	EXPECT_EQ("", SanitizeBasename(".."));
+	EXPECT_EQ("_CON.txt", SanitizeBasename("CON.txt"));
+}
+
 TEST(lagi_fs, dir_iterator_bad_directory) {
 	std::vector<std::string> files;
 	ASSERT_NO_THROW(DirectoryIterator("data/nonexistent", "*.*").GetAll(files));

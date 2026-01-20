@@ -35,12 +35,16 @@
 #include "options.h"
 #include "utils.h"
 
+#include <libaegisub/format.h>
+
 #include <wx/button.h>
 #include <wx/dialog.h>
 #include <wx/filedlg.h>
 #include <wx/dirdlg.h>
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
+
+#include <set>
 
 namespace {
 struct DialogAttachments {
@@ -153,31 +157,85 @@ void DialogAttachments::OnAttachGraphics(wxCommandEvent &) {
 }
 
 void DialogAttachments::OnExtract(wxCommandEvent &) {
-	long i = listView->GetFirstSelected();
-	if (i == -1) return;
+	std::vector<long> selection;
+	for (auto i = listView->GetFirstSelected(); i != -1; i = listView->GetNextSelected(i))
+		selection.push_back(i);
+	if (selection.empty()) return;
 
-	agi::fs::path path;
-	bool fullPath = false;
+	const bool multi = selection.size() > 1;
 
-	// Multiple or single?
-	if (listView->GetNextSelected(i) != -1)
-		path = wxDirSelector(_("Select the path to save the files to:"), to_wx(OPT_GET("Path/Fonts Collector Destination")->GetString())).utf8_str().data();
+	agi::fs::path base;
+	if (multi) {
+		base = wxDirSelector(_("Select the path to save the files to:"), to_wx(OPT_GET("Path/Fonts Collector Destination")->GetString())).utf8_str().data();
+		if (base.empty()) return;
+	}
 	else {
-		path = SaveFileSelector(
+		auto const& attach = ass->Attachments[selection.front()];
+		auto const& original_name = attach.GetFileName();
+		auto safe_default = agi::fs::SanitizeBasename(original_name);
+		if (safe_default.empty())
+			safe_default = "attachment" + agi::fs::path(original_name).extension().string();
+
+		base = SaveFileSelector(
 			_("Select the path to save the file to:"),
 			"Path/Fonts Collector Destination",
-			ass->Attachments[i].GetFileName(),
+			safe_default,
 			"", from_wx(_("All Supported Formats") + " (*.bmp, *.gif, *.jpg, *.ico, *.ttf, *.wmf)|*.bmp;*.gif;*.jpg;*.ico;*.ttf;*.wmf|" +  _("Font Files") + " (*.ttf)|*.ttf|" + _("Graphic Files") + " (*.bmp, *.gif, *.jpg, *.ico, *.wmf)|*.bmp;*.gif;*.jpg;*.ico;*.wmf"),
 			&d);
-		fullPath = true;
+		if (base.empty()) return;
 	}
-	if (path.empty()) return;
 
-	// Loop through items in list
-	while (i != -1) {
-		auto& attach = ass->Attachments[i];
-		attach.Extract(fullPath ? path : path/attach.GetFileName());
-		i = listView->GetNextSelected(i);
+	std::vector<agi::fs::path> out_paths;
+	out_paths.reserve(selection.size());
+	std::vector<std::pair<std::string, std::string>> renamed;
+
+	if (multi) {
+		std::set<std::string> used;
+		auto make_unique = [&](agi::fs::path p) {
+			auto stem = p.stem().string();
+			auto ext = p.extension().string();
+			for (int n = 1; agi::fs::Exists(p) || !used.emplace(p.string()).second; ++n) {
+				p = p.parent_path() / agi::format("%s (%d)%s", stem, n, ext);
+			}
+			return p;
+		};
+
+		for (size_t n = 0; n < selection.size(); ++n) {
+			auto const& attach = ass->Attachments[selection[n]];
+			auto const& original_name = attach.GetFileName();
+
+			auto safe = agi::fs::SanitizeBasename(original_name);
+			if (safe.empty())
+				safe = agi::format("attachment_%d%s", static_cast<int>(n + 1), agi::fs::path(original_name).extension().string());
+
+			auto out = make_unique(base / safe);
+			out_paths.push_back(out);
+
+			auto final_name = out.filename().string();
+			if (final_name != original_name)
+				renamed.emplace_back(original_name, final_name);
+		}
+
+		if (!renamed.empty()) {
+			wxString msg = _("Some attachment filenames were unsafe or conflicted with existing files, and will be changed:");
+			msg += "\n\n";
+
+			constexpr size_t max_lines = 25;
+			for (size_t i = 0; i < renamed.size() && i < max_lines; ++i)
+				msg += to_wx(agi::format("%s -> %s\n", renamed[i].first, renamed[i].second));
+			if (renamed.size() > max_lines)
+				msg += to_wx(agi::format("... (%d more)\n", static_cast<int>(renamed.size() - max_lines)));
+
+			wxMessageDialog dlg(&d, msg, _("Unsafe filenames"), wxOK | wxCANCEL | wxICON_WARNING);
+			dlg.SetOKLabel(_("Extract"));
+			dlg.SetCancelLabel(_("Cancel"));
+			if (dlg.ShowModal() != wxID_OK) return;
+		}
+	}
+
+	for (size_t n = 0; n < selection.size(); ++n) {
+		auto const& attach = ass->Attachments[selection[n]];
+		attach.Extract(multi ? out_paths[n] : base);
 	}
 }
 
