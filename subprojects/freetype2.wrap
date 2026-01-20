@@ -1,7 +1,7 @@
 [wrap-git]
 directory = freetype2
 url = https://gitlab.freedesktop.org/freetype/freetype.git
-revision = master
+revision = 95db5da7c63eb3d530807cd5b102a50c50c25806
 
 [provide]
 freetype = freetype_dep
