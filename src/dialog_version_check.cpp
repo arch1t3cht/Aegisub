@@ -44,6 +44,7 @@
 #include <ctime>
 #include <curl/curl.h>
 #include <functional>
+#include <memory>
 #include <mutex>
 #include <sstream>
 #include <vector>
@@ -281,9 +282,18 @@ static wxString GetAegisubLanguage() {
 	return to_wx(OPT_GET("App/Language")->GetString());
 }
 
-size_t writeToStringCb(char *contents, size_t size, size_t nmemb, std::string *s) {
-	s->append(contents, size * nmemb);
-	return size * nmemb;
+struct CurlStringSink {
+	std::string *out;
+	size_t limit;
+};
+
+size_t writeToStringCb(char *contents, size_t size, size_t nmemb, void *userdata) {
+	auto *sink = static_cast<CurlStringSink *>(userdata);
+	const size_t total = size * nmemb;
+	if (sink->out->size() + total > sink->limit)
+		return 0;
+	sink->out->append(contents, total);
+	return total;
 }
 
 void DoCheck(bool interactive) {
@@ -294,22 +304,45 @@ void DoCheck(bool interactive) {
 	if (!curl)
 		throw VersionCheckError(from_wx(_("Curl could not be initialized.")));
 
-	curl_easy_setopt(curl, CURLOPT_URL,
-		agi::format("%s%s?rev=%d&rel=%d&os=%s&lang=%s&aegilang=%s"
-			, UPDATE_CHECKER_SERVER
-			, UPDATE_CHECKER_BASE_URL
-			, GetSVNRevision()
-			, (GetIsOfficialRelease() ? 1 : 0)
-			, GetOSShortName()
-			, GetSystemLanguage()
-			, GetAegisubLanguage()
-		).c_str());
+	auto escape = [&](std::string const& s) -> std::unique_ptr<char, decltype(&curl_free)> {
+		return {curl_easy_escape(curl, s.c_str(), static_cast<int>(s.size())), &curl_free};
+	};
+
+	auto os = escape(GetOSShortName());
+	auto lang = escape(from_wx(GetSystemLanguage()));
+	auto aegilang = escape(from_wx(GetAegisubLanguage()));
+	if (!os || !lang || !aegilang) {
+		curl_easy_cleanup(curl);
+		throw VersionCheckError(from_wx(_("Could not URL-encode update check parameters.")));
+	}
+
+	auto url = agi::format("%s%s?rev=%d&rel=%d&os=%s&lang=%s&aegilang=%s",
+		UPDATE_CHECKER_SERVER,
+		UPDATE_CHECKER_BASE_URL,
+		GetSVNRevision(),
+		(GetIsOfficialRelease() ? 1 : 0),
+		os.get(),
+		lang.get(),
+		aegilang.get());
+
+	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
+#ifdef CURLOPT_PROTOCOLS_STR
+	curl_easy_setopt(curl, CURLOPT_PROTOCOLS_STR, "https");
+	curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS_STR, "https");
+#else
+	curl_easy_setopt(curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+	curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
+#endif
+	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 5000L);
+	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 15000L);
 	curl_easy_setopt(curl, CURLOPT_USERAGENT, agi::format("Aegisub %s", GetAegisubLongVersionString()).c_str());
 
 	std::string result;
+	CurlStringSink sink{&result, 1024 * 1024};
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeToStringCb);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &sink);
 
 	res_code = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
