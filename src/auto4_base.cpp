@@ -31,6 +31,7 @@
 
 #include "ass_file.h"
 #include "ass_style.h"
+#include "automation_trust.h"
 #include "compat.h"
 #include "dialog_progress.h"
 #include "format.h"
@@ -50,6 +51,7 @@
 
 #include <wx/dcmemory.h>
 #include <wx/log.h>
+#include <wx/msgdlg.h>
 #include <wx/sizer.h>
 
 #ifdef __WINDOWS__
@@ -375,7 +377,25 @@ namespace Automation4 {
 			return;
 		}
 
+		if (OPT_GET("Automation/Trust/Disable Local Scripts")->GetBool()) {
+			wxLogWarning(_("Subtitle-local Automation scripts are disabled.\nYou can re-enable them in Preferences -> Automation."));
+			ScriptsChanged();
+			return;
+		}
+
+		auto trusted = automation_trust::ParseTrustedKeys(OPT_GET("Automation/Trust/Trusted Paths")->GetString());
+		auto project_key = automation_trust::MakeProjectDirKey(context->subsController->Filename().parent_path());
+
 		auto autobasefn(OPT_GET("Path/Automation/Base")->GetString());
+
+		struct ScriptRef {
+			agi::fs::path path;
+			std::string trust_key;
+			char location_spec;
+		};
+		std::vector<ScriptRef> refs;
+		std::set<std::string> trust_keys_for_prompt;
+		std::vector<agi::fs::path> untrusted_paths;
 
 		for (auto tok : agi::Split(local_scripts, '|')) {
 			tok = agi::Trim(tok);
@@ -395,12 +415,68 @@ namespace Automation4 {
 				continue;
 			}
 			auto sfname = basepath/trimmed;
-			if (agi::fs::FileExists(sfname))
-				scripts.emplace_back(Automation4::ScriptFactory::CreateFromFile(sfname, true));
-			else {
+
+			if (!agi::fs::FileExists(sfname)) {
 				wxLogWarning(fmt_tl("Automation Script referenced could not be found.\nFilename specified: %c%s\nSearched relative to: %s\nResolved filename: %s",
 					first_char, to_wx(trimmed), basepath.wstring(), sfname.wstring()));
+				continue;
 			}
+
+			std::string trust_key;
+			if (first_char == '~')
+				trust_key = project_key;
+			else if (first_char == '/')
+				trust_key = automation_trust::MakeScriptFileKey(sfname);
+
+			refs.push_back(ScriptRef{sfname, trust_key, first_char});
+			const bool needs_trust = (first_char == '~' || first_char == '/') &&
+				(trust_key.empty() || !trusted.count(trust_key));
+			if (needs_trust) {
+				untrusted_paths.push_back(sfname);
+				if (!trust_key.empty())
+					trust_keys_for_prompt.insert(trust_key);
+			}
+		}
+
+		bool allow_untrusted = false;
+		if (!untrusted_paths.empty()) {
+			wxString msg = _("This subtitle references Automation scripts from untrusted locations.\n\nScripts can run code on load.\n\nAllow loading these scripts?");
+			msg += "\n\n";
+			msg += _("Scripts:");
+			msg += "\n";
+
+			constexpr size_t max_lines = 15;
+			for (size_t i = 0; i < untrusted_paths.size() && i < max_lines; ++i)
+				msg += " - " + to_wx(untrusted_paths[i].string()) + "\n";
+			if (untrusted_paths.size() > max_lines)
+				msg += to_wx(agi::format("... (%d more)\n", static_cast<int>(untrusted_paths.size() - max_lines)));
+
+			wxMessageDialog dlg(context->parent, msg, _("Automation script trust"), wxYES_NO | wxCANCEL | wxICON_WARNING);
+			dlg.SetYesNoCancelLabels(_("Allow once"), _("Always trust"), _("Disable scripts"));
+			const int res = dlg.ShowModal();
+			if (res == wxID_CANCEL) {
+				OPT_SET("Automation/Trust/Disable Local Scripts")->SetBool(true);
+				ScriptsChanged();
+				return;
+			}
+			if (res == wxID_NO) {
+				for (auto const& k : trust_keys_for_prompt)
+					trusted.insert(k);
+				OPT_SET("Automation/Trust/Trusted Paths")->SetString(automation_trust::SerializeTrustedKeys(trusted));
+				allow_untrusted = true;
+			}
+			else {
+				allow_untrusted = true;
+			}
+		}
+
+		for (auto const& r : refs) {
+			const bool is_untrusted = (r.location_spec == '~' || r.location_spec == '/') &&
+				(r.trust_key.empty() || !trusted.count(r.trust_key));
+			if (is_untrusted && !allow_untrusted)
+				continue;
+
+			scripts.emplace_back(Automation4::ScriptFactory::CreateFromFile(r.path, true));
 		}
 
 		ScriptsChanged();

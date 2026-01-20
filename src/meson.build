@@ -29,6 +29,7 @@ aegisub_src = files(
     'audio_timing_dialogue.cpp',
     'audio_timing_karaoke.cpp',
     'auto4_base.cpp',
+    'automation_trust.cpp',
     'auto4_lua.cpp',
     'auto4_lua_assfile.cpp',
     'auto4_lua_dialog.cpp',

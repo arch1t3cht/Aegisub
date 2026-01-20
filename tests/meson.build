@@ -16,6 +16,7 @@ tests_src = [
     'support/util.cpp',
 
     '../src/string_codec.cpp',
+    '../src/automation_trust.cpp',
 
     'tests/access.cpp',
     'tests/audio.cpp',
@@ -42,6 +43,7 @@ tests_src = [
     'tests/thesaurus.cpp',
     'tests/time.cpp',
     'tests/type_name.cpp',
+    'tests/automation_trust.cpp',
     'tests/string_codec.cpp',
     'tests/util.cpp',
     'tests/uuencode.cpp',
