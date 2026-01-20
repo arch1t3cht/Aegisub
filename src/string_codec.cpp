@@ -52,16 +52,35 @@ std::string inline_string_encode(std::string_view input) {
 }
 
 std::string inline_string_decode(std::string_view input) {
+	auto hexval = [](unsigned char c) -> int {
+		if (c >= '0' && c <= '9') return c - '0';
+		if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
+		if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+		return -1;
+	};
+
 	std::string output;
 	output.reserve(input.size());
 	for (size_t i = 0; i < input.size(); ++i) {
-		if (input[i] != '#' || i + 2 > input.size())
+		if (input[i] != '#') {
 			output += input[i];
-		else {
-			char buff[] = {input[i], input[i + 1], 0};
-			output += (char)strtol(buff, nullptr, 16);
-			i += 2;
+			continue;
 		}
+
+		if (i + 2 >= input.size()) {
+			output += input[i];
+			continue;
+		}
+
+		const int hi = hexval(static_cast<unsigned char>(input[i + 1]));
+		const int lo = hexval(static_cast<unsigned char>(input[i + 2]));
+		if (hi < 0 || lo < 0) {
+			output += input[i];
+			continue;
+		}
+
+		output += static_cast<char>((hi << 4) | lo);
+		i += 2;
 	}
 	return output;
 }

@@ -15,6 +15,8 @@ tests_src = [
     'support/main.cpp',
     'support/util.cpp',
 
+    '../src/string_codec.cpp',
+
     'tests/access.cpp',
     'tests/audio.cpp',
     'tests/cajun.cpp',
@@ -40,13 +42,14 @@ tests_src = [
     'tests/thesaurus.cpp',
     'tests/time.cpp',
     'tests/type_name.cpp',
+    'tests/string_codec.cpp',
     'tests/util.cpp',
     'tests/uuencode.cpp',
     'tests/vfr.cpp',
     'tests/word_split.cpp',
 ]
 
-tests_inc = include_directories('support')
+tests_inc = include_directories('support', '../src')
 
 tests_args = []
 
