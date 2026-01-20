@@ -98,18 +98,25 @@ jobs:
       - name: Install dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
         run: |
-          choco install ninja innosetup
+          choco install --no-progress --limit-output `
+            ninja --version=1.13.2 `
+            innosetup --version=6.7.0 `
+            7zip --version=25.1.0
 
+          $moonscriptSha256 = "6C8A255A46A6805F5582FB03771A7289CB5BA79A83781F56EE5EE93D3EF489FC"
           $moonscripturl = "https://github.com/leafo/moonscript/releases/download/win32-v0.5.0/moonscript-187bac54ee5a7450013e9c38e005a0e671b76f45.zip"
           mkdir moonscript
           Invoke-WebRequest -Uri $moonscripturl -OutFile ".\moonscript\moonscript.zip"
+          if ((Get-FileHash ".\moonscript\moonscript.zip" -Algorithm SHA256).Hash -ne $moonscriptSha256) { throw "MoonScript zip hash mismatch" }
           pushd moonscript
           7z e moonscript.zip
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           popd
 
+          $gettextSha256 = "13090ADABC3146951CD6BDE80A9EA5435B16317577063FA8F2BB747FD1E9988F"
           $gettexturl = "https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.26-v1.17/gettext0.26-iconv1.17-static-64.zip"
           Invoke-WebRequest -Uri $gettexturl -OutFile ".\gettext.zip"
+          if ((Get-FileHash ".\gettext.zip" -Algorithm SHA256).Hash -ne $gettextSha256) { throw "gettext zip hash mismatch" }
           Expand-Archive ".\gettext.zip" -DestinationPath gettext
           pushd gettext/bin
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
