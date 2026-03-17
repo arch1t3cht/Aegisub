@@ -33,6 +33,7 @@
 
 #include <libaegisub/fs.h>
 #include <libaegisub/signal.h>
+#include <libaegisub/ycbcr.h>
 
 #include <boost/intrusive/list.hpp>
 #include <map>
@@ -142,6 +143,8 @@ public:
 	std::string_view GetScriptInfo(std::string_view key) const;
 	/// Set the value of a [Script Info] key. Adds it if it doesn't exist.
 	void SetScriptInfo(std::string_view key, std::string_view value);
+	/// Get the parsed value of the YCbCr Matrix header
+	agi::ycbcr::Header GetYCbCrMatrix() const;
 
 	/// @brief Add a new extradata entry
 	/// @param key Class identifier/owner for the extradata
