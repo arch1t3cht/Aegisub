@@ -306,11 +306,24 @@ struct video_focus_seek final : public validator_video_loaded {
 
 wxImage get_image(agi::Context *c, bool raw, bool subsonly = false) {
 	auto frame = c->videoController->GetFrameN();
+    wxImage img;
     if (subsonly) {
-        return GetImageWithAlpha(c->project->VideoProvider()->GetSubtitles(c->project->Timecodes().TimeAtFrame(frame)));
+        img = GetImageWithAlpha(c->project->VideoProvider()->GetSubtitles(c->project->Timecodes().TimeAtFrame(frame)));
     } else {
-        return GetImage(*c->project->VideoProvider()->GetFrame(frame, c->project->Timecodes().TimeAtFrame(frame), raw));
+        img = GetImage(*c->project->VideoProvider()->GetFrame(frame, c->project->Timecodes().TimeAtFrame(frame), raw));
     }
+
+	// Frames are decoded at the storage resolution, which isn't the display
+	// resolution when the pixels aren't square. Match VideoDisplay: keep the
+	// height, derive the width from the display aspect ratio.
+	if (c->videoController->GetAspectRatioType() != AspectRatio::Default) {
+		int height = img.GetHeight();
+		int width = static_cast<int>(height * c->videoController->GetAspectRatioValue() + 0.5);
+		if (width > 0 && width != img.GetWidth())
+			img.Rescale(width, height, wxIMAGE_QUALITY_HIGH);
+	}
+
+	return img;
 }
 
 struct video_frame_copy final : public validator_video_loaded {
