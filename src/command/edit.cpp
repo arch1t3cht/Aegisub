@@ -235,6 +235,10 @@ struct parsed_line {
 			}
 		}
 
+		// Defensive: ensure orig_pos is within the bounds of the underlying
+		// string so subsequent substr/rfind calls cannot throw out_of_range.
+		if (orig_pos < 0) orig_pos = 0;
+		if (orig_pos > (int)line->Text.get().size()) orig_pos = (int)line->Text.get().size();
 		// If we didn't hit a suitable block for inserting the override just put
 		// it at the beginning of the line
 		if (blockn < 0)
@@ -1266,6 +1270,32 @@ struct edit_insert_original final : public Command {
 	}
 };
 
+struct edit_toggle_rtl_mode final : public Command {
+	CMD_NAME("edit/toggle_rtl_mode")
+	STR_HELP("Toggle between right-to-left and left-to-right direction for the subtitle grid and editor")
+	CMD_TYPE(COMMAND_VALIDATE | COMMAND_DYNAMIC_NAME)
+
+	wxString StrMenu(const agi::Context *) const override {
+		return OPT_GET("Subtitle/Grid/RTL Mode")->GetBool() ?
+			_("Switch to &LTR Mode") : _("Switch to &RTL Mode");
+	}
+
+	wxString StrDisplay(const agi::Context *) const override {
+		return OPT_GET("Subtitle/Grid/RTL Mode")->GetBool() ?
+			_("Switch to LTR Mode") : _("Switch to RTL Mode");
+	}
+
+	bool Validate(const agi::Context *) override {
+		return true;
+	}
+
+	void operator()(agi::Context *) override {
+		bool rtl_mode = !OPT_GET("Subtitle/Grid/RTL Mode")->GetBool();
+		OPT_SET("Subtitle/Grid/RTL Mode")->SetBool(rtl_mode);
+		OPT_SET("Subtitle/Edit Box/RTL Mode")->SetBool(rtl_mode);
+	}
+};
+
 }
 
 namespace cmd {
@@ -1300,6 +1330,7 @@ namespace cmd {
 		reg(std::make_unique<edit_undo>());
 		reg(std::make_unique<edit_revert>());
 		reg(std::make_unique<edit_insert_original>());
+		reg(std::make_unique<edit_toggle_rtl_mode>());
 		reg(std::make_unique<edit_clear>());
 		reg(std::make_unique<edit_clear_text>());
 	}
