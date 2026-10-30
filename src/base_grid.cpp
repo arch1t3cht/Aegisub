@@ -54,6 +54,8 @@
 #include <wx/menu.h>
 #include <wx/scrolbar.h>
 #include <wx/sizer.h>
+#include <wx/textctrl.h>
+#include <wx/stc/stc.h>
 
 // Check menu.h for id range allocation before editing this enum
 enum {
@@ -85,6 +87,11 @@ BaseGrid::BaseGrid(wxWindow* parent, agi::Context *context)
 	}
 
 	UpdateStyle();
+
+	// Apply RTL mode from config
+	SetLayoutDirection(OPT_GET("Subtitle/Grid/RTL Mode")->GetBool() ?
+		wxLayout_RightToLeft : wxLayout_LeftToRight);
+
 	OnHighlightVisibleChange(*OPT_GET("Subtitle/Grid/Highlight Subtitles in Frame"));
 
 	connections = agi::signal::make_vector({
@@ -112,6 +119,10 @@ BaseGrid::BaseGrid(wxWindow* parent, agi::Context *context)
 
 		OPT_SUB("Subtitle/Grid/Highlight Subtitles in Frame", &BaseGrid::OnHighlightVisibleChange, this),
 		OPT_SUB("Subtitle/Grid/Hide Overrides", [&](agi::OptionValue const&) { Refresh(false); }),
+		OPT_SUB("Subtitle/Grid/RTL Mode", [&](agi::OptionValue const& opt) {
+			SetLayoutDirection(opt.GetBool() ? wxLayout_RightToLeft : wxLayout_LeftToRight);
+			Refresh(false);
+		}),
 	});
 
 	Bind(wxEVT_CONTEXT_MENU, &BaseGrid::OnContextMenu, this);
@@ -226,6 +237,34 @@ void BaseGrid::OnActiveLineChanged(AssDialogue *new_active) {
 		if (new_active->Row != active_row)
 			MakeRowVisible(new_active->Row);
 		extendRow = active_row = new_active->Row;
+		// On Ubuntu and macOS, auto-sync grid RTL mode with edit controls
+		// wxWidgets auto-detects RTL for text controls, so we sync the grid to match
+#if defined(__WXGTK__) || defined(__WXMAC__)
+		// Check if there's an edit box in the context and sync RTL mode
+		if (context && context->parent) {
+			// Try to find the editor from parent widget's children
+			wxWindow *editor = nullptr;
+			for (wxWindow *win : context->parent->GetChildren()) {
+				// Look for text edit controls
+				if (dynamic_cast<wxTextCtrl*>(win) || dynamic_cast<wxStyledTextCtrl*>(win)) {
+					editor = win;
+					break;
+				}
+			}
+			
+			if (editor) {
+				wxLayoutDirection editor_dir = editor->GetLayoutDirection();
+				bool grid_rtl = (GetLayoutDirection() == wxLayout_RightToLeft);
+				bool editor_rtl = (editor_dir == wxLayout_RightToLeft);
+				
+				// If editor RTL mode differs from grid, update grid to match
+				if (editor_rtl != grid_rtl) {
+					OPT_SET("Subtitle/Grid/RTL Mode")->SetBool(editor_rtl);
+					SetLayoutDirection(editor_rtl ? wxLayout_RightToLeft : wxLayout_LeftToRight);
+				}
+			}
+		}
+#endif
 		Refresh(false);
 	}
 	else
