@@ -1,3 +1,21 @@
+> [!CAUTION]
+> The `feature` branch of this repository is discontinued.
+> Aegisub development has resumed upstream at https://github.com/TypesettingTools/Aegisub .
+> This repository remains here as an archive of the old Feature Release series and to host
+> the [migration builds](https://github.com/arch1t3cht/Aegisub/releases),
+> but it is no longer actively maintained.
+>
+> If you are looking for the correct Aegisub version to install, refer to the following instructions:
+> - If you simply want to install Aegisub, install the latest version from its [official website](https://aegisub.org) (or from your Linux distribution, if you use Linux).
+> - If you want the latest fixes and features, install the [latest upstream master build](https://nightly.link/TypesettingTools/Aegisub/workflows/ci/master).
+> - If you absolutely need some of the experimental features in the old Feature Releases (i.e. folding, the perspective tool, dark mode, or the Lua API additions), install the latest [migration build](https://github.com/arch1t3cht/Aegisub/releases)
+>
+> If you plan to open an issue or a pull request, submit it [upstream](https://github.com/TypesettingTools/Aegisub)
+> unless it is an issue that *only* occurs on the migration releases and not on the latest upstream release.
+> All other issues and pull requests on this repository may be ignored.
+>
+> Below is the original readme of this fork's `feature` branch.
+
 ## arch1t3cht's Aegisub "fork"
 Download release builds [here](https://github.com/arch1t3cht/Aegisub/releases), or the latest CI builds [here](https://github.com/arch1t3cht/Aegisub/actions?query=branch%3Afeature+event%3Apush).
 
